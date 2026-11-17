@@ -29,6 +29,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-# SQLite database
-prisma/*.db
+# SQLite database journals
 prisma/*.db-journal

@@ -1,0 +1,148 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 1. Staff and RBAC Permissions
+model StaffUser {
+  id          String   @id @default(cuid())
+  name        String
+  roleTitle   String
+  login       String   @unique
+  password    String   @default("staff@123")
+  isOwner     Boolean  @default(false)
+  permissions String   // JSON array of strings e.g. ["kanban", "print_kot", "toggle_stock", ...]
+  createdAt   DateTime @default(now())
+}
+
+// 2. Store Settings
+model StoreSetting {
+  id              Int      @id @default(1)
+  name            String   @default("Spice & Grill Express")
+  address         String   @default("MG Road, Hazratganj, Lucknow, UP 226001")
+  isOpen          Boolean  @default(true)
+  prepTimeMins    Int      @default(15)
+  gstPercent      Float    @default(5.0)
+  packagingCharge Float    @default(10.0)
+  allowPayAtShop  Boolean  @default(true)
+  updatedAt       DateTime @updatedAt
+}
+
+// 3. Categories (For both Ranel Landing & Storefront Menu)
+model Category {
+  id           String    @id @default(cuid())
+  name         String
+  slug         String?   @unique
+  image        String
+  imageUrl     String?   // Backward compatibility
+  active       Boolean   @default(true)
+  displayOrder Int       @default(0)
+  products     Product[]
+  createdAt    DateTime  @default(now())
+}
+
+// 4. Products (Dishes)
+model Product {
+  id             String      @id @default(cuid())
+  name           String
+  title          String?     // Backward compatibility with Ranel
+  slug           String?     @unique
+  categoryId     String
+  category       Category    @relation(fields: [categoryId], references: [id])
+  subCategory    String?     // e.g. "Noodles & Chowmein", "Fried Rice", "Starters & Dry", "Dosas", etc.
+  veg            Boolean     @default(true)
+  bestseller     Boolean     @default(false)
+  isBestSeller   Boolean     @default(false)
+  customizable   Boolean     @default(true)
+  inStock        Boolean     @default(true)
+  isSale         Boolean     @default(false)
+  mrp            Float       @default(199)
+  price          Float
+  compareAtPrice Float?
+  image          String
+  imageUrl       String?     // Backward compatibility
+  gallery        String?     // JSON array of 2-3 extra image URLs
+  story          String?     // "About this Recipe" / Chef story
+  ingredients    String?     // Comma separated ingredients or notes
+  calories       Int?        @default(380)
+  prepTime       String?     @default("15-20 mins")
+  desc           String      @default("")
+  description    String?     // Backward compatibility
+  colors         String?     // JSON array of hex colors
+  createdAt      DateTime    @default(now())
+  orderItems     OrderItem[]
+}
+
+// 5. Coupons
+model Coupon {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  type        String   @default("PERCENT") // "PERCENT" | "FLAT"
+  value       Float
+  minOrder    Float    @default(0)
+  maxDiscount Float?
+  desc        String
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+// 6. Orders
+model Order {
+  id              String      @id // e.g. "ORD-105"
+  status          String      @default("PENDING") // PENDING, PREPARING, READY, COMPLETED, REJECTED
+  customerName    String
+  customerPhone   String
+  customerEmail   String?
+  isGuest         Boolean     @default(true)
+  orderType       String      @default("IN_TABLE") // "IN_TABLE" | "DELIVER"
+  tableNo         String?     // e.g. "Table 4"
+  deliveryAddress String?     // e.g. "Flat 204, Green Heights"
+  paymentMethod   String      @default("CASH_IN_COUNTER") // "CASH_IN_COUNTER" | "CASH_ON_DELIVERY" | "ONLINE"
+  pickupTime      String      @default("Pick Up Now (15m)")
+  paymentStatus   String      @default("PENDING") // PAID, PENDING, CASH_IN_COUNTER, CASH_ON_DELIVERY
+  couponCode      String?
+  discountAmount  Float       @default(0)
+  itemTotal       Float
+  gstAmount       Float       @default(0)
+  packagingCharge Float       @default(10)
+  grandTotal      Float
+  currency        String      @default("INR")
+  createdAt       DateTime    @default(now())
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id])
+  name      String
+  qty       Int      @default(1)
+  size      String   @default("Regular")
+  addons    String?  // JSON array
+  note      String?
+  unitPrice Float
+  lineTotal Float
+}
+
+// 7. Deal & Newsletter for Landing Page
+model Deal {
+  id         Int       @id @default(autoincrement())
+  title      String
+  subtitle   String?
+  targetDate DateTime?
+  buttonText String    @default("ORDER NOW")
+  imageUrl   String?
+  createdAt  DateTime  @default(now())
+}
+
+model NewsletterSubscriber {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  subscribedAt DateTime @default(now())
+}

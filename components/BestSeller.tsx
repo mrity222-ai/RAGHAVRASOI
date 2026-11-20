@@ -193,11 +193,11 @@ export default function BestSeller({ onQuickView }: { onQuickView?: (product: Pr
               {/* Price with Discount */}
               <div className="flex items-center space-x-2 mt-1">
                 <span className="text-ranel-red font-bold text-xs sm:text-[13px]">
-                  ${product.price.toFixed(2)}
+                  ₹{product.price}
                 </span>
                 {product.compareAtPrice && (
                   <span className="text-[#888888] line-through text-xs font-normal">
-                    ${product.compareAtPrice.toFixed(2)}
+                    ₹{product.compareAtPrice}
                   </span>
                 )}
               </div>

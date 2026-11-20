@@ -9,8 +9,6 @@ import {
   Mail, 
   Clock, 
   UtensilsCrossed, 
-  Calendar, 
-  Users, 
   CheckCircle2, 
   ArrowRight,
   ExternalLink
@@ -22,7 +20,7 @@ import StoreCartDrawer from '@/components/storefront/StoreCartDrawer';
 import LiveTokenTrackerModal from '@/components/storefront/LiveTokenTrackerModal';
 import ScrollToTop from '@/components/ScrollToTop';
 
-/* Realistic Torn Paper Edge Separator (Matching About Us) */
+/* Realistic Torn Paper Edge Separator */
 function TornPaperDivider({
   color = '#F7EFE1',
   flip = false,
@@ -61,7 +59,7 @@ export default function ContactPage() {
     phone: '',
     email: '',
     date: '',
-    time: '18:00',
+    time: '19:00',
     guests: '2',
     notes: '',
   });
@@ -72,15 +70,17 @@ export default function ContactPage() {
     name: '',
     email: '',
     phone: '',
-    subject: 'Allmän Fråga',
+    subject: 'General Inquiry',
     message: '',
   });
   const [inqSubmitted, setInqSubmitted] = useState(false);
 
+  const googleMapsUrl = 'https://maps.app.goo.gl/9sfkM5RPRyqjpSAz6?g_st=aw';
+
   const handleReservationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!resForm.name || !resForm.phone || !resForm.date) {
-      alert('Vänligen fyll i namn, telefon och datum.');
+      alert('Please fill in your name, phone number, and reservation date.');
       return;
     }
     setResSubmitted(true);
@@ -89,7 +89,7 @@ export default function ContactPage() {
   const handleInquirySubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inqForm.name || !inqForm.email || !inqForm.message) {
-      alert('Vänligen fyll i namn, e-post och meddelande.');
+      alert('Please fill in your name, email, and message.');
       return;
     }
     setInqSubmitted(true);
@@ -103,13 +103,13 @@ export default function ContactPage() {
       <main className="flex-1">
         
         {/* ============================================================ */}
-        {/* SECTION 1: HERO - "kontakta oss" (Matching About Us Hero)   */}
+        {/* SECTION 1: HERO - "Contact Raghav Rasoi"                     */}
         {/* ============================================================ */}
         <section className="relative w-full min-h-[580px] sm:min-h-[660px] lg:min-h-[720px] bg-black text-white flex flex-col justify-between overflow-hidden">
           {/* Moody Authentic Indian Restaurant Ambience Background */}
           <Image
             src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2000&q=85"
-            alt="Masala Haveli Welcoming Dining Ambiance"
+            alt="Raghav Rasoi Welcoming Dining Ambiance"
             fill
             priority
             className="object-cover object-center filter brightness-[0.65] contrast-[1.1]"
@@ -121,63 +121,65 @@ export default function ContactPage() {
           {/* Top Brand Logo / Tag */}
           <div className="relative z-10 pt-10 sm:pt-14 text-center">
             <span className="text-[11px] sm:text-xs font-bold tracking-[0.35em] text-[#E0CEB5] uppercase block">
-              MASALA HAVELI
+              RAGHAV RASOI
             </span>
           </div>
 
           {/* Center Main Headline Box */}
           <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center my-auto flex flex-col items-center">
             
-            {/* "kontakta" in yellow cursive script font */}
+            {/* "contact" in yellow cursive script font */}
             <span
               className="text-[#FBBF24] text-3xl sm:text-5xl lg:text-6xl font-serif italic tracking-wide -mb-3 sm:-mb-5 select-none drop-shadow-md"
               style={{ fontFamily: 'Georgia, serif' }}
             >
-              kontakta
+              contact
             </span>
 
-            {/* "oss" in large crisp white serif */}
-            <h1 className="font-serif text-6xl sm:text-8xl lg:text-[110px] font-bold text-white tracking-tight leading-none drop-shadow-2xl">
-              oss
+            {/* "Raghav Rasoi" in large crisp white serif */}
+            <h1 className="font-serif text-5xl sm:text-7xl lg:text-[95px] font-bold text-white tracking-tight leading-none drop-shadow-2xl">
+              Raghav Rasoi
             </h1>
 
             {/* Subtitle */}
             <p className="text-white/90 text-xs sm:text-sm lg:text-base font-normal max-w-lg mx-auto mt-4 sm:mt-6 leading-relaxed drop-shadow">
-              Vi ser fram emot att välkomna dig till Masala Haveli. Boka bord, ställ en fråga eller beställ catering för ditt speciella tillfälle.
+              We look forward to welcoming you. Reserve a table, ask a question, or order catering for your special celebration in Gaur City 1, Greater Noida West.
             </p>
 
-            {/* 3 Circular Buttons in a Row (Matching About Us) */}
+            {/* 3 Circular Action Buttons */}
             <div className="pt-8 sm:pt-10 flex items-center justify-center gap-4 sm:gap-6 relative">
               
-              {/* 1. RING OSS (Amber Solid Circle) */}
+              {/* 1. CALL US (Amber Solid Circle) */}
               <a
-                href="tel:+4613123456"
+                href="tel:+919811751667"
                 className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#E5933A] hover:bg-[#D68128] text-slate-950 font-black text-[11px] sm:text-xs tracking-wider flex items-center justify-center text-center uppercase leading-tight shadow-2xl hover:scale-105 active:scale-95 transition-all"
               >
-                RING<br />OSS
+                CALL<br />US
               </a>
 
-              {/* 2. HITTA HIT (Outline Circle) */}
+              {/* 2. GET DIRECTIONS (Outline Circle) */}
               <a
-                href="#location-map"
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noreferrer"
                 className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-white/80 bg-black/40 backdrop-blur-sm hover:bg-white/20 text-white font-black text-[11px] sm:text-xs tracking-wider flex items-center justify-center text-center uppercase leading-tight shadow-2xl hover:scale-105 active:scale-95 transition-all"
               >
-                HITTA<br />HIT
+                GET<br />MAP
               </a>
 
-              {/* 3. BOKA BORD (Rust Red Solid Circle) with Handwritten Doodle */}
+              {/* 3. BOOK TABLE (Rust Red Solid Circle) with Handwritten Doodle */}
               <div className="relative">
                 <a
                   href="#reservation-form"
                   className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#9E4029] hover:bg-[#873420] text-white font-black text-[11px] sm:text-xs tracking-wider flex items-center justify-center text-center uppercase leading-tight shadow-2xl hover:scale-105 active:scale-95 transition-all"
                 >
-                  BOKA<br />BORD
+                  BOOK<br />TABLE
                 </a>
 
-                {/* Hand-drawn yellow doodle arrow with "boka här" */}
+                {/* Hand-drawn yellow doodle arrow with "book here" */}
                 <div className="absolute -top-6 -right-16 sm:-right-20 hidden sm:flex items-center gap-1 text-[#FBBF24] font-serif italic text-sm pointer-events-none select-none">
                   <span className="text-base">⤶</span>
-                  <span>boka här</span>
+                  <span>book here</span>
                 </div>
               </div>
 
@@ -207,94 +209,96 @@ export default function ContactPage() {
                     <span className="text-[#A24A32] text-lg select-none">☸</span>
                   </div>
                   <h2 className="font-serif text-3xl sm:text-5xl lg:text-[52px] font-bold text-slate-900 tracking-tight leading-tight mt-1">
-                    Hör av dig till oss
+                    Get in Touch with Us
                   </h2>
                 </div>
 
                 <p className="text-xs sm:text-sm text-slate-700 leading-relaxed max-w-xl font-normal">
-                  På Masala Haveli sätter vi alltid gästen i centrum. Oavsett om du vill boka ett bord för kvällen, planera en stor familjemiddag eller boka catering med autentiska indiska smaker finns vi här för dig.
+                  At Raghav Rasoi, our guests always come first. Whether you would like to reserve a family dining table, organize a party, or arrange pure catering with traditional North Indian delicacies, our team is always at your service.
                 </p>
 
                 {/* 4 Rich Contact Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   
-                  {/* Card 1: Besöksadress */}
+                  {/* Card 1: Restaurant Address */}
                   <div className="bg-white/80 backdrop-blur-xs rounded-2xl p-4 border border-[#E9DEC9] shadow-xs flex items-start gap-3.5 hover:shadow-md transition-shadow">
                     <div className="w-10 h-10 rounded-xl bg-[#9E4029]/10 text-[#9E4029] flex items-center justify-center flex-shrink-0 mt-0.5">
                       <MapPin size={20} />
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                        Besöksadress
+                        Restaurant Address
                       </h4>
                       <p className="text-xs text-slate-700 font-medium mt-1 leading-snug">
-                        Ågatan 41, 582 22 Linköping
+                        7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009
                       </p>
                       <a
-                        href="#location-map"
+                        href={googleMapsUrl}
+                        target="_blank"
+                        rel="noreferrer"
                         className="text-[11px] text-[#A24A32] font-bold hover:underline inline-flex items-center gap-1 mt-1.5"
                       >
-                        <span>Se på karta</span>
-                        <ArrowRight size={11} />
+                        <span>Open on Google Maps</span>
+                        <ExternalLink size={11} />
                       </a>
                     </div>
                   </div>
 
-                  {/* Card 2: Telefon */}
+                  {/* Card 2: Phone Number */}
                   <div className="bg-white/80 backdrop-blur-xs rounded-2xl p-4 border border-[#E9DEC9] shadow-xs flex items-start gap-3.5 hover:shadow-md transition-shadow">
                     <div className="w-10 h-10 rounded-xl bg-[#E5933A]/15 text-[#D68128] flex items-center justify-center flex-shrink-0 mt-0.5">
                       <Phone size={20} />
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                        Telefon
+                        Call Us Directly
                       </h4>
                       <p className="text-xs text-slate-700 font-medium mt-1 leading-snug">
-                        013-12 34 56
+                        +91 98117 51667
                       </p>
                       <a
-                        href="tel:+4613123456"
+                        href="tel:+919811751667"
                         className="text-[11px] text-[#A24A32] font-bold hover:underline inline-flex items-center gap-1 mt-1.5"
                       >
-                        <span>Ring direkt</span>
+                        <span>Call Now</span>
                         <ArrowRight size={11} />
                       </a>
                     </div>
                   </div>
 
-                  {/* Card 3: E-post */}
+                  {/* Card 3: Email */}
                   <div className="bg-white/80 backdrop-blur-xs rounded-2xl p-4 border border-[#E9DEC9] shadow-xs flex items-start gap-3.5 hover:shadow-md transition-shadow">
                     <div className="w-10 h-10 rounded-xl bg-slate-900/10 text-slate-800 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <Mail size={20} />
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                        E-post
+                        Email Address
                       </h4>
                       <p className="text-xs text-slate-700 font-medium mt-1 leading-snug">
-                        info@masalahaveli.se
+                        info@raghavrasoi.in
                       </p>
                       <a
-                        href="mailto:info@masalahaveli.se"
+                        href="mailto:info@raghavrasoi.in"
                         className="text-[11px] text-[#A24A32] font-bold hover:underline inline-flex items-center gap-1 mt-1.5"
                       >
-                        <span>Skicka e-post</span>
+                        <span>Send Email</span>
                         <ArrowRight size={11} />
                       </a>
                     </div>
                   </div>
 
-                  {/* Card 4: Catering & Event */}
+                  {/* Card 4: Catering & Parties */}
                   <div className="bg-white/80 backdrop-blur-xs rounded-2xl p-4 border border-[#E9DEC9] shadow-xs flex items-start gap-3.5 hover:shadow-md transition-shadow">
                     <div className="w-10 h-10 rounded-xl bg-[#9E4029]/10 text-[#9E4029] flex items-center justify-center flex-shrink-0 mt-0.5">
                       <UtensilsCrossed size={20} />
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                        Catering & Fester
+                        Catering & Events
                       </h4>
                       <p className="text-xs text-slate-700 font-medium mt-1 leading-snug">
-                        catering@masalahaveli.se
+                        catering@raghavrasoi.in
                       </p>
                       <button
                         onClick={() => {
@@ -304,7 +308,7 @@ export default function ContactPage() {
                         }}
                         className="text-[11px] text-[#A24A32] font-bold hover:underline inline-flex items-center gap-1 mt-1.5 text-left"
                       >
-                        <span>Gör förfrågan</span>
+                        <span>Request Catering</span>
                         <ArrowRight size={11} />
                       </button>
                     </div>
@@ -312,31 +316,31 @@ export default function ContactPage() {
 
                 </div>
 
-                {/* 6 Feature Badges with Terracotta Dots (Matching About Us) */}
+                {/* 6 Feature Badges with Terracotta Dots */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2.5 pt-3 text-[11px] sm:text-xs font-black tracking-wider text-slate-900 uppercase">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#A24A32]" />
-                    <span>BORDSBOKNING</span>
+                    <span>TABLE RESERVATIONS</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#A24A32]" />
-                    <span>CATERING</span>
+                    <span>OUTDOOR CATERING</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#A24A32]" />
-                    <span>TAKE AWAY</span>
+                    <span>SELF PICKUP</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#A24A32]" />
-                    <span>FÖRETAGSEVENT</span>
+                    <span>CORPORATE PARTIES</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#A24A32]" />
-                    <span>ALLERGIANPASSAT</span>
+                    <span>CUSTOM SPICE LEVELS</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#A24A32]" />
-                    <span>SNABB SERVICE</span>
+                    <span>PROMPT SERVICE</span>
                   </div>
                 </div>
 
@@ -347,19 +351,19 @@ export default function ContactPage() {
                 <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] rounded-full overflow-hidden shadow-2xl border-4 border-white/60">
                   <Image
                     src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=800&q=85"
-                    alt="Authentic Dining Table Setup at Masala Haveli"
+                    alt="Authentic Dining Table Setup at Raghav Rasoi"
                     fill
                     className="object-cover object-center"
                   />
                 </div>
 
-                {/* Yellow Stamp Badge (Matching About Us) */}
+                {/* Yellow Stamp Badge */}
                 <div className="absolute -bottom-4 left-4 sm:left-8 bg-[#E5933A] text-slate-950 w-24 h-24 sm:w-28 sm:h-28 rounded-full flex flex-col items-center justify-center text-center shadow-xl p-2 select-none border-2 border-white/40">
                   <span className="text-amber-950 text-xs sm:text-sm font-black tracking-widest">
                     ★★★★★
                   </span>
                   <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider leading-tight mt-1">
-                    100% GÄSTNÖJDHET
+                    100% GUEST SATISFACTION
                   </span>
                 </div>
               </div>
@@ -383,13 +387,13 @@ export default function ContactPage() {
                 className="text-[#FBBF24] text-2xl sm:text-3xl font-serif italic block -mb-1"
                 style={{ fontFamily: 'Georgia, serif' }}
               >
-                skicka ett
+                send a
               </span>
               <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight">
-                Meddelande & Bordsbokning
+                Message & Table Reservation
               </h2>
               <div className="flex items-center justify-center gap-2 text-[#FBBF24] font-serif italic text-sm mt-3 select-none">
-                <span>vi svarar snabbt inom 2 timmar ⤳</span>
+                <span>we respond within 2 hours ⤳</span>
               </div>
             </div>
 
@@ -405,7 +409,7 @@ export default function ContactPage() {
                       : 'text-white/80 hover:text-white'
                   }`}
                 >
-                  Bordsbokning
+                  Table Reservation
                 </button>
                 <button
                   type="button"
@@ -416,7 +420,7 @@ export default function ContactPage() {
                       : 'text-white/80 hover:text-white'
                   }`}
                 >
-                  Allmän Fråga / Catering
+                  General Inquiry & Catering
                 </button>
               </div>
             </div>
@@ -430,16 +434,16 @@ export default function ContactPage() {
                       <CheckCircle2 size={36} />
                     </div>
                     <h3 className="font-serif text-3xl font-bold text-white">
-                      Tack för din bordsbokning!
+                      Thank You for Your Table Reservation!
                     </h3>
                     <p className="text-white/80 text-sm max-w-md mx-auto leading-relaxed">
-                      Vi har tagit emot din bokningsförfrågan för <strong>{resForm.guests} personer</strong> den <strong>{resForm.date} kl. {resForm.time}</strong>. Vi skickar en bekräftelse via SMS/telefon inom kort.
+                      We have received your table booking request for <strong>{resForm.guests} guests</strong> on <strong>{resForm.date} at {resForm.time}</strong>. Our host will confirm via SMS/call shortly.
                     </p>
                     <button
                       onClick={() => setResSubmitted(false)}
                       className="mt-6 px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider"
                     >
-                      Boka ytterligare ett bord
+                      Book Another Table
                     </button>
                   </div>
                 ) : (
@@ -449,14 +453,14 @@ export default function ContactPage() {
                       {/* Name */}
                       <div>
                         <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                          Ditt Namn *
+                          Your Full Name *
                         </label>
                         <input
                           type="text"
                           required
                           value={resForm.name}
                           onChange={(e) => setResForm({ ...resForm, name: e.target.value })}
-                          placeholder="T.ex. Johan Andersson"
+                          placeholder="e.g. Ramesh Sharma"
                           className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-hidden focus:border-[#E5933A]"
                         />
                       </div>
@@ -464,14 +468,14 @@ export default function ContactPage() {
                       {/* Phone */}
                       <div>
                         <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                          Telefonnummer *
+                          Phone Number *
                         </label>
                         <input
                           type="tel"
                           required
                           value={resForm.phone}
                           onChange={(e) => setResForm({ ...resForm, phone: e.target.value })}
-                          placeholder="070-123 45 67"
+                          placeholder="+91 98765 43210"
                           className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-hidden focus:border-[#E5933A]"
                         />
                       </div>
@@ -479,13 +483,13 @@ export default function ContactPage() {
                       {/* Email */}
                       <div>
                         <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                          E-postadress
+                          Email Address
                         </label>
                         <input
                           type="email"
                           value={resForm.email}
                           onChange={(e) => setResForm({ ...resForm, email: e.target.value })}
-                          placeholder="namn@epost.se"
+                          placeholder="name@email.com"
                           className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-hidden focus:border-[#E5933A]"
                         />
                       </div>
@@ -493,7 +497,7 @@ export default function ContactPage() {
                       {/* Date */}
                       <div>
                         <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                          Datum *
+                          Reservation Date *
                         </label>
                         <input
                           type="date"
@@ -507,41 +511,39 @@ export default function ContactPage() {
                       {/* Time */}
                       <div>
                         <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                          Tid *
+                          Preferred Time *
                         </label>
                         <select
                           value={resForm.time}
                           onChange={(e) => setResForm({ ...resForm, time: e.target.value })}
                           className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-hidden focus:border-[#E5933A]"
                         >
-                          <option value="11:30">11:30 (Lunch)</option>
-                          <option value="12:00">12:00 (Lunch)</option>
-                          <option value="12:30">12:30 (Lunch)</option>
-                          <option value="13:00">13:00 (Lunch)</option>
-                          <option value="17:00">17:00 (Middag)</option>
-                          <option value="17:30">17:30 (Middag)</option>
-                          <option value="18:00">18:00 (Middag)</option>
-                          <option value="18:30">18:30 (Middag)</option>
-                          <option value="19:00">19:00 (Middag)</option>
-                          <option value="19:30">19:30 (Middag)</option>
-                          <option value="20:00">20:00 (Middag)</option>
-                          <option value="20:30">20:30 (Middag)</option>
+                          <option value="12:00">12:00 PM (Lunch)</option>
+                          <option value="12:30">12:30 PM (Lunch)</option>
+                          <option value="13:00">01:00 PM (Lunch)</option>
+                          <option value="13:30">01:30 PM (Lunch)</option>
+                          <option value="19:00">07:00 PM (Dinner)</option>
+                          <option value="19:30">07:30 PM (Dinner)</option>
+                          <option value="20:00">08:00 PM (Dinner)</option>
+                          <option value="20:30">08:30 PM (Dinner)</option>
+                          <option value="21:00">09:00 PM (Dinner)</option>
+                          <option value="21:30">09:30 PM (Dinner)</option>
                         </select>
                       </div>
 
                       {/* Guests */}
                       <div>
                         <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                          Antal Personer *
+                          Number of Guests *
                         </label>
                         <select
                           value={resForm.guests}
                           onChange={(e) => setResForm({ ...resForm, guests: e.target.value })}
                           className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-hidden focus:border-[#E5933A]"
                         >
-                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, '12+ Större sällskap'].map((num) => (
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, '12+ Large Family Party'].map((num) => (
                             <option key={num} value={num}>
-                              {num} {typeof num === 'number' && num > 1 ? 'personer' : 'person'}
+                              {num} {typeof num === 'number' && num > 1 ? 'Guests' : 'Guest'}
                             </option>
                           ))}
                         </select>
@@ -552,26 +554,26 @@ export default function ContactPage() {
                     {/* Notes / Special Requests */}
                     <div>
                       <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                        Speciella önskemål (Allergier, barnstol, firande)
+                        Special Requests (Dietary, High Chair, Birthday celebration)
                       </label>
                       <textarea
                         rows={3}
                         value={resForm.notes}
                         onChange={(e) => setResForm({ ...resForm, notes: e.target.value })}
-                        placeholder="Berätta gärna om någon i sällskapet har allergier, önskar veganskt eller om ni firar födelsedag..."
+                        placeholder="Please let us know if any guests have food allergies, preference for mild spice, or if you are celebrating a special occasion..."
                         className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-hidden focus:border-[#E5933A]"
                       />
                     </div>
 
                     <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                       <p className="text-white/50 text-xs">
-                        * Bordsbokningen är preliminär tills du fått bekräftelse via telefon eller SMS.
+                        * Table bookings are confirmed by phone or SMS notification.
                       </p>
                       <button
                         type="submit"
                         className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#E5933A] hover:bg-[#D68128] text-slate-950 font-black text-xs uppercase tracking-wider shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
                       >
-                        <span>SKICKA BORDSBOKNING</span>
+                        <span>CONFIRM TABLE BOOKING</span>
                         <span>➔</span>
                       </button>
                     </div>
@@ -589,16 +591,16 @@ export default function ContactPage() {
                       <CheckCircle2 size={36} />
                     </div>
                     <h3 className="font-serif text-3xl font-bold text-white">
-                      Tack för ditt meddelande!
+                      Thank You for Your Message!
                     </h3>
                     <p className="text-white/80 text-sm max-w-md mx-auto leading-relaxed">
-                      Vi har tagit emot ditt meddelande och återkommer till dig på <strong>{inqForm.email}</strong> så snart som möjligt.
+                      We have received your inquiry and our manager will get back to you at <strong>{inqForm.email}</strong> promptly.
                     </p>
                     <button
                       onClick={() => setInqSubmitted(false)}
                       className="mt-6 px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider"
                     >
-                      Skicka ett nytt meddelande
+                      Send Another Message
                     </button>
                   </div>
                 ) : (
@@ -608,14 +610,14 @@ export default function ContactPage() {
                       {/* Name */}
                       <div>
                         <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                          Ditt Namn *
+                          Your Full Name *
                         </label>
                         <input
                           type="text"
                           required
                           value={inqForm.name}
                           onChange={(e) => setInqForm({ ...inqForm, name: e.target.value })}
-                          placeholder="Förnamn och efternamn"
+                          placeholder="Your full name"
                           className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-hidden focus:border-[#E5933A]"
                         />
                       </div>
@@ -623,14 +625,14 @@ export default function ContactPage() {
                       {/* Email */}
                       <div>
                         <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                          E-postadress *
+                          Email Address *
                         </label>
                         <input
                           type="email"
                           required
                           value={inqForm.email}
                           onChange={(e) => setInqForm({ ...inqForm, email: e.target.value })}
-                          placeholder="namn@epost.se"
+                          placeholder="name@email.com"
                           className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-hidden focus:border-[#E5933A]"
                         />
                       </div>
@@ -638,13 +640,13 @@ export default function ContactPage() {
                       {/* Phone */}
                       <div>
                         <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                          Telefonnummer (Valfritt)
+                          Phone Number (Optional)
                         </label>
                         <input
                           type="tel"
                           value={inqForm.phone}
                           onChange={(e) => setInqForm({ ...inqForm, phone: e.target.value })}
-                          placeholder="070-123 45 67"
+                          placeholder="+91 98765 43210"
                           className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-hidden focus:border-[#E5933A]"
                         />
                       </div>
@@ -652,18 +654,18 @@ export default function ContactPage() {
                       {/* Subject */}
                       <div>
                         <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                          Vad gäller ärendet? *
+                          Topic of Inquiry *
                         </label>
                         <select
                           value={inqForm.subject}
                           onChange={(e) => setInqForm({ ...inqForm, subject: e.target.value })}
                           className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-hidden focus:border-[#E5933A]"
                         >
-                          <option value="Allmän Fråga">Allmän Fråga</option>
-                          <option value="Catering & Bröllop">Catering & Bröllop</option>
-                          <option value="Företagsevent">Företagsevent & Gruppbokning</option>
-                          <option value="Allergier & Specialkost">Allergier & Specialkost</option>
-                          <option value="Feedback & Beröm">Feedback & Synpunkter</option>
+                          <option value="General Inquiry">General Inquiry</option>
+                          <option value="Outdoor Catering & Weddings">Outdoor Catering & Weddings</option>
+                          <option value="Corporate Bulk Meal Orders">Corporate Bulk Meal Orders</option>
+                          <option value="Special Dietary Requirements">Special Dietary Requirements</option>
+                          <option value="Guest Feedback & Praise">Guest Feedback & Praise</option>
                         </select>
                       </div>
 
@@ -672,14 +674,14 @@ export default function ContactPage() {
                     {/* Message */}
                     <div>
                       <label className="block text-xs font-bold text-white/90 uppercase tracking-wider mb-2">
-                        Ditt Meddelande *
+                        Your Message *
                       </label>
                       <textarea
                         rows={4}
                         required
                         value={inqForm.message}
                         onChange={(e) => setInqForm({ ...inqForm, message: e.target.value })}
-                        placeholder="Skriv dina frågor eller information om ditt planerade event här..."
+                        placeholder="Tell us about your event, number of expected guests, or any questions you have..."
                         className="w-full bg-[#141414] border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-hidden focus:border-[#E5933A]"
                       />
                     </div>
@@ -689,7 +691,7 @@ export default function ContactPage() {
                         type="submit"
                         className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#E5933A] hover:bg-[#D68128] text-slate-950 font-black text-xs uppercase tracking-wider shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
                       >
-                        <span>SKICKA MEDDELANDE</span>
+                        <span>SEND MESSAGE</span>
                         <span>➔</span>
                       </button>
                     </div>
@@ -720,51 +722,62 @@ export default function ContactPage() {
                     className="text-[#FDE68A] text-2xl sm:text-3xl font-serif italic block -mb-2"
                     style={{ fontFamily: 'Georgia, serif' }}
                   >
-                    hitta till
+                    find our
                   </span>
                   <h2 className="font-serif text-5xl sm:text-6xl font-bold text-white tracking-tight leading-none">
-                    Haveli
+                    Restaurant
                   </h2>
                 </div>
 
                 <p className="text-[#FDE68A] font-extrabold text-sm sm:text-base tracking-widest uppercase">
-                  MITT PÅ ÅGATAN I LINKÖPING
+                  GAUR CITY 1 • GREATER NOIDA WEST
                 </p>
 
                 <p className="text-white text-xs sm:text-sm font-medium leading-relaxed max-w-md">
-                  Masala Haveli ligger centralt på Ågatan med bekväm tillgång till kollektivtrafik och närliggande parkeringshus. Varmt välkommen in på en smakresa!
+                  Raghav Rasoi is centrally located at 7th Avenue near Aarza Square - 2, Gaur City 1, Greater Noida West, offering convenient parking and easy access. We welcome you to experience authentic homestyle cooking!
                 </p>
 
                 <div className="space-y-2 pt-2 text-xs sm:text-sm text-white/90">
                   <div className="flex items-center gap-2.5">
-                    <MapPin size={16} className="text-[#FDE68A]" />
-                    <span>Ågatan 41, 582 22 Linköping</span>
+                    <MapPin size={16} className="text-[#FDE68A] shrink-0" />
+                    <span>7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009</span>
                   </div>
                   <div className="flex items-center gap-2.5">
-                    <Clock size={16} className="text-[#FDE68A]" />
-                    <span>Öppet alla dagar i veckan</span>
+                    <Phone size={16} className="text-[#FDE68A] shrink-0" />
+                    <span>+91 98117 51667</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <Clock size={16} className="text-[#FDE68A] shrink-0" />
+                    <span>Open all 7 days: 10:00 AM – 10:00 PM</span>
                   </div>
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-4 flex flex-wrap gap-3">
                   <a
-                    href="https://maps.google.com/?q=Ågatan+41,+582+22+Linköping"
+                    href={googleMapsUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-white text-slate-900 font-black text-xs uppercase tracking-wider shadow-xl hover:bg-[#FDE68A] transition-colors"
                   >
-                    <span>Öppna i Google Maps</span>
+                    <span>Open in Google Maps</span>
                     <ExternalLink size={14} />
+                  </a>
+                  <a
+                    href="tel:+919811751667"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-white/80 bg-black/30 text-white font-bold text-xs uppercase tracking-wider hover:bg-white/20 transition-colors"
+                  >
+                    <Phone size={13} />
+                    <span>Call Now</span>
                   </a>
                 </div>
               </div>
 
-              {/* Right Column: Embedded Stylized Map Card */}
+              {/* Right Column: Embedded Stylized Map Card for Gaur City 1 */}
               <div className="lg:col-span-7">
                 <div className="relative w-full h-[320px] sm:h-[400px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 bg-slate-900">
                   <iframe
-                    title="Masala Haveli Location Map"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2091.2462828693245!2d15.621256777328127!3d58.41088497428807!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46596e382098d63d%3A0xb35a519894e33917!2s%C3%85gatan%2041%2C%20582%2022%20Link%C3%B6ping%2C%20Sweden!5e0!3m2!1sen!2sse!4v1715000000000!5m2!1sen!2sse"
+                    title="Raghav Rasoi Google Map Location - Gaur City 1"
+                    src="https://maps.google.com/maps?q=Gaur+City+1+Greater+Noida+West+Uttar+Pradesh&t=&z=15&ie=UTF8&iwloc=&output=embed"
                     width="100%"
                     height="100%"
                     style={{ border: 0, filter: 'contrast(1.05) saturate(1.1)' }}
@@ -772,48 +785,64 @@ export default function ContactPage() {
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                   />
+                  {/* Floating Action Pill over map */}
+                  <div className="absolute bottom-4 left-4 right-4 sm:right-auto bg-black/85 backdrop-blur-md rounded-2xl p-3 border border-white/20 flex items-center justify-between sm:justify-start gap-3">
+                    <div className="text-left">
+                      <p className="text-[11px] font-bold text-[#FDE68A] uppercase tracking-wide">Raghav Rasoi</p>
+                      <p className="text-[10px] text-white/80">Gaur City 1, Greater Noida West</p>
+                    </div>
+                    <a
+                      href={googleMapsUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs bg-[#E5933A] hover:bg-[#D68128] text-slate-950 font-black px-3 py-1.5 rounded-full inline-flex items-center gap-1 shrink-0"
+                    >
+                      <span>Directions</span>
+                      <ExternalLink size={11} />
+                    </a>
+                  </div>
                 </div>
               </div>
 
             </div>
 
-            {/* Bottom Sub-Section: Öppet varje dag (Matching About Us 100%) */}
+            {/* Bottom Sub-Section: Open Every Day */}
             <div className="space-y-6 pt-4">
               <h3 className="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
-                Öppet varje dag
+                Open Every Day
               </h3>
 
               {/* Opening Hours Dark Charcoal Container */}
               <div className="rounded-2xl sm:rounded-3xl bg-[#141414] border border-white/10 px-6 sm:px-12 py-8 sm:py-10 shadow-2xl">
                 <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/15 gap-6 md:gap-0">
                   
-                  {/* Column 1: SÖN-TORS */}
+                  {/* Column 1: MON-THU */}
                   <div className="text-center md:px-6">
                     <p className="text-[#FBBF24] font-extrabold text-xs sm:text-sm tracking-widest uppercase">
-                      SÖN-TORS
+                      MON – THU
                     </p>
-                    <p className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mt-2">
-                      11.30-21.00
-                    </p>
-                  </div>
-
-                  {/* Column 2: FRE-LÖR i dag */}
-                  <div className="text-center md:px-6 pt-6 md:pt-0">
-                    <p className="text-[#FBBF24] font-extrabold text-xs sm:text-sm tracking-widest uppercase">
-                      FRE-LÖR <span className="text-white/70 italic lowercase font-serif font-normal">i dag</span>
-                    </p>
-                    <p className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mt-2">
-                      11.30-22.00
+                    <p className="font-serif text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight mt-2">
+                      10:00 AM – 10:00 PM
                     </p>
                   </div>
 
-                  {/* Column 3: LUNCH MÅN-FRE */}
+                  {/* Column 2: FRI-SUN */}
                   <div className="text-center md:px-6 pt-6 md:pt-0">
                     <p className="text-[#FBBF24] font-extrabold text-xs sm:text-sm tracking-widest uppercase">
-                      LUNCH MÅN-FRE
+                      FRI – SUN <span className="text-white/70 italic lowercase font-serif font-normal">(Today)</span>
                     </p>
-                    <p className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight mt-2">
-                      11.30-14.00
+                    <p className="font-serif text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight mt-2">
+                      10:00 AM – 11:00 PM
+                    </p>
+                  </div>
+
+                  {/* Column 3: LUNCH HOURS */}
+                  <div className="text-center md:px-6 pt-6 md:pt-0">
+                    <p className="text-[#FBBF24] font-extrabold text-xs sm:text-sm tracking-widest uppercase">
+                      LUNCH HOURS
+                    </p>
+                    <p className="font-serif text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight mt-2">
+                      12:00 PM – 04:00 PM
                     </p>
                   </div>
 

@@ -23,8 +23,8 @@ model StaffUser {
 // 2. Store Settings
 model StoreSetting {
   id              Int      @id @default(1)
-  name            String   @default("Spice & Grill Express")
-  address         String   @default("MG Road, Hazratganj, Lucknow, UP 226001")
+  name            String   @default("Raghav Rasoi")
+  address         String   @default("7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009")
   isOpen          Boolean  @default(true)
   prepTimeMins    Int      @default(15)
   gstPercent      Float    @default(5.0)

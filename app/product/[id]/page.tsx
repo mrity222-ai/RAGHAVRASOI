@@ -112,8 +112,8 @@ export default function ProductDetailPage() {
   // Portion options
   const portionOptions = [
     { label: 'Regular', extra: 0 },
-    { label: 'Large (+$2)', extra: 2 },
-    { label: 'Family (+$6)', extra: 6 },
+    { label: 'Large (+₹40)', extra: 40 },
+    { label: 'Family (+₹90)', extra: 90 },
   ];
 
   const currentUnitPrice = product.price + selectedPortion.extra;
@@ -403,7 +403,7 @@ export default function ProductDetailPage() {
             <div className="pt-2 space-y-1 text-[11px] text-slate-500">
               <p className="flex items-center gap-1.5">
                 <Info size={13} className="text-slate-400 shrink-0" />
-                <span>Delivered in 25-30 min • Free delivery over $25</span>
+                <span>Delivered in 25-30 min • Free delivery over ₹299</span>
               </p>
               <p className="text-slate-400 pl-4.5">
                 Freshly prepared: cancellations accepted within 2 min of ordering

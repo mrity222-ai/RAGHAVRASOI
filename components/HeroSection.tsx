@@ -28,14 +28,14 @@ export default function HeroSection() {
             
             {/* Tagline */}
             <p className="text-xs sm:text-[13px] text-stone-500 font-mono tracking-wide mb-3 sm:mb-4">
-              [[ Seasonal kitchen · San Francisco ]]
+              [[ Authentic Indian Kitchen · Gaur City 1, Greater Noida West ]]
             </p>
 
             {/* Main Headline */}
             <h1 className="normal-case font-playfair font-normal text-stone-900 tracking-tight leading-[1.08] text-4xl sm:text-5xl lg:text-[54px] xl:text-[62px] mb-6 sm:mb-8">
               Good food.<br />
               Rooted in<br />
-              the season.
+              tradition.
             </h1>
 
             {/* Video Dish Card with Play Button */}
@@ -63,9 +63,9 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* California Kitchen Narrative */}
+            {/* Indian Kitchen Narrative */}
             <p className="text-xs sm:text-[13px] text-stone-600 font-sans leading-relaxed max-w-[280px] sm:max-w-[310px] mt-4 font-normal">
-              A celebration of California&apos;s freshest ingredients, thoughtful cooking, and the simple pleasure of gathering around a table.
+              A celebration of authentic recipes, heirloom spices, and genuine Indian hospitality from our family to yours.
             </p>
           </div>
 
@@ -182,7 +182,7 @@ export default function HeroSection() {
               Behind The Kitchen
             </h4>
             <p className="text-xs text-stone-500 mb-4">
-              Watch how our chefs source California&apos;s freshest seasonal produce and bring flavor to every plate.
+              Watch how our chefs prepare authentic homestyle delicacies with pure ingredients and traditional techniques.
             </p>
             <div className="relative aspect-video rounded-2xl overflow-hidden bg-black">
               <Image
@@ -193,7 +193,7 @@ export default function HeroSection() {
               />
               <div className="absolute inset-0 flex items-center justify-center">
                 <p className="text-white text-xs bg-black/60 px-4 py-2 rounded-full backdrop-blur-sm">
-                  Seasonal Kitchen Cooking Preview
+                  Raghav Rasoi Kitchen Experience
                 </p>
               </div>
             </div>

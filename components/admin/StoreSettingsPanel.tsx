@@ -19,9 +19,9 @@ export default function StoreSettingsPanel({ settings, onRefresh }: StoreSetting
 
   useEffect(() => {
     if (settings) {
-      setName(settings.name || 'Spice & Grill Express');
+      setName(settings.name || 'Raghav Rasoi');
       setPrepTimeMins(settings.prepTimeMins || 15);
-      setAddress(settings.address || 'MG Road, Hazratganj, Lucknow');
+      setAddress(settings.address || '7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009');
       setGstPercent(settings.gstPercent || 5.0);
       setPackagingCharge(settings.packagingCharge || 10.0);
       setAllowPayAtShop(settings.allowPayAtShop !== undefined ? settings.allowPayAtShop : true);

@@ -10,6 +10,7 @@ import {
   FolderOpen,
   Ticket,
   Users2,
+  Users,
   Settings,
   X,
   ExternalLink,
@@ -64,6 +65,12 @@ export default function AdminSidebar({
       label: 'Coupon Generator',
       icon: Ticket,
       show: hasPerm('manage_coupons'),
+    },
+    {
+      id: 'customers',
+      label: 'Registered Users',
+      icon: Users,
+      show: hasPerm('store_settings') || hasPerm('view_dashboard'),
     },
     {
       id: 'staff',

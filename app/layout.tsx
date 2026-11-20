@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { StorefrontCartProvider } from '@/context/StorefrontCartContext';
+import { CustomerAuthProvider } from '@/context/CustomerAuthContext';
 
 export const metadata: Metadata = {
   title: 'राघव रसोई (Raghav Rasoi) - Taste of Tradition',
@@ -20,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased selection:bg-black selection:text-white">
-        <CartProvider>
-          <StorefrontCartProvider>
-            {children}
-          </StorefrontCartProvider>
-        </CartProvider>
+        <CustomerAuthProvider>
+          <CartProvider>
+            <StorefrontCartProvider>
+              {children}
+            </StorefrontCartProvider>
+          </CartProvider>
+        </CustomerAuthProvider>
       </body>
     </html>
   );

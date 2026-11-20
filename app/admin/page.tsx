@@ -13,13 +13,20 @@ import CouponGenerator from '@/components/admin/CouponGenerator';
 import StaffRbacManager from '@/components/admin/StaffRbacManager';
 import StoreSettingsPanel from '@/components/admin/StoreSettingsPanel';
 import ThermalReceiptModal from '@/components/admin/ThermalReceiptModal';
+import CustomerDirectory from '@/components/admin/CustomerDirectory';
 
 function AdminConsoleContent() {
   const router = useRouter();
-  const { currentStaff, hasPerm, playAlertChime, refreshStaff } = useAdminAuth();
+  const { currentStaff, hasPerm, playAlertChime, refreshStaff, authLoading } = useAdminAuth();
 
   const [activeTab, setActiveTab] = useState('kanban');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && !currentStaff) {
+      router.replace('/admin/login');
+    }
+  }, [authLoading, currentStaff, router]);
 
   // Data states
   const [orders, setOrders] = useState<any[]>([]);
@@ -196,6 +203,19 @@ function AdminConsoleContent() {
 
   const pendingCount = orders.filter((o) => o.status === 'PENDING').length;
 
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center text-white text-xs gap-3">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#E5203A]"></div>
+        <span className="font-semibold text-slate-400">Verifying Admin Access...</span>
+      </div>
+    );
+  }
+
+  if (!currentStaff) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen flex bg-slate-50 text-slate-800">
       
@@ -236,6 +256,10 @@ function AdminConsoleContent() {
             />
           )}
 
+          {activeTab === 'customers' && (hasPerm('store_settings') || hasPerm('view_dashboard')) && (
+            <CustomerDirectory />
+          )}
+
           {activeTab === 'menu' && (hasPerm('manage_menu') || hasPerm('toggle_stock')) && (
             <MenuPricingManager
               products={products}
@@ -273,7 +297,7 @@ function AdminConsoleContent() {
           order={receiptModal.order}
           type={receiptModal.type}
           onClose={() => setReceiptModal({ open: false, order: null, type: 'KOT' })}
-          storeName={storeSettings?.name || 'Spice & Grill Express'}
+          storeName={storeSettings?.name || 'राघव रसोई (Raghav Rasoi)'}
         />
       )}
 

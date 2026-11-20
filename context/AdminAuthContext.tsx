@@ -22,6 +22,7 @@ interface AdminAuthContextType {
   soundOn: boolean;
   toggleSound: () => void;
   playAlertChime: () => void;
+  authLoading: boolean;
 }
 
 const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefined);
@@ -41,6 +42,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [currentStaff, setCurrentStaff] = useState<StaffUserType | null>(null);
   const [allStaff, setAllStaff] = useState<StaffUserType[]>([]);
   const [soundOn, setSoundOn] = useState<boolean>(true);
+  const [authLoading, setAuthLoading] = useState<boolean>(true);
 
   // Load staff list & active session
   const refreshStaff = async () => {
@@ -49,15 +51,22 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const data = await res.json();
       if (data.success && data.data.length > 0) {
         setAllStaff(data.data);
-        // Default to first (owner) if none selected
-        if (!currentStaff) {
-          const savedId = localStorage.getItem('ranel_admin_staff_id');
-          const found = data.data.find((s: StaffUserType) => s.id === savedId) || data.data[0];
-          setCurrentStaff(found);
+        const savedId = localStorage.getItem('ranel_admin_staff_id');
+        if (savedId) {
+          const found = data.data.find((s: StaffUserType) => s.id === savedId);
+          if (found) {
+            setCurrentStaff(found);
+          } else {
+            setCurrentStaff(null);
+          }
+        } else {
+          setCurrentStaff(null);
         }
       }
     } catch (e) {
       console.error('Failed to fetch staff list:', e);
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -127,6 +136,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         soundOn,
         toggleSound,
         playAlertChime,
+        authLoading,
       }}
     >
       {children}

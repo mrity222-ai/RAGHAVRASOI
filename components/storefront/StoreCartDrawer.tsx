@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ShoppingBag, X, UtensilsCrossed, Bike, IndianRupee, Store, Check, MapPin, Receipt, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { ShoppingBag, X, UtensilsCrossed, Bike, IndianRupee, Store, Check, MapPin, Receipt, ShieldCheck, UserCheck } from 'lucide-react';
 import { useStorefrontCart } from '@/context/StorefrontCartContext';
+import { useCustomerAuth } from '@/context/CustomerAuthContext';
 
 export default function StoreCartDrawer() {
   const {
@@ -33,13 +35,20 @@ export default function StoreCartDrawer() {
     setPaymentMethod,
   } = useStorefrontCart();
 
+  const customerAuth = useCustomerAuth();
+
   const [couponInput, setCouponInput] = useState('');
   const [couponError, setCouponError] = useState('');
-  const [checkoutMode, setCheckoutMode] = useState<'GUEST' | 'MEMBER'>('GUEST');
   const [guestName, setGuestName] = useState('');
   const [guestPhone, setGuestPhone] = useState('');
-  const [memberPhoneInput, setMemberPhoneInput] = useState('9876543210');
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (customerAuth.user) {
+      setGuestName(customerAuth.user.name);
+      setGuestPhone(customerAuth.user.phone);
+    }
+  }, [customerAuth.user]);
 
   if (!isCartOpen) return null;
 
@@ -56,14 +65,6 @@ export default function StoreCartDrawer() {
     }
   };
 
-  const handleMemberQuickLogin = () => {
-    if (memberPhoneInput.length < 10) {
-      alert('Enter a valid 10-digit mobile number');
-      return;
-    }
-    setLoggedInMember({ name: 'Rahul Verma', phone: memberPhoneInput });
-  };
-
   const handleSubmitOrder = async () => {
     if (!settings.isOpen) {
       alert('Restaurant is currently closed for incoming orders.');
@@ -71,21 +72,15 @@ export default function StoreCartDrawer() {
     }
     if (!cart.length) return;
 
-    let customerName = '';
-    let customerPhone = '';
-    let isGuest = true;
+    let customerName = customerAuth.user?.name || guestName.trim();
+    let customerPhone = customerAuth.user?.phone || guestPhone.trim();
+    let customerEmail = customerAuth.user?.email || null;
+    let customerId = customerAuth.user?.id || null;
+    let isGuest = !customerAuth.user;
 
-    if (checkoutMode === 'MEMBER' && loggedInMember) {
-      customerName = loggedInMember.name;
-      customerPhone = loggedInMember.phone;
-      isGuest = false;
-    } else {
-      customerName = guestName.trim();
-      customerPhone = guestPhone.trim();
-      if (!customerName || customerPhone.length < 10) {
-        alert('Please enter your full Name and 10-digit Mobile Number.');
-        return;
-      }
+    if (!customerName || customerPhone.length < 10) {
+      alert('Please enter your full Name and 10-digit Mobile Number.');
+      return;
     }
 
     // Validation for In Table vs Deliver
@@ -114,6 +109,8 @@ export default function StoreCartDrawer() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          customerId,
+          customerEmail,
           customerName,
           customerPhone,
           isGuest,
@@ -382,39 +379,39 @@ export default function StoreCartDrawer() {
 
               {/* 4. Customer Contact Details */}
               <div className="p-3.5 rounded-2xl border border-slate-200 bg-white space-y-3">
-                <div className="grid grid-cols-2 bg-slate-100 p-1 rounded-xl text-xs font-extrabold">
-                  <button
-                    type="button"
-                    onClick={() => setCheckoutMode('GUEST')}
-                    className={`py-1.5 rounded-lg transition-all ${
-                      checkoutMode === 'GUEST'
-                        ? 'bg-white text-slate-900 shadow-2xs'
-                        : 'text-slate-500'
-                    }`}
-                  >
-                    Guest Checkout
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCheckoutMode('MEMBER')}
-                    className={`py-1.5 rounded-lg transition-all ${
-                      checkoutMode === 'MEMBER'
-                        ? 'bg-white text-slate-900 shadow-2xs'
-                        : 'text-slate-500'
-                    }`}
-                  >
-                    Member Login
-                  </button>
-                </div>
-
-                {checkoutMode === 'GUEST' ? (
+                {customerAuth.isLoggedIn && customerAuth.user ? (
+                  <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200 flex items-center justify-between text-xs">
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-0.5">
+                        <UserCheck size={14} className="text-[#B45309]" />
+                        <p className="font-extrabold text-slate-900">{customerAuth.user.name}</p>
+                      </div>
+                      <p className="font-mono text-[11px] text-slate-600">
+                        +91 {customerAuth.user.phone} • {customerAuth.user.email}
+                      </p>
+                    </div>
+                    <span className="text-[10px] bg-[#FBBF24] text-slate-950 font-black px-2 py-0.5 rounded-full">
+                      Logged In
+                    </span>
+                  </div>
+                ) : (
                   <div className="space-y-2 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-slate-700">Customer Details</span>
+                      <Link
+                        href="/login"
+                        onClick={() => setIsCartOpen(false)}
+                        className="text-[11px] font-bold text-[#B45309] hover:underline"
+                      >
+                        Login with OTP / Password →
+                      </Link>
+                    </div>
                     <input
                       type="text"
                       value={guestName}
                       onChange={(e) => setGuestName(e.target.value)}
                       placeholder="Your Full Name *"
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#E5203A]"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#FBBF24]"
                     />
                     <input
                       type="tel"
@@ -422,39 +419,8 @@ export default function StoreCartDrawer() {
                       value={guestPhone}
                       onChange={(e) => setGuestPhone(e.target.value)}
                       placeholder="10-Digit Mobile Number *"
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 font-mono font-semibold focus:outline-none focus:border-[#E5203A]"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 font-mono font-semibold focus:outline-none focus:border-[#FBBF24]"
                     />
-                  </div>
-                ) : loggedInMember ? (
-                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs">
-                    <div>
-                      <p className="font-extrabold text-emerald-950">{loggedInMember.name}</p>
-                      <p className="font-mono text-emerald-700">+91 {loggedInMember.phone}</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setLoggedInMember(null)}
-                      className="text-rose-600 font-bold underline"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex gap-2 text-xs">
-                    <input
-                      type="tel"
-                      maxLength={10}
-                      value={memberPhoneInput}
-                      onChange={(e) => setMemberPhoneInput(e.target.value)}
-                      className="flex-1 px-3 py-2 rounded-xl border border-slate-200 font-mono font-bold"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleMemberQuickLogin}
-                      className="px-3.5 py-2 rounded-xl bg-[#0F766E] text-white font-extrabold"
-                    >
-                      Verify OTP
-                    </button>
                   </div>
                 )}
               </div>

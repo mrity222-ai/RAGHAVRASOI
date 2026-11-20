@@ -43,6 +43,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const {
+      customerId,
       customerName,
       customerPhone,
       customerEmail,
@@ -66,6 +67,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Cart is empty' }, { status: 400 });
     }
 
+    // Associate with registered customer if available
+    let resolvedCustomerId = customerId || null;
+    let resolvedIsGuest = isGuest !== undefined ? isGuest : true;
+
+    if (!resolvedCustomerId && customerEmail) {
+      const existingCustomer = await prisma.customerUser.findUnique({
+        where: { email: customerEmail.trim().toLowerCase() },
+      });
+      if (existingCustomer) {
+        resolvedCustomerId = existingCustomer.id;
+        resolvedIsGuest = false;
+      }
+    } else if (resolvedCustomerId) {
+      resolvedIsGuest = false;
+    }
+
     // Generate guaranteed unique Token ID
     let token = '';
     while (!token) {
@@ -76,14 +93,26 @@ export async function POST(request: Request) {
       }
     }
 
+    // Collect and verify valid product IDs to prevent FK constraint violations
+    const candidateProductIds = items
+      .map((item: any) => (typeof item.id === 'string' ? item.id : item.productId))
+      .filter((id: any) => typeof id === 'string');
+
+    const validProducts = await prisma.product.findMany({
+      where: { id: { in: candidateProductIds } },
+      select: { id: true },
+    });
+    const validProductIdsSet = new Set(validProducts.map((p) => p.id));
+
     const order = await prisma.order.create({
       data: {
         id: token,
         status: 'PENDING',
+        customerId: resolvedCustomerId,
         customerName: customerName || 'Customer',
         customerPhone: customerPhone || '9876543210',
         customerEmail: customerEmail || null,
-        isGuest: isGuest !== undefined ? isGuest : true,
+        isGuest: resolvedIsGuest,
         orderType: orderType || 'IN_TABLE',
         tableNo: tableNo || (orderType === 'IN_TABLE' ? 'Table 1' : null),
         deliveryAddress: deliveryAddress || null,
@@ -97,16 +126,20 @@ export async function POST(request: Request) {
         packagingCharge: Number(packagingCharge) || 0,
         grandTotal: Number(grandTotal),
         items: {
-          create: items.map((item: any) => ({
-            productId: typeof item.id === 'string' ? item.id : (item.productId || null),
-            name: item.title || item.name,
-            qty: item.quantity || item.qty || 1,
-            size: item.size || 'Regular',
-            addons: item.addons ? JSON.stringify(item.addons) : JSON.stringify([]),
-            note: item.note || null,
-            unitPrice: item.price || item.unitPrice,
-            lineTotal: (item.price || item.unitPrice) * (item.quantity || item.qty || 1),
-          })),
+          create: items.map((item: any) => {
+            const rawId = typeof item.id === 'string' ? item.id : item.productId;
+            const validPid = rawId && validProductIdsSet.has(rawId) ? rawId : null;
+            return {
+              productId: validPid,
+              name: item.title || item.name,
+              qty: item.quantity || item.qty || 1,
+              size: item.size || 'Regular',
+              addons: item.addons ? JSON.stringify(item.addons) : JSON.stringify([]),
+              note: item.note || null,
+              unitPrice: item.price || item.unitPrice,
+              lineTotal: (item.price || item.unitPrice) * (item.quantity || item.qty || 1),
+            };
+          }),
         },
       },
       include: {

@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Search, User, ShoppingBag, Menu, X, Receipt } from 'lucide-react';
+import { Search, User, ShoppingBag, Menu, X, Receipt, LogOut } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useOptionalStorefrontCart } from '@/context/StorefrontCartContext';
+import { useCustomerAuth } from '@/context/CustomerAuthContext';
 import FoodlyLogo from '@/components/FoodlyLogo';
 
 interface HeaderProps {
@@ -15,9 +16,11 @@ interface HeaderProps {
 export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
   const defaultCart = useCart();
   const storefrontCart = useOptionalStorefrontCart();
+  const { user, isLoggedIn, logout } = useCustomerAuth();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [internalSearchQuery, setInternalSearchQuery] = useState('');
 
   const currentSearch = searchQuery !== undefined ? searchQuery : internalSearchQuery;
@@ -111,15 +114,52 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
             <Search size={18} strokeWidth={2.2} />
           </button>
 
-          {/* User Profile -> Direct Redirect to /admin/login */}
-          <Link
-            href="/admin/login"
-            className="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-800 hover:text-black transition-colors"
-            aria-label="Admin / User Login"
-            title="Admin & Staff Login"
-          >
-            <User size={21} strokeWidth={2.1} />
-          </Link>
+          {/* Customer Profile / Sign In */}
+          {isLoggedIn && user ? (
+            <div className="relative">
+              <button
+                onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50 hover:bg-amber-100 border border-amber-200 text-slate-900 transition-colors"
+                title={`Logged in as ${user.name}`}
+              >
+                <div className="w-6 h-6 rounded-full bg-[#FBBF24] text-slate-950 font-bold text-xs flex items-center justify-center">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <span className="text-xs font-bold hidden md:inline truncate max-w-[100px]">
+                  {user.name.split(' ')[0]}
+                </span>
+              </button>
+
+              {userDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="pb-2.5 mb-2 border-b border-slate-100">
+                    <p className="text-xs font-black text-slate-900 truncate">{user.name}</p>
+                    <p className="text-[11px] text-slate-500 font-mono truncate">{user.phone}</p>
+                    <p className="text-[10px] text-slate-400 truncate">{user.email}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setUserDropdownOpen(false);
+                    }}
+                    className="w-full text-left flex items-center gap-2 px-2.5 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors"
+                  >
+                    <LogOut size={14} />
+                    <span>लॉगआउट करें (Sign Out)</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-800 hover:text-black transition-colors"
+              aria-label="Customer Login"
+              title="Customer Login / Register"
+            >
+              <User size={21} strokeWidth={2.1} />
+            </Link>
+          )}
 
           {/* Shopping Bag Button with Yellow/Gold Badge */}
           <button
@@ -219,14 +259,32 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
           >
             Contact
           </Link>
-          <Link
-            href="/admin/login"
-            onClick={() => setMobileMenuOpen(false)}
-            className="py-2 border-b border-slate-100 text-slate-900 flex items-center gap-2 font-bold"
-          >
-            <User size={16} className="text-[#A81B1B]" />
-            <span>Admin / Staff Login</span>
-          </Link>
+          {isLoggedIn && user ? (
+            <div className="py-2 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <p className="text-xs font-black text-slate-900">👤 {user.name}</p>
+                <p className="text-[10px] text-slate-500 font-mono">{user.phone}</p>
+              </div>
+              <button
+                onClick={() => {
+                  logout();
+                  setMobileMenuOpen(false);
+                }}
+                className="text-xs font-bold text-rose-600 hover:underline"
+              >
+                लॉगआउट
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2 border-b border-slate-100 text-slate-900 flex items-center gap-2 font-bold"
+            >
+              <User size={16} className="text-[#A81B1B]" />
+              <span>Customer Login / Register</span>
+            </Link>
+          )}
 
           {storefrontCart && storefrontCart.activeTrackingToken && (
             <button

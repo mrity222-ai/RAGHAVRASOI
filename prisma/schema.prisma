@@ -5,7 +5,7 @@ datasource db {
 
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]
+  binaryTargets = ["native"]
 }
 
 // 1. Staff and RBAC Permissions
@@ -91,10 +91,25 @@ model Coupon {
   createdAt   DateTime @default(now())
 }
 
-// 6. Orders
+// 6. Customer Accounts
+model CustomerUser {
+  id           String      @id @default(cuid())
+  name         String
+  phone        String
+  email        String      @unique
+  password     String
+  otpCode      String?
+  otpExpiresAt DateTime?
+  createdAt    DateTime    @default(now())
+  orders       Order[]
+}
+
+// 7. Orders
 model Order {
   id              String      @id // e.g. "ORD-105"
   status          String      @default("PENDING") // PENDING, PREPARING, READY, COMPLETED, REJECTED
+  customerId      String?
+  customer        CustomerUser? @relation(fields: [customerId], references: [id])
   customerName    String
   customerPhone   String
   customerEmail   String?
@@ -131,7 +146,7 @@ model OrderItem {
   lineTotal Float
 }
 
-// 7. Deal & Newsletter for Landing Page
+// 8. Deal & Newsletter for Landing Page
 model Deal {
   id         Int       @id @default(autoincrement())
   title      String

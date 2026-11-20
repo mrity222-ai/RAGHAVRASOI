@@ -49,10 +49,32 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, categoryId, mrp, price, image, desc, veg, bestseller, customizable } = body;
+    const {
+      name,
+      categoryId,
+      subCategory,
+      mrp,
+      price,
+      image,
+      gallery,
+      desc,
+      story,
+      ingredients,
+      calories,
+      prepTime,
+      veg,
+      bestseller,
+      customizable,
+      isSale,
+    } = body;
 
     if (!name || !categoryId || price === undefined) {
       return NextResponse.json({ success: false, error: 'Missing required dish fields' }, { status: 400 });
+    }
+
+    let galleryStr: string | null = null;
+    if (gallery) {
+      galleryStr = Array.isArray(gallery) ? JSON.stringify(gallery) : String(gallery);
     }
 
     const created = await prisma.product.create({
@@ -61,17 +83,24 @@ export async function POST(request: Request) {
         title: name,
         slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now(),
         categoryId,
+        subCategory: subCategory || null,
         mrp: Number(mrp) || Number(price),
         price: Number(price),
         compareAtPrice: Number(mrp) || Number(price),
         image: image || 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80',
         imageUrl: image,
+        gallery: galleryStr,
         desc: desc || '',
         description: desc || '',
+        story: story || null,
+        ingredients: ingredients || null,
+        calories: calories ? Number(calories) : 380,
+        prepTime: prepTime || '15-20 mins',
         veg: veg !== undefined ? veg : true,
         bestseller: !!bestseller,
         isBestSeller: !!bestseller,
         customizable: customizable !== undefined ? customizable : true,
+        isSale: isSale !== undefined ? isSale : Number(mrp) > Number(price),
         inStock: true,
       },
     });
@@ -86,7 +115,25 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const { id, name, categoryId, mrp, price, image, desc, veg, bestseller, customizable } = body;
+    const {
+      id,
+      name,
+      categoryId,
+      subCategory,
+      mrp,
+      price,
+      image,
+      gallery,
+      desc,
+      story,
+      ingredients,
+      calories,
+      prepTime,
+      veg,
+      bestseller,
+      customizable,
+      isSale,
+    } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, error: 'Dish ID is required' }, { status: 400 });
@@ -98,6 +145,7 @@ export async function PUT(request: Request) {
       updateData.title = name;
     }
     if (categoryId !== undefined) updateData.categoryId = categoryId;
+    if (subCategory !== undefined) updateData.subCategory = subCategory;
     if (mrp !== undefined) {
       updateData.mrp = Number(mrp);
       updateData.compareAtPrice = Number(mrp);
@@ -107,16 +155,28 @@ export async function PUT(request: Request) {
       updateData.image = image;
       updateData.imageUrl = image;
     }
+    if (gallery !== undefined) {
+      updateData.gallery = Array.isArray(gallery) ? JSON.stringify(gallery) : String(gallery);
+    }
     if (desc !== undefined) {
       updateData.desc = desc;
       updateData.description = desc;
     }
+    if (story !== undefined) updateData.story = story;
+    if (ingredients !== undefined) updateData.ingredients = ingredients;
+    if (calories !== undefined) updateData.calories = calories ? Number(calories) : null;
+    if (prepTime !== undefined) updateData.prepTime = prepTime;
     if (veg !== undefined) updateData.veg = veg;
     if (bestseller !== undefined) {
       updateData.bestseller = bestseller;
       updateData.isBestSeller = bestseller;
     }
     if (customizable !== undefined) updateData.customizable = customizable;
+    if (isSale !== undefined) {
+      updateData.isSale = isSale;
+    } else if (mrp !== undefined && price !== undefined) {
+      updateData.isSale = Number(mrp) > Number(price);
+    }
 
     const updated = await prisma.product.update({
       where: { id },

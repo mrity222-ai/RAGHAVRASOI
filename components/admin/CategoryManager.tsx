@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, Edit2, Trash2, Upload, Link2 } from 'lucide-react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 
 interface CategoryManagerProps {
@@ -22,6 +22,8 @@ export default function CategoryManager({
   const [catImagePreview, setCatImagePreview] = useState(
     'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80'
   );
+  const [imageUrlInput, setImageUrlInput] = useState('');
+  const [imageInputMode, setImageInputMode] = useState<'upload' | 'url'>('upload');
   const [catActive, setCatActive] = useState(true);
   const [saving, setSaving] = useState(false);
   const { hasPerm } = useAdminAuth();
@@ -29,9 +31,11 @@ export default function CategoryManager({
   const handleOpenAdd = () => {
     setEditingCategory(null);
     setCatName('');
-    setCatImagePreview(
-      'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80'
-    );
+    const defaultImg =
+      'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80';
+    setCatImagePreview(defaultImg);
+    setImageUrlInput('');
+    setImageInputMode('upload');
     setCatActive(true);
     setModalOpen(true);
   };
@@ -39,7 +43,10 @@ export default function CategoryManager({
   const handleOpenEdit = (c: any) => {
     setEditingCategory(c);
     setCatName(c.name);
-    setCatImagePreview(c.image || c.imageUrl || '');
+    const img = c.image || c.imageUrl || '';
+    setCatImagePreview(img);
+    setImageUrlInput(img.startsWith('http') ? img : '');
+    setImageInputMode(img.startsWith('data:') ? 'upload' : 'url');
     setCatActive(c.active);
     setModalOpen(true);
   };
@@ -49,9 +56,18 @@ export default function CategoryManager({
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      if (ev.target?.result) setCatImagePreview(ev.target.result as string);
+      if (ev.target?.result) {
+        setCatImagePreview(ev.target.result as string);
+      }
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleUrlChange = (val: string) => {
+    setImageUrlInput(val);
+    if (val.trim()) {
+      setCatImagePreview(val.trim());
+    }
   };
 
   const handleToggleVisibility = async (id: string, current: boolean) => {
@@ -67,38 +83,63 @@ export default function CategoryManager({
     }
   };
 
+  const handleDeleteCategory = async (cat: any) => {
+    const count = products.filter((p) => p.categoryId === cat.id).length;
+    const confirmMsg =
+      count > 0
+        ? `Warning: Category "${cat.name}" has ${count} associated dishes.\n\nDeleting this category will permanently delete all ${count} dishes as well. Are you sure?`
+        : `Are you sure you want to delete category "${cat.name}"?`;
+
+    if (!confirm(confirmMsg)) return;
+
+    try {
+      const res = await fetch(`/api/menu/categories?id=${cat.id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (!data.success) {
+        alert(data.error || 'Failed to delete category');
+        return;
+      }
+      setModalOpen(false);
+      await onRefresh();
+    } catch (err) {
+      console.error(err);
+      alert('Error deleting category');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!catName.trim()) return;
 
     setSaving(true);
     try {
+      const payload = {
+        name: catName.trim(),
+        image: catImagePreview,
+        active: catActive,
+      };
+
       if (editingCategory) {
         await fetch('/api/menu/categories', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             id: editingCategory.id,
-            name: catName.trim(),
-            image: catImagePreview,
-            active: catActive,
+            ...payload,
           }),
         });
       } else {
         await fetch('/api/menu/categories', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: catName.trim(),
-            image: catImagePreview,
-            active: catActive,
-          }),
+          body: JSON.stringify(payload),
         });
       }
       setModalOpen(false);
       await onRefresh();
     } catch (err) {
       console.error(err);
+      alert('Error saving category');
     } finally {
       setSaving(false);
     }
@@ -112,7 +153,7 @@ export default function CategoryManager({
             Categories &amp; Storefront Thumbnails
           </h2>
           <p className="text-xs text-slate-500">
-            Upload custom category photos that appear in the &quot;What&apos;s on your mind?&quot; carousel.
+            Manage menu categories, upload custom thumbnails, or remove unused categories.
           </p>
         </div>
 
@@ -133,12 +174,16 @@ export default function CategoryManager({
           return (
             <div
               key={cat.id}
-              className="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs flex items-center justify-between gap-3"
+              className="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs flex items-center justify-between gap-3 hover:shadow-xs transition-shadow"
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className="relative w-14 h-14 rounded-full overflow-hidden border border-slate-200 shrink-0">
+                <div className="relative w-14 h-14 rounded-full overflow-hidden border border-slate-200 shrink-0 bg-slate-100">
                   <Image
-                    src={cat.image || cat.imageUrl || 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80'}
+                    src={
+                      cat.image ||
+                      cat.imageUrl ||
+                      'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80'
+                    }
                     alt={cat.name}
                     fill
                     className="object-cover"
@@ -158,17 +203,28 @@ export default function CategoryManager({
                       ? 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100'
                       : 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200'
                   }`}
+                  title="Toggle storefront visibility"
                 >
                   {cat.active ? 'Visible' : 'Hidden'}
                 </button>
 
                 {hasPerm('manage_categories') && (
-                  <button
-                    onClick={() => handleOpenEdit(cat)}
-                    className="px-2.5 py-1 rounded-lg border border-slate-200 text-[11px] font-bold text-slate-700 hover:bg-slate-50 transition-colors"
-                  >
-                    Edit
-                  </button>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => handleOpenEdit(cat)}
+                      className="p-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors"
+                      title="Edit Category"
+                    >
+                      <Edit2 size={12} />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteCategory(cat)}
+                      className="p-1.5 rounded-lg border border-rose-200 text-rose-600 hover:bg-rose-50 transition-colors"
+                      title="Delete Category"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
@@ -190,21 +246,69 @@ export default function CategoryManager({
             </div>
 
             <form onSubmit={handleSubmit} className="p-5 space-y-4 text-xs">
-              <div className="flex items-center gap-4 p-3 rounded-2xl bg-slate-50 border border-dashed border-slate-300">
-                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0">
-                  <Image src={catImagePreview} alt="Preview" fill className="object-cover" />
+              
+              {/* Image Preview & Upload Mode Switch */}
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0 bg-slate-200">
+                    <Image src={catImagePreview} alt="Preview" fill className="object-cover" />
+                  </div>
+                  <div>
+                    <span className="block font-extrabold text-slate-900 text-xs">
+                      Category Photo
+                    </span>
+                    <p className="text-[10px] text-slate-400">
+                      Appears in the &quot;What&apos;s on your mind?&quot; carousel.
+                    </p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <button
+                        type="button"
+                        onClick={() => setImageInputMode('upload')}
+                        className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-extrabold border transition-all ${
+                          imageInputMode === 'upload'
+                            ? 'bg-[#0F766E] text-white border-[#0F766E]'
+                            : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                        }`}
+                      >
+                        <Upload size={10} />
+                        <span>Upload File</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setImageInputMode('url')}
+                        className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-extrabold border transition-all ${
+                          imageInputMode === 'url'
+                            ? 'bg-[#0F766E] text-white border-[#0F766E]'
+                            : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                        }`}
+                      >
+                        <Link2 size={10} />
+                        <span>Image URL</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex-1 space-y-1">
-                  <label className="block font-extrabold text-slate-800">
-                    Upload Category Thumbnail
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="block w-full text-[11px] text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#0F766E] file:text-white cursor-pointer"
-                  />
-                </div>
+
+                {imageInputMode === 'upload' ? (
+                  <div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      className="block w-full text-[11px] text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#0F766E] file:text-white cursor-pointer"
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <input
+                      type="url"
+                      value={imageUrlInput}
+                      onChange={(e) => handleUrlChange(e.target.value)}
+                      placeholder="https://images.unsplash.com/photo-..."
+                      className="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none focus:border-[#0F766E]"
+                    />
+                  </div>
+                )}
               </div>
 
               <div>
@@ -214,7 +318,7 @@ export default function CategoryManager({
                   required
                   value={catName}
                   onChange={(e) => setCatName(e.target.value)}
-                  placeholder="e.g. Momos & Wraps"
+                  placeholder="e.g. Special Thali, Tandoor & Breads"
                   className="w-full px-3.5 py-2 rounded-xl border border-slate-200 font-semibold focus:outline-none focus:border-[#0F766E]"
                 />
               </div>
@@ -229,21 +333,36 @@ export default function CategoryManager({
                 <span>Visible on Customer Storefront</span>
               </label>
 
-              <div className="pt-3 flex justify-end gap-2 border-t border-slate-100">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="px-5 py-2 rounded-xl bg-[#0F766E] hover:bg-teal-800 text-white font-extrabold transition-colors"
-                >
-                  {saving ? 'Saving...' : 'Save Category'}
-                </button>
+              <div className="pt-3 flex items-center justify-between border-t border-slate-100">
+                {editingCategory ? (
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteCategory(editingCategory)}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 border border-rose-200 font-bold transition-colors"
+                  >
+                    <Trash2 size={13} />
+                    <span>Delete</span>
+                  </button>
+                ) : (
+                  <div />
+                )}
+
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setModalOpen(false)}
+                    className="px-4 py-2 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={saving}
+                    className="px-5 py-2 rounded-xl bg-[#0F766E] hover:bg-teal-800 text-white font-extrabold transition-colors"
+                  >
+                    {saving ? 'Saving...' : 'Save Category'}
+                  </button>
+                </div>
               </div>
             </form>
           </div>

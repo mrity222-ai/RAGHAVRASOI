@@ -37,13 +37,13 @@ export async function GET(
       },
     });
 
-    // Fallback complementary items matching screenshot if database has fewer than 4 items
+    // Fallback complementary items matching restaurant menu if database has fewer than 4 items
     const samplePairings = [
       {
         id: 'dish-fries',
-        name: 'Loaded Fries',
-        desc: 'Cheese sauce, bacon bits, jalapeños',
-        price: 6.49,
+        name: 'Masala French Fries',
+        desc: 'Crispy potato fries tossed in chatpata peri-peri spice',
+        price: 99,
         rating: 4.9,
         reviewsCount: 189,
         prepTime: '10-12 min',
@@ -52,9 +52,9 @@ export async function GET(
       },
       {
         id: 'dish-coldbrew',
-        name: 'Cold Brew Cooler',
-        desc: 'Iced cold brew, vanilla foam',
-        price: 4.49,
+        name: 'Kesariya Sweet Lassi',
+        desc: 'Thick churned Punjabi curd infused with saffron & dry fruits',
+        price: 79,
         rating: 4.9,
         reviewsCount: 98,
         prepTime: '5-8 min',
@@ -63,9 +63,9 @@ export async function GET(
       },
       {
         id: 'dish-rings',
-        name: 'Onion Rings',
-        desc: 'Crispy battered, chipotle dip',
-        price: 4.99,
+        name: 'Crispy Onion Bhajiya',
+        desc: 'Crispy gram-flour onion fritters served with mint chutney',
+        price: 89,
         rating: 4.5,
         reviewsCount: 152,
         prepTime: '8-10 min',
@@ -74,9 +74,9 @@ export async function GET(
       },
       {
         id: 'dish-shake',
-        name: 'Chocolate Shake',
-        desc: 'Rich chocolate, whipped cream',
-        price: 5.49,
+        name: 'Gulab Jamun (2 Pcs)',
+        desc: 'Warm khoya dumplings steeped in rose cardamom syrup',
+        price: 69,
         rating: 4.9,
         reviewsCount: 210,
         prepTime: '5-8 min',
@@ -99,32 +99,37 @@ export async function GET(
       }));
     }
 
-    // 4 Distinct High-Resolution Gallery Images
+    // High-Resolution Gallery Images
     let galleryImages: string[] = [];
     if (product.gallery) {
       try {
-        galleryImages = JSON.parse(product.gallery);
+        const parsed = JSON.parse(product.gallery);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          galleryImages = parsed;
+        }
       } catch (e) {
         galleryImages = [];
       }
     }
 
-    if (!galleryImages || galleryImages.length < 4) {
+    if (!galleryImages || galleryImages.length === 0) {
       galleryImages = [
         product.image,
         'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80',
         'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
         'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=800&q=80',
       ];
+    } else if (!galleryImages.includes(product.image)) {
+      galleryImages = [product.image, ...galleryImages];
     }
 
     const story =
       product.story ||
-      `Our ${product.name} starts with double smashed patties, seared for a deep caramelized crust, layered with melted cheddar, crisp iceberg lettuce, pickles and our house burger sauce on a lightly toasted brioche bun. Made fresh per order in our kitchen, never frozen or pre-assembled.`;
+      `Prepared fresh per order at Raghav Rasoi in Gaur City 1, Greater Noida West using authentic culinary heritage, slow-cooked whole spices, and farm-fresh ingredients to deliver genuine Indian aromas and timeless flavours.`;
 
     const ingredients =
       product.ingredients ||
-      'Hand-selected farm produce, 100% prime cut patty, artisan brioche bun, double melted Wisconsin cheddar, pickled dill pickles, house burger sauce.';
+      'Farm-fresh produce, authentic Raghav Rasoi house-blended garam masala, pure ghee/cold-pressed oil, fresh green herbs, aromatic whole spices.';
 
     const reviews = [
       {

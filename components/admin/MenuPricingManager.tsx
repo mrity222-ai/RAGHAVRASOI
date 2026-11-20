@@ -195,24 +195,31 @@ export default function MenuPricingManager({
                     <td className="py-3 px-4 font-mono text-slate-500">₹{d.mrp || d.price}</td>
 
                     <td className="py-3 px-4">
-                      {canManageMenu ? (
-                        <div className="inline-flex items-center gap-1">
-                          <span className="font-mono font-bold">₹</span>
-                          <input
-                            type="number"
-                            defaultValue={d.price}
-                            onBlur={(e) => handleInlinePriceChange(d.id, e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter') {
-                                handleInlinePriceChange(d.id, (e.target as any).value);
-                              }
-                            }}
-                            className="w-20 px-2 py-1 rounded-lg border border-slate-200 font-mono font-extrabold text-slate-900 focus:border-[#E5203A] focus:outline-none"
-                          />
-                        </div>
-                      ) : (
-                        <span className="font-mono font-extrabold">₹{d.price}</span>
-                      )}
+                      <div className="flex items-center gap-2">
+                        {canManageMenu ? (
+                          <div className="inline-flex items-center gap-1">
+                            <span className="font-mono font-bold">₹</span>
+                            <input
+                              type="number"
+                              defaultValue={d.price}
+                              onBlur={(e) => handleInlinePriceChange(d.id, e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  handleInlinePriceChange(d.id, (e.target as any).value);
+                                }
+                              }}
+                              className="w-20 px-2 py-1 rounded-lg border border-slate-200 font-mono font-extrabold text-slate-900 focus:border-[#E5203A] focus:outline-none"
+                            />
+                          </div>
+                        ) : (
+                          <span className="font-mono font-extrabold">₹{d.price}</span>
+                        )}
+                        {d.mrp && d.mrp > d.price && (
+                          <span className="px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-extrabold text-[10px] border border-emerald-200">
+                            {Math.round(((d.mrp - d.price) / d.mrp) * 100)}% OFF
+                          </span>
+                        )}
+                      </div>
                     </td>
 
                     <td className="py-3 px-4">
@@ -261,6 +268,7 @@ export default function MenuPricingManager({
         isOpen={dishModalOpen}
         onClose={() => setDishModalOpen(false)}
         onSave={handleSaveDish}
+        onDelete={handleDeleteDish}
         categories={categories}
         editingDish={editingDish}
       />

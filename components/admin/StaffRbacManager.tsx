@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { UserPlus, X, Check, CheckSquare } from 'lucide-react';
+import { UserPlus, X, Check, CheckSquare, Trash2, Edit2 } from 'lucide-react';
 import { useAdminAuth, ALL_PERMISSIONS } from '@/context/AdminAuthContext';
 
 interface StaffRbacManagerProps {
@@ -50,6 +50,29 @@ export default function StaffRbacManager({ onRefresh }: StaffRbacManagerProps) {
 
   const handleSelectAll = () => {
     setPermissions(ALL_PERMISSIONS.map((p) => p.key));
+  };
+
+  const handleDeleteStaff = async (st: any) => {
+    if (st.isOwner) {
+      alert('Master Owner account cannot be deleted.');
+      return;
+    }
+    if (!confirm(`Are you sure you want to delete staff account "${st.name}" (${st.login})?`)) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/admin/staff?id=${st.id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (!data.success) {
+        alert(data.error || 'Failed to delete staff');
+        return;
+      }
+      setModalOpen(false);
+      await onRefresh();
+    } catch (err) {
+      console.error(err);
+      alert('Error deleting staff account');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -170,12 +193,23 @@ export default function StaffRbacManager({ onRefresh }: StaffRbacManagerProps) {
               </button>
 
               {!st.isOwner ? (
-                <button
-                  onClick={() => handleOpenEdit(st)}
-                  className="px-3 py-1 rounded-lg border border-slate-200 font-bold text-slate-700 hover:bg-slate-50 transition-colors"
-                >
-                  Edit Perms
-                </button>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => handleOpenEdit(st)}
+                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-slate-200 font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                  >
+                    <Edit2 size={12} />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    onClick={() => handleDeleteStaff(st)}
+                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-rose-200 font-bold text-rose-600 hover:bg-rose-50 transition-colors"
+                    title="Delete Staff"
+                  >
+                    <Trash2 size={12} />
+                    <span>Delete</span>
+                  </button>
+                </div>
               ) : (
                 <span className="text-[10px] font-bold text-slate-400">Master Account</span>
               )}
@@ -283,21 +317,35 @@ export default function StaffRbacManager({ onRefresh }: StaffRbacManagerProps) {
                 </div>
               </div>
 
-              <div className="pt-3 flex justify-end gap-2 border-t border-slate-100">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="px-5 py-2 rounded-xl bg-[#E5203A] hover:bg-[#C8172E] text-white font-extrabold transition-colors"
-                >
-                  {saving ? 'Saving...' : 'Save Staff Account'}
-                </button>
+              <div className="pt-3 flex items-center justify-between gap-2 border-t border-slate-100">
+                {editingStaff && !editingStaff.isOwner ? (
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteStaff(editingStaff)}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 border border-rose-200 font-bold transition-colors"
+                  >
+                    <Trash2 size={13} />
+                    <span>Delete</span>
+                  </button>
+                ) : (
+                  <div />
+                )}
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setModalOpen(false)}
+                    className="px-4 py-2 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={saving}
+                    className="px-5 py-2 rounded-xl bg-[#E5203A] hover:bg-[#C8172E] text-white font-extrabold transition-colors"
+                  >
+                    {saving ? 'Saving...' : 'Save Staff Account'}
+                  </button>
+                </div>
               </div>
             </form>
           </div>

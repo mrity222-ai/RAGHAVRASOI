@@ -117,10 +117,12 @@ export default function ProductDetailPage() {
   ];
 
   const currentUnitPrice = product.price + selectedPortion.extra;
-  const currentTotalPrice = (currentUnitPrice * quantity).toFixed(2);
-  const currentStrikethrough = product.mrp
-    ? (product.mrp + selectedPortion.extra).toFixed(2)
-    : (currentUnitPrice * 1.25).toFixed(2);
+  const currentTotalPrice = (currentUnitPrice * quantity);
+  const baseMrp = Number(product.mrp) || (currentUnitPrice > 0 ? Math.round(currentUnitPrice * 1.3) : currentUnitPrice);
+  const currentStrikethrough = baseMrp + selectedPortion.extra;
+  const realDiscountPct = currentStrikethrough > currentUnitPrice && currentUnitPrice > 0
+    ? Math.round(((currentStrikethrough - currentUnitPrice) / currentStrikethrough) * 100)
+    : 0;
 
   const images = product.galleryImages || [product.image];
 
@@ -273,15 +275,19 @@ export default function ProductDetailPage() {
 
             {/* Price & Discount Pill */}
             <div className="flex items-center gap-3 pt-1">
-              <span className="font-extrabold text-3xl sm:text-4xl text-slate-900 tracking-tight">
-                ${currentUnitPrice.toFixed(2)}
+              <span className="font-extrabold text-3xl sm:text-4xl text-slate-900 tracking-tight font-mono">
+                ₹{currentUnitPrice}
               </span>
-              <span className="text-base text-slate-400 line-through font-medium">
-                ${currentStrikethrough}
-              </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-[#C83818] text-white">
-                18% OFF
-              </span>
+              {currentStrikethrough > currentUnitPrice && (
+                <span className="text-base text-slate-400 line-through font-medium font-mono">
+                  ₹{Math.round(currentStrikethrough)}
+                </span>
+              )}
+              {realDiscountPct > 0 && (
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-[#E5203A] text-white shadow-xs">
+                  {realDiscountPct}% OFF
+                </span>
+              )}
             </div>
 
             {/* Short Description */}
@@ -370,7 +376,7 @@ export default function ProductDetailPage() {
                 onClick={handleAddToCart}
                 className="flex-1 py-3.5 px-6 rounded-full bg-[#C83818] hover:bg-[#A82A0F] text-white font-extrabold text-xs sm:text-sm shadow-md transition-all active:scale-98 text-center"
               >
-                Add to Cart ${currentTotalPrice}
+                Add to Cart • ₹{currentTotalPrice}
               </button>
 
               {/* Wishlist Heart Button */}
@@ -488,7 +494,7 @@ export default function ProductDetailPage() {
                   About this dish
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed max-w-4xl">
-                  {product.story || `Our Cheesy Beef Burger starts with two smashed beef patties, seared for a deep caramelized crust, then layered with melted cheddar, crisp iceberg lettuce, pickles and a tangy house burger sauce — all stacked on a lightly toasted brioche bun. Made fresh per order in our kitchen, never frozen or pre-assembled.`}
+                  {product.story || `Prepared fresh per order at Raghav Rasoi in Gaur City 1, Greater Noida West using authentic culinary heritage, slow-cooked whole spices, and farm-fresh ingredients to deliver genuine Indian aromas and timeless flavours.`}
                 </p>
               </div>
 
@@ -717,8 +723,8 @@ export default function ProductDetailPage() {
 
                 {/* Price & Round [+] Add Button */}
                 <div className="pt-4 flex items-center justify-between border-t border-slate-100 mt-4">
-                  <span className="font-extrabold text-base text-slate-900">
-                    ${typeof item.price === 'number' ? item.price.toFixed(2) : item.price}
+                  <span className="font-extrabold text-base text-slate-900 font-mono">
+                    ₹{item.price}
                   </span>
                   <button
                     type="button"

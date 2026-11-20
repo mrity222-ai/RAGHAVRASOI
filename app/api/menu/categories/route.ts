@@ -98,3 +98,41 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ success: false, error: 'Failed to toggle visibility' }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({ success: false, error: 'Category ID is required' }, { status: 400 });
+    }
+
+    const category = await prisma.category.findUnique({
+      where: { id },
+      include: { _count: { select: { products: true } } },
+    });
+
+    if (!category) {
+      return NextResponse.json({ success: false, error: 'Category not found' }, { status: 404 });
+    }
+
+    // Delete any products associated with this category
+    await prisma.product.deleteMany({
+      where: { categoryId: id },
+    });
+
+    // Delete the category
+    await prisma.category.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: `Category "${category.name}" and all its dishes deleted successfully`,
+    });
+  } catch (error) {
+    console.error('Error deleting category:', error);
+    return NextResponse.json({ success: false, error: 'Failed to delete category' }, { status: 500 });
+  }
+}

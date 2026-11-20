@@ -95,6 +95,14 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ success: false, error: 'Staff ID is required' }, { status: 400 });
     }
 
+    const target = await prisma.staffUser.findUnique({ where: { id } });
+    if (!target) {
+      return NextResponse.json({ success: false, error: 'Staff not found' }, { status: 404 });
+    }
+    if (target.isOwner) {
+      return NextResponse.json({ success: false, error: 'Master/Owner account cannot be deleted' }, { status: 403 });
+    }
+
     await prisma.staffUser.delete({
       where: { id },
     });

@@ -7,7 +7,7 @@ import { Eye, Heart, MoreHorizontal, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
 interface ProductItem {
-  id: number;
+  id: string | number;
   title: string;
   slug: string;
   price: number;
@@ -21,61 +21,71 @@ interface ProductItem {
 
 export default function BestSeller({ onQuickView }: { onQuickView?: (product: ProductItem) => void }) {
   const { addToCart } = useCart();
-  const [selectedColor, setSelectedColor] = useState<Record<number, string>>({});
+  const [selectedColor, setSelectedColor] = useState<Record<string | number, string>>({});
   const [products, setProducts] = useState<ProductItem[]>([
     {
       id: 1,
-      title: 'Flame Box',
-      slug: 'flame-box',
-      price: 60.00,
-      compareAtPrice: 70.00,
-      imageUrl: '/assets/products/flame-box.png',
+      title: 'Special Maharaja Thali',
+      slug: 'special-maharaja-thali',
+      price: 260.0,
+      compareAtPrice: 320.0,
+      imageUrl: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80',
       isSale: true,
       isBestSeller: true,
-      description: 'Slow-roasted chicken bowl garnished with mint yogurt and saffron rice.',
+      description: 'Royal Indian spread: Shahi Paneer, Dal Makhani, 2 Butter Naans, Pulao, Raita, Salad & Sweet.',
     },
     {
       id: 2,
-      title: 'Urban Bite',
-      slug: 'urban-bite',
-      price: 60.00,
-      compareAtPrice: 70.00,
-      imageUrl: '/assets/products/urban-bite.png',
+      title: 'Dal Makhani Slow Cooked',
+      slug: 'dal-makhani-slow-cooked',
+      price: 180.0,
+      compareAtPrice: 220.0,
+      imageUrl: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=600&q=80',
       isSale: true,
       isBestSeller: true,
-      colors: ['#000000', '#F5A623', '#8B4513'],
-      description: 'Prime char-grilled sirloin steak served with rosemary glaze and chili salsa.',
+      description: 'Black lentils slow-cooked overnight with creamy butter, rich tomatoes, and hand-ground spices.',
     },
     {
       id: 3,
-      title: 'Spice Zone',
-      slug: 'spice-zone-burger',
-      price: 60.00,
-      compareAtPrice: 70.00,
-      imageUrl: '/assets/products/spice-zone-burger.png',
-      isSale: true,
+      title: 'Shahi Malai Paneer',
+      slug: 'shahi-malai-paneer',
+      price: 220.0,
+      compareAtPrice: 260.0,
+      imageUrl: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80',
+      isSale: false,
       isBestSeller: true,
-      description: 'Signature grass-fed beef burger topped with crispy bacon and farm-fresh fried egg.',
+      description: 'Velvety cottage cheese cubes gently cooked in a rich cashew, saffron, and cream gravy.',
     },
     {
       id: 4,
-      title: 'Spice Zone',
-      slug: 'spice-zone-hotdog',
-      price: 70.00,
-      compareAtPrice: 80.00,
-      imageUrl: '/assets/products/spice-zone-hotdog.png',
+      title: 'Amritsari Kulcha with Chole',
+      slug: 'amritsari-kulcha-with-chole',
+      price: 140.0,
+      compareAtPrice: 180.0,
+      imageUrl: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80',
       isSale: true,
       isBestSeller: true,
-      description: 'Gourmet pork frankfurter nestled in soft brioche, dressed with melted cheddar and jalapeño relish.',
+      description: 'Crisp layered tandoori kulcha stuffed with spiced potatoes, served with tangy Pindi chole.',
     },
   ]);
 
   useEffect(() => {
-    fetch('/api/products?best_seller=true')
+    fetch('/api/menu/products?bestseller=true')
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data && data.data.length > 0) {
-          setProducts(data.data);
+          const mapped = data.data.slice(0, 4).map((p: any) => ({
+            id: p.id,
+            title: p.name || p.title,
+            slug: p.slug || p.id,
+            price: p.price,
+            compareAtPrice: p.mrp || p.compareAtPrice,
+            imageUrl: p.image || p.imageUrl || 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80',
+            isSale: p.isSale !== undefined ? p.isSale : (p.mrp > p.price),
+            isBestSeller: p.bestseller || p.isBestSeller,
+            description: p.desc || p.description,
+          }));
+          setProducts(mapped);
         }
       })
       .catch((err) => console.log('Using fallback for products', err));
@@ -88,12 +98,12 @@ export default function BestSeller({ onQuickView }: { onQuickView?: (product: Pr
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-10">
           <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-black tracking-[0.14em] uppercase">
-            BEST SELLER
+            RAGHAV RASOI BEST SELLERS
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-[#777777] font-normal tracking-wide">
-            Folor sit amet, consectetur adipiscing elit
+            Hand-crafted authentic Indian delicacies prepared fresh daily in Gaur City 1
           </p>
-          {/* Salmon / Pink Accent Line from screenshot 5 */}
+          {/* Salmon / Pink Accent Line */}
           <div className="w-12 h-[2px] bg-[#E57373] mt-3"></div>
         </div>
 

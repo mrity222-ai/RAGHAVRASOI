@@ -18,6 +18,8 @@ export default function StoreCartDrawer() {
     isCartOpen,
     setIsCartOpen,
     setIsTrackingOpen,
+    setIsInvoiceOpen,
+    setCompletedOrder,
     setActiveTrackingToken,
     loggedInMember,
     setLoggedInMember,
@@ -135,8 +137,9 @@ export default function StoreCartDrawer() {
       if (data.success && data.data) {
         clearCart();
         setActiveTrackingToken(data.data.id);
+        setCompletedOrder(data.data);
         setIsCartOpen(false);
-        setIsTrackingOpen(true);
+        setIsInvoiceOpen(true);
       } else {
         alert(data.error || 'Failed to place order');
       }
@@ -245,36 +248,31 @@ export default function StoreCartDrawer() {
                   </button>
                 </div>
 
-                {/* In Table: Table Number Input & Quick Chips */}
+                {/* In Table: Table Number Input */}
                 {orderType === 'IN_TABLE' && (
-                  <div className="space-y-2 pt-1 animate-in fade-in">
-                    <label className="block text-[11px] font-extrabold text-slate-700">
-                      Enter Your Table Number <span className="text-[#E5203A]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={tableNo}
-                      onChange={(e) => setTableNo(e.target.value)}
-                      placeholder="e.g. Table 4 or T-12"
-                      className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-300 text-xs font-bold text-slate-900 focus:outline-none focus:border-[#E5203A] focus:ring-1 focus:ring-[#E5203A]"
-                    />
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {quickTables.map((t) => (
-                        <button
-                          key={t}
-                          type="button"
-                          onClick={() => setTableNo(t)}
-                          className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border transition-all ${
-                            tableNo === t
-                              ? 'bg-[#E5203A] text-white border-[#E5203A]'
-                              : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
-                          }`}
-                        >
-                          {t}
-                        </button>
-                      ))}
+                  <div className="space-y-2 pt-1 animate-in fade-in bg-white p-3.5 rounded-xl border-2 border-[#E5203A]/25">
+                    <div className="flex items-center justify-between">
+                      <label className="block text-xs font-black text-slate-900">
+                        Enter Your Table Number <span className="text-[#E5203A]">*</span>
+                      </label>
+                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-50 text-[#E5203A]">
+                        Required for Table Service
+                      </span>
                     </div>
-                    <p className="text-[10px] text-slate-500 italic">
+                    <div className="relative">
+                      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm">
+                        🍽️
+                      </span>
+                      <input
+                        type="text"
+                        required
+                        value={tableNo}
+                        onChange={(e) => setTableNo(e.target.value)}
+                        placeholder="Type table number (e.g. Table 4, T-12, Table 3)"
+                        className="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-300 text-xs font-black text-slate-900 focus:outline-none focus:border-[#E5203A] focus:bg-white transition-all"
+                      />
+                    </div>
+                    <p className="text-[10px] text-slate-500 font-medium">
                       ✨ Our servers will bring your hot order directly to this table.
                     </p>
                   </div>

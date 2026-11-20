@@ -117,13 +117,13 @@ export default function BetterFoodSection() {
         
         {/* Main Headline in Coral Red */}
         <h2 className="text-3xl sm:text-5xl lg:text-[46px] font-bold text-[#E53935] leading-[1.12] tracking-tight">
-          Better food for<br />
-          more people
+          Authentic Taste,<br />
+          Handcrafted Everyday
         </h2>
 
         {/* Subtitle Description */}
-        <p className="text-xs sm:text-sm text-slate-500 font-normal leading-relaxed max-w-[260px] sm:max-w-md mx-auto mt-4">
-          For over a decade, we&apos;ve enabled our customers to discover new tastes, delivered right to their doorstep
+        <p className="text-xs sm:text-sm text-slate-500 font-normal leading-relaxed max-w-[280px] sm:max-w-lg mx-auto mt-4">
+          Serving Gaur City 1 with pure desi ghee preparations, traditional clay tandoor, hand-ground spices, and heartfelt Indian hospitality.
         </p>
       </div>
 

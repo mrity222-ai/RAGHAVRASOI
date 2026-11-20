@@ -61,13 +61,12 @@ export default function CountdownDeal() {
         
         {/* Title */}
         <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black text-black tracking-tight uppercase">
-          QUESADILLA WITH TOMATOES
+          RAGHAV RASOI SHAHI THALI FEAST
         </h2>
 
-        {/* Subtitle / Latin excerpt */}
+        {/* Subtitle */}
         <p className="mt-4 text-xs sm:text-[13px] text-[#666666] leading-relaxed max-w-lg font-normal">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-          totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+          Indulge in our signature royal spread featuring Shahi Paneer, overnight Dal Makhani, 2 Butter Naans, Jeera Rice, Boondi Raita, Salad &amp; Gulab Jamun at a special promotional offer!
         </p>
 
         {/* 4 Red Circular Countdown Counters (matching screenshot 6) */}
@@ -128,14 +127,14 @@ export default function CountdownDeal() {
           onClick={() =>
             addToCart({
               id: 401,
-              title: 'Quesadilla With Tomatoes Special',
-              price: 24.50,
-              imageUrl: '/assets/banners/burger-split-left.png',
+              title: 'Raghav Rasoi Shahi Thali Feast',
+              price: 249,
+              imageUrl: '/assets/products/flame-box.png',
             })
           }
           className="mt-8 bg-black hover:bg-[#222222] text-white text-[11px] font-bold tracking-[0.18em] px-8 py-3 rounded-full uppercase shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0"
         >
-          ORDER NOW
+          ORDER NOW • ₹249
         </button>
 
       </div>

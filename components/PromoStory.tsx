@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 
 export default function PromoStory() {
@@ -33,30 +34,21 @@ export default function PromoStory() {
           {/* Right: Typography and Explore All Button */}
           <div className="w-full flex flex-col justify-center px-6 sm:px-12 lg:px-16 mt-8 md:mt-0 text-left">
             <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-black leading-[1.08] tracking-tight">
-              WE MAKE THE BEST <br />
-              BURGER IN YOUR TOWN
+              TRADITIONAL TASTE <br />
+              COOKED WITH LOVE
             </h2>
 
             <p className="mt-5 text-xs sm:text-sm text-[#666666] leading-relaxed max-w-lg font-normal">
-              We have long admired our graceful companions and their earnest loyalty,
-              wishing to show them the same admiration we reserve for those closest to us.
-              Until recently, though, few options existed for those looking
+              At Raghav Rasoi in Gaur City 1, every recipe honors timeless Indian heritage. We slow-simmer our dal on gentle flames, bake tandoori breads in red-hot clay ovens, and use pure ingredients for flavours you will cherish with family and friends.
             </p>
 
             <div className="mt-8">
-              <button
-                onClick={() =>
-                  addToCart({
-                    id: 201,
-                    title: 'Town Best Burger Special (50% OFF)',
-                    price: 18.50,
-                    imageUrl: '/assets/banners/burger-promo-50off.png',
-                  })
-                }
+              <Link
+                href="/menu"
                 className="inline-flex items-center justify-center bg-black hover:bg-[#222222] text-white text-[11px] font-bold tracking-[0.18em] px-8 py-3 rounded-full uppercase shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
               >
-                EXPLORE ALL
-              </button>
+                EXPLORE FULL MENU
+              </Link>
             </div>
           </div>
 

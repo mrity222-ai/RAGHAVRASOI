@@ -60,6 +60,19 @@ export default function MenuPricingManager({
     }
   };
 
+  const handleToggleSale = async (id: string, currentSale: boolean) => {
+    try {
+      await fetch('/api/menu/products', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, isSale: !currentSale }),
+      });
+      await onRefresh();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handleDeleteDish = async (id: string) => {
     if (!confirm('Are you sure you want to delete this dish?')) return;
     try {
@@ -155,6 +168,7 @@ export default function MenuPricingManager({
                 <th className="py-3 px-4">Category</th>
                 <th className="py-3 px-4">MRP (₹)</th>
                 <th className="py-3 px-4">Selling Price (₹)</th>
+                <th className="py-3 px-4">Sale Badge</th>
                 <th className="py-3 px-4">Live Stock</th>
                 {canManageMenu && <th className="py-3 px-4 text-right">Actions</th>}
               </tr>
@@ -220,6 +234,21 @@ export default function MenuPricingManager({
                           </span>
                         )}
                       </div>
+                    </td>
+
+                    <td className="py-3 px-4">
+                      <button
+                        onClick={() => handleToggleSale(d.id, !!d.isSale)}
+                        className={`px-2.5 py-1 rounded-xl font-extrabold text-[11px] border transition-colors flex items-center gap-1 ${
+                          d.isSale
+                            ? 'bg-rose-50 border-rose-300 text-[#E5203A] hover:bg-rose-100 shadow-2xs'
+                            : 'bg-slate-50 border-slate-200 text-slate-400 hover:bg-slate-100'
+                        }`}
+                        title="Click to toggle SALE badge on customer storefront"
+                      >
+                        <span>🔥</span>
+                        <span>{d.isSale ? 'SALE ON' : 'Off'}</span>
+                      </button>
                     </td>
 
                     <td className="py-3 px-4">

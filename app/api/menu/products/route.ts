@@ -192,7 +192,7 @@ export async function PUT(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const { id, inStock, price } = await request.json();
+    const { id, inStock, price, isSale, bestseller } = await request.json();
 
     if (!id) {
       return NextResponse.json({ success: false, error: 'Dish ID is required' }, { status: 400 });
@@ -201,6 +201,11 @@ export async function PATCH(request: Request) {
     const updateData: any = {};
     if (inStock !== undefined) updateData.inStock = inStock;
     if (price !== undefined) updateData.price = Number(price);
+    if (isSale !== undefined) updateData.isSale = isSale;
+    if (bestseller !== undefined) {
+      updateData.bestseller = bestseller;
+      updateData.isBestSeller = bestseller;
+    }
 
     const updated = await prisma.product.update({
       where: { id },
@@ -209,7 +214,7 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {
-    console.error('Error toggling dish stock/price:', error);
+    console.error('Error toggling dish stock/price/sale:', error);
     return NextResponse.json({ success: false, error: 'Failed to update dish' }, { status: 500 });
   }
 }

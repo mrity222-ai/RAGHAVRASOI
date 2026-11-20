@@ -195,7 +195,7 @@ export default function DishModal({
         veg,
         bestseller,
         customizable,
-        isSale: mrp > price || isSale,
+        isSale: !!isSale,
       });
       onClose();
     } catch (err) {
@@ -384,6 +384,15 @@ export default function DishModal({
                       className="accent-[#0F766E] w-4 h-4"
                     />
                     <span>Portions / Add-on Modal</span>
+                  </label>
+                  <label className="flex items-center gap-2 font-bold cursor-pointer text-slate-800">
+                    <input
+                      type="checkbox"
+                      checked={isSale}
+                      onChange={(e) => setIsSale(e.target.checked)}
+                      className="accent-[#E5203A] w-4 h-4"
+                    />
+                    <span className="text-[#E5203A] font-extrabold">Show &apos;SALE&apos; Badge 🔥</span>
                   </label>
                 </div>
               </div>

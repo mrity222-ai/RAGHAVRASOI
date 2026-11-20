@@ -47,6 +47,10 @@ interface StorefrontCartContextType {
   setIsCartOpen: (open: boolean) => void;
   isTrackingOpen: boolean;
   setIsTrackingOpen: (open: boolean) => void;
+  isInvoiceOpen: boolean;
+  setIsInvoiceOpen: (open: boolean) => void;
+  completedOrder: any | null;
+  setCompletedOrder: (order: any | null) => void;
   isAccountOpen: boolean;
   setIsAccountOpen: (open: boolean) => void;
   customizeDish: any;
@@ -73,6 +77,8 @@ export const StorefrontCartProvider: React.FC<{ children: React.ReactNode }> = (
   const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isTrackingOpen, setIsTrackingOpen] = useState(false);
+  const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
+  const [completedOrder, setCompletedOrder] = useState<any | null>(null);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [customizeDish, setCustomizeDish] = useState<any>(null);
   const [activeTrackingToken, setActiveTrackingToken] = useState('ORD-105');
@@ -83,8 +89,8 @@ export const StorefrontCartProvider: React.FC<{ children: React.ReactNode }> = (
   const [paymentMethod, setPaymentMethod] = useState<'CASH_IN_COUNTER' | 'CASH_ON_DELIVERY' | 'ONLINE'>('CASH_IN_COUNTER');
 
   const [settings, setSettings] = useState<StoreSettingsType>({
-    name: 'Spice & Grill Express',
-    address: 'MG Road, Hazratganj, Lucknow, UP 226001',
+    name: 'Raghav Rasoi',
+    address: '7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009',
     isOpen: true,
     prepTimeMins: 15,
     gstPercent: 5.0,
@@ -248,6 +254,10 @@ export const StorefrontCartProvider: React.FC<{ children: React.ReactNode }> = (
         setIsCartOpen,
         isTrackingOpen,
         setIsTrackingOpen,
+        isInvoiceOpen,
+        setIsInvoiceOpen,
+        completedOrder,
+        setCompletedOrder,
         isAccountOpen,
         setIsAccountOpen,
         customizeDish,

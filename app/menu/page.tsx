@@ -11,6 +11,7 @@ import MenuFilterToolbar from '@/components/storefront/MenuFilterToolbar';
 import ProductCatalogGrid from '@/components/storefront/ProductCatalogGrid';
 import ItemCustomizeModal from '@/components/storefront/ItemCustomizeModal';
 import StoreCartDrawer from '@/components/storefront/StoreCartDrawer';
+import CustomerInvoiceModal from '@/components/storefront/CustomerInvoiceModal';
 import LiveTokenTrackerModal from '@/components/storefront/LiveTokenTrackerModal';
 import MemberAccountModal from '@/components/storefront/MemberAccountModal';
 import { ChevronRight } from 'lucide-react';
@@ -105,6 +106,7 @@ function MenuStorefrontContent() {
       {/* Modals & Overlays */}
       <ItemCustomizeModal />
       <StoreCartDrawer />
+      <CustomerInvoiceModal />
       <LiveTokenTrackerModal />
       <MemberAccountModal />
       <ScrollToTop />

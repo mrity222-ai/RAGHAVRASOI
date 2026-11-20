@@ -78,8 +78,8 @@ export default function KanbanBoard({ orders, onUpdateStatus, onOpenReceipt }: K
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <span className="font-mono font-black text-sm text-slate-900">#{o.id}</span>
                       {o.orderType === 'IN_TABLE' || o.tableNo ? (
-                        <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-extrabold text-[10px]">
-                          🍽️ {o.tableNo || 'In Table'}
+                        <span className="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[11px] shadow-2xs border border-amber-500">
+                          🍽️ {o.tableNo ? `TABLE: ${o.tableNo}` : 'IN TABLE'}
                         </span>
                       ) : (
                         <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 font-extrabold text-[10px]">
@@ -176,8 +176,8 @@ export default function KanbanBoard({ orders, onUpdateStatus, onOpenReceipt }: K
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <span className="font-mono font-black text-sm text-slate-900">#{o.id}</span>
                       {o.orderType === 'IN_TABLE' || o.tableNo ? (
-                        <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-extrabold text-[10px]">
-                          🍽️ {o.tableNo || 'In Table'}
+                        <span className="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[11px] shadow-2xs border border-amber-500">
+                          🍽️ {o.tableNo ? `TABLE: ${o.tableNo}` : 'IN TABLE'}
                         </span>
                       ) : (
                         <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 font-extrabold text-[10px]">
@@ -269,8 +269,8 @@ export default function KanbanBoard({ orders, onUpdateStatus, onOpenReceipt }: K
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <span className="font-mono font-black text-sm text-slate-900">#{o.id}</span>
                       {o.orderType === 'IN_TABLE' || o.tableNo ? (
-                        <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-extrabold text-[10px]">
-                          🍽️ {o.tableNo || 'In Table'}
+                        <span className="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[11px] shadow-2xs border border-amber-500">
+                          🍽️ {o.tableNo ? `TABLE: ${o.tableNo}` : 'IN TABLE'}
                         </span>
                       ) : (
                         <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 font-extrabold text-[10px]">

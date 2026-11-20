@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 import ScrollToTop from '@/components/ScrollToTop';
 import ItemCustomizeModal from '@/components/storefront/ItemCustomizeModal';
 import StoreCartDrawer from '@/components/storefront/StoreCartDrawer';
+import CustomerInvoiceModal from '@/components/storefront/CustomerInvoiceModal';
 import LiveTokenTrackerModal from '@/components/storefront/LiveTokenTrackerModal';
 import { useStorefrontCart } from '@/context/StorefrontCartContext';
 import {
@@ -757,6 +758,7 @@ export default function ProductDetailPage() {
       {/* Global Modals */}
       <ItemCustomizeModal />
       <StoreCartDrawer />
+      <CustomerInvoiceModal />
       <LiveTokenTrackerModal />
       <ScrollToTop />
       <Footer />

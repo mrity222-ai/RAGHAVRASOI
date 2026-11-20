@@ -14,21 +14,27 @@ interface CategoryItem {
 
 export default function CategoryGrid() {
   const [categories, setCategories] = useState<CategoryItem[]>([
-    { id: 'cat-burgers', name: 'FAST FOOD', slug: 'burgers', imageUrl: '/assets/categories/fast-food.png' },
-    { id: 'cat-chinese', name: 'CHINESE', slug: 'chinese', imageUrl: '/assets/categories/combo.png' },
-    { id: 'cat-south', name: 'SOUTH INDIAN', slug: 'south-indian', imageUrl: '/assets/categories/sandwich.png' },
-    { id: 'cat-combos', name: 'COMBOS', slug: 'combos', imageUrl: '/assets/categories/burrito.png' },
-    { id: 'cat-beverages', name: 'BEVERAGES', slug: 'beverages', imageUrl: '/assets/categories/snacks.png' },
-    { id: 'cat-chicken', name: 'CHICKEN', slug: 'chicken', imageUrl: '/assets/categories/chicken.png' },
+    { id: 'cat-thali', name: 'SPECIAL THALI', slug: 'special-thali', imageUrl: '/assets/categories/combo.png' },
+    { id: 'cat-starters', name: 'STARTERS & CHAAT', slug: 'starters', imageUrl: '/assets/categories/fast-food.png' },
+    { id: 'cat-main', name: 'MAIN COURSE', slug: 'main-course', imageUrl: '/assets/categories/sandwich.png' },
+    { id: 'cat-tandoor', name: 'TANDOOR & BREADS', slug: 'tandoor', imageUrl: '/assets/categories/burrito.png' },
+    { id: 'cat-biryani', name: 'RICE & BIRYANI', slug: 'biryani', imageUrl: '/assets/categories/snacks.png' },
+    { id: 'cat-sweets', name: 'SWEETS & BEVERAGES', slug: 'beverages', imageUrl: '/assets/categories/chicken.png' },
   ]);
 
   // Fetch from database API
   useEffect(() => {
-    fetch('/api/categories')
+    fetch('/api/menu/categories?active=true')
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data && data.data.length > 0) {
-          setCategories(data.data);
+          const mapped = data.data.map((c: any) => ({
+            id: c.id,
+            name: c.name.toUpperCase(),
+            slug: c.slug || c.id,
+            imageUrl: c.image || c.imageUrl,
+          }));
+          setCategories(mapped);
         }
       })
       .catch((err) => console.log('Using local fallback for categories', err));

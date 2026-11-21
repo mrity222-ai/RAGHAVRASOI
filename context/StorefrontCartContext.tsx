@@ -119,8 +119,21 @@ export const StorefrontCartProvider: React.FC<{ children: React.ReactNode }> = (
       if (savedToken) setActiveTrackingToken(savedToken);
       const savedMember = localStorage.getItem('spice_grill_member');
       if (savedMember) setLoggedInMember(JSON.parse(savedMember));
+      const savedTable = localStorage.getItem('raghav_active_table');
+      if (savedTable) {
+        setTableNo(savedTable);
+        setOrderType('IN_TABLE');
+      }
     } catch (e) {}
   }, []);
+
+  useEffect(() => {
+    try {
+      if (tableNo) {
+        localStorage.setItem('raghav_active_table', tableNo);
+      }
+    } catch (e) {}
+  }, [tableNo]);
 
   useEffect(() => {
     try {

@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { StorefrontCartProvider, useStorefrontCart } from '@/context/StorefrontCartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -17,12 +18,28 @@ import MemberAccountModal from '@/components/storefront/MemberAccountModal';
 import { ChevronRight } from 'lucide-react';
 
 function MenuStorefrontContent() {
+  const searchParams = useSearchParams();
+  const tableQuery = searchParams.get('table');
+
   const [products, setProducts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [selectedDiet, setSelectedDiet] = useState('ALL');
   const [sortMode, setSortMode] = useState('DEFAULT');
-  const { cart, totals, setIsCartOpen, settings } = useStorefrontCart();
+  const { cart, totals, setIsCartOpen, settings, setTableNo, setOrderType, tableNo } = useStorefrontCart();
+
+  useEffect(() => {
+    if (tableQuery) {
+      const formatted = tableQuery.toLowerCase().startsWith('table')
+        ? tableQuery.charAt(0).toUpperCase() + tableQuery.slice(1)
+        : `Table ${tableQuery}`;
+      setTableNo(formatted);
+      setOrderType('IN_TABLE');
+      try {
+        localStorage.setItem('raghav_active_table', formatted);
+      } catch {}
+    }
+  }, [tableQuery, setTableNo, setOrderType]);
 
   useEffect(() => {
     fetch('/api/menu/products')
@@ -119,5 +136,9 @@ function MenuStorefrontContent() {
 }
 
 export default function StorefrontMenuPage() {
-  return <MenuStorefrontContent />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white" />}>
+      <MenuStorefrontContent />
+    </Suspense>
+  );
 }

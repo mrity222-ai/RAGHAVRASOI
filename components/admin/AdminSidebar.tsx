@@ -12,6 +12,7 @@ import {
   Users2,
   Users,
   Settings,
+  QrCode,
   X,
   ExternalLink,
 } from 'lucide-react';
@@ -41,6 +42,12 @@ export default function AdminSidebar({
       icon: TableProperties,
       show: hasPerm('kanban'),
       badge: pendingCount,
+    },
+    {
+      id: 'tables',
+      label: 'Table QR Manager',
+      icon: QrCode,
+      show: hasPerm('store_settings') || hasPerm('kanban'),
     },
     {
       id: 'dashboard',

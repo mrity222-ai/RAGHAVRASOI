@@ -14,6 +14,7 @@ import StaffRbacManager from '@/components/admin/StaffRbacManager';
 import StoreSettingsPanel from '@/components/admin/StoreSettingsPanel';
 import ThermalReceiptModal from '@/components/admin/ThermalReceiptModal';
 import CustomerDirectory from '@/components/admin/CustomerDirectory';
+import TableQrManager from '@/components/admin/TableQrManager';
 
 function AdminConsoleContent() {
   const router = useRouter();
@@ -247,6 +248,10 @@ function AdminConsoleContent() {
               onUpdateStatus={handleUpdateOrderStatus}
               onOpenReceipt={(o, type) => setReceiptModal({ open: true, order: o, type })}
             />
+          )}
+
+          {activeTab === 'tables' && (hasPerm('store_settings') || hasPerm('kanban')) && (
+            <TableQrManager orders={orders} />
           )}
 
           {activeTab === 'dashboard' && hasPerm('view_dashboard') && (

@@ -61,10 +61,18 @@ export default function Footer() {
           {/* Brand Column (Left - Spans 2 columns on lg screens) */}
           <div className="col-span-2 space-y-3.5">
             <FoodlyLogo size="md" href="/" />
-            <p className="text-slate-500 text-[13.5px] leading-relaxed max-w-xs pt-1">
-              Taste of Tradition • Pure and authentic<br />
-              culinary heritage prepared fresh daily.
+            <p className="text-slate-600 text-[13px] leading-relaxed max-w-xs pt-1 font-medium">
+              शुद्ध शाकाहारी • नास्ता एवं थाली जंक्शन<br />
+              Taste of Tradition • Authentic Indian Flavors
             </p>
+            <div className="pt-1 space-y-1 text-xs text-slate-500 font-semibold">
+              <p className="flex items-center gap-1.5 text-slate-800 font-mono">
+                <span>📞 +91 88396-75538</span>
+              </p>
+              <p className="text-[11px] text-slate-500 leading-tight">
+                7th Avenue, Gaur City 1, Greater Noida West
+              </p>
+            </div>
           </div>
 
           {/* Column 1: Company */}

@@ -151,7 +151,7 @@ export default function ContactPage() {
               
               {/* 1. CALL US (Amber Solid Circle) */}
               <a
-                href="tel:+919811751667"
+                href="tel:+918839675538"
                 className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#E5933A] hover:bg-[#D68128] text-slate-950 font-black text-[11px] sm:text-xs tracking-wider flex items-center justify-center text-center uppercase leading-tight shadow-2xl hover:scale-105 active:scale-95 transition-all"
               >
                 CALL<br />US
@@ -254,10 +254,10 @@ export default function ContactPage() {
                         Call Us Directly
                       </h4>
                       <p className="text-xs text-slate-700 font-medium mt-1 leading-snug">
-                        +91 98117 51667
+                        +91 88396-75538
                       </p>
                       <a
-                        href="tel:+919811751667"
+                        href="tel:+918839675538"
                         className="text-[11px] text-[#A24A32] font-bold hover:underline inline-flex items-center gap-1 mt-1.5"
                       >
                         <span>Call Now</span>
@@ -744,7 +744,7 @@ export default function ContactPage() {
                   </div>
                   <div className="flex items-center gap-2.5">
                     <Phone size={16} className="text-[#FDE68A] shrink-0" />
-                    <span>+91 98117 51667</span>
+                    <span>+91 88396-75538</span>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <Clock size={16} className="text-[#FDE68A] shrink-0" />
@@ -763,7 +763,7 @@ export default function ContactPage() {
                     <ExternalLink size={14} />
                   </a>
                   <a
-                    href="tel:+919811751667"
+                    href="tel:+918839675538"
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-white/80 bg-black/30 text-white font-bold text-xs uppercase tracking-wider hover:bg-white/20 transition-colors"
                   >
                     <Phone size={13} />

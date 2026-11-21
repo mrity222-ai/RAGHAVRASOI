@@ -71,13 +71,13 @@ export default function CustomerInvoiceModal() {
                   राघव रसोई • RAGHAV RASOI
                 </h2>
                 <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
-                  Authentic Indian Kitchen • Gaur City 1
+                  Pure Veg • Breakfast &amp; Thali Junction
                 </p>
                 <p className="text-[10px] text-slate-400 mt-0.5">
                   7th Avenue, Near Aarza Square - 2, Greater Noida West
                 </p>
                 <p className="text-[10px] text-slate-400">
-                  Tel: +91 98117 51667 • GSTIN: 09AABCR1234F1Z5
+                  Tel: +91 88396-75538 • GSTIN: 09AABCR1234F1Z5
                 </p>
               </div>
             </div>

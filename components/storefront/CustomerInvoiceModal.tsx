@@ -31,6 +31,12 @@ export default function CustomerInvoiceModal() {
     setIsTrackingOpen(true);
   };
 
+  const whatsappUrl =
+    order.whatsappUrl ||
+    `https://api.whatsapp.com/send?phone=91${(order.customerPhone || '').replace(/\D/g, '').slice(-10)}&text=${encodeURIComponent(
+      `नमस्ते! राघव रसोई में मेरा ऑर्डर #${order.id} सफलतापूर्वक प्राप्त हो गया है। कुल राशि: ₹${order.grandTotal}। लाइव ट्रैकिंग लिंक: http://localhost:3000/track?id=${order.id}`
+    )}`;
+
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 print:p-0 print:bg-white">
       <div className="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 max-h-[92vh] flex flex-col print:border-none print:shadow-none print:max-w-full print:rounded-none">
@@ -244,18 +250,29 @@ export default function CustomerInvoiceModal() {
 
         {/* Modal Footer (Hidden on print) */}
         <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2.5 shrink-0 print:hidden">
-          <button
-            onClick={handlePrint}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-300 font-extrabold text-xs text-slate-700 hover:bg-white transition-colors"
-          >
-            <Printer size={14} />
-            <span>Print Invoice</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-slate-300 font-extrabold text-xs text-slate-700 hover:bg-white transition-colors"
+            >
+              <Printer size={14} />
+              <span>Print</span>
+            </button>
+
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-extrabold text-xs shadow-xs transition-colors"
+            >
+              <span>📲 Send on WhatsApp</span>
+            </a>
+          </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={handleOpenTracker}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#E5203A] hover:bg-[#C8172E] text-white font-extrabold text-xs shadow-sm transition-colors"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#B45309] hover:bg-[#92400E] text-white font-extrabold text-xs shadow-sm transition-colors"
             >
               <Clock size={14} />
               <span>Track Live Status</span>

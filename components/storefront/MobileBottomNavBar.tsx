@@ -32,12 +32,10 @@ export default function MobileBottomNavBar() {
   };
 
   const handleOpenOrders = () => {
-    if (storefrontCart) {
-      if (storefrontCart.activeTrackingToken) {
-        storefrontCart.setIsTrackingOpen(true);
-      } else {
-        window.location.href = '/menu';
-      }
+    if (storefrontCart && storefrontCart.activeTrackingToken) {
+      storefrontCart.setIsTrackingOpen(true);
+    } else {
+      window.location.href = '/track';
     }
   };
 

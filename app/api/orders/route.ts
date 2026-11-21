@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { generateWhatsAppUrl, sendOrderEmailConfirmation } from '@/lib/notifications';
 
 export async function GET(request: Request) {
   try {
@@ -147,10 +148,23 @@ export async function POST(request: Request) {
       },
     });
 
+    // 1. Generate direct WhatsApp message link for customer
+    const whatsappUrl = generateWhatsAppUrl(order);
+
+    // 2. Dispatch optional email confirmation if customer provided email
+    if (order.customerEmail) {
+      sendOrderEmailConfirmation(order).catch((err) => {
+        console.error('Non-blocking email confirmation error:', err);
+      });
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Order placed successfully',
-      data: order,
+      data: {
+        ...order,
+        whatsappUrl,
+      },
     });
   } catch (error) {
     console.error('Error placing order:', error);

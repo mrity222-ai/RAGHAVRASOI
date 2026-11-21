@@ -1,25 +1,51 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Check, UtensilsCrossed, Bike, Clock, MapPin, Receipt, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
+import {
+  X,
+  Check,
+  UtensilsCrossed,
+  Package,
+  Clock,
+  MapPin,
+  Search,
+  ExternalLink,
+  RefreshCw,
+  AlertCircle,
+} from 'lucide-react';
 import { useStorefrontCart } from '@/context/StorefrontCartContext';
 
 export default function LiveTokenTrackerModal() {
-  const { isTrackingOpen, setIsTrackingOpen, activeTrackingToken, setActiveTrackingToken, settings } =
+  const { isTrackingOpen, setIsTrackingOpen, activeTrackingToken, setActiveTrackingToken } =
     useStorefrontCart();
-  const [orders, setOrders] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
 
-  const fetchOrders = async () => {
+  const [searchInput, setSearchInput] = useState('');
+  const [currentOrder, setCurrentOrder] = useState<any | null>(null);
+  const [queuePosition, setQueuePosition] = useState(0);
+  const [estimatedMins, setEstimatedMins] = useState(12);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const fetchTrackData = async (query: string) => {
+    if (!query.trim()) return;
+    setLoading(true);
+    setErrorMsg(null);
+
     try {
-      setLoading(true);
-      const res = await fetch('/api/orders');
+      const res = await fetch(`/api/orders/track?q=${encodeURIComponent(query.trim())}`);
       const data = await res.json();
       if (data.success && data.data) {
-        setOrders(data.data);
+        setCurrentOrder(data.data.order);
+        setQueuePosition(data.data.queuePosition || 0);
+        setEstimatedMins(data.data.estimatedMins || 12);
+        setActiveTrackingToken(data.data.order.id);
+      } else {
+        setErrorMsg(data.error || 'Order not found');
       }
     } catch (e) {
       console.error(e);
+      setErrorMsg('Failed to fetch order status');
     } finally {
       setLoading(false);
     }
@@ -27,27 +53,53 @@ export default function LiveTokenTrackerModal() {
 
   useEffect(() => {
     if (isTrackingOpen) {
-      fetchOrders();
-      const interval = setInterval(fetchOrders, 3500); // Live poll every 3.5s
-      return () => clearInterval(interval);
+      const initialQuery = activeTrackingToken || '';
+      if (initialQuery) {
+        setSearchInput(initialQuery);
+        fetchTrackData(initialQuery);
+      } else {
+        // Fallback to latest order
+        fetch('/api/orders')
+          .then((r) => r.json())
+          .then((d) => {
+            if (d.success && d.data && d.data.length > 0) {
+              const latest = d.data[0];
+              setSearchInput(latest.id);
+              fetchTrackData(latest.id);
+            }
+          })
+          .catch(() => {});
+      }
     }
-  }, [isTrackingOpen]);
+  }, [isTrackingOpen, activeTrackingToken]);
+
+  // Live poll every 5s if active
+  useEffect(() => {
+    if (!isTrackingOpen || !currentOrder?.id) return;
+    if (currentOrder.status === 'COMPLETED' || currentOrder.status === 'REJECTED') return;
+
+    const interval = setInterval(() => {
+      fetchTrackData(currentOrder.id);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isTrackingOpen, currentOrder?.id, currentOrder?.status]);
 
   if (!isTrackingOpen) return null;
 
-  const currentOrder = orders.find((o) => o.id === activeTrackingToken) || orders[0] || {
-    id: activeTrackingToken,
+  const order = currentOrder || {
+    id: activeTrackingToken || 'ORD-NEW',
     status: 'PREPARING',
     customerName: 'Guest Customer',
     orderType: 'IN_TABLE',
     tableNo: 'Table 4',
     paymentMethod: 'CASH_IN_COUNTER',
     pickupTime: 'Serve at Table',
-    grandTotal: 349,
+    grandTotal: 250,
     items: [],
   };
 
-  const isInTable = currentOrder.orderType === 'IN_TABLE' || !!currentOrder.tableNo;
+  const isInTable = order.orderType === 'IN_TABLE' || !!order.tableNo;
 
   const rankMap: Record<string, number> = {
     PENDING: 1,
@@ -55,7 +107,7 @@ export default function LiveTokenTrackerModal() {
     READY: 3,
     COMPLETED: 4,
   };
-  const curRank = rankMap[currentOrder.status] || 1;
+  const curRank = rankMap[order.status] || 1;
 
   const steps = [
     {
@@ -66,29 +118,40 @@ export default function LiveTokenTrackerModal() {
     {
       r: 2,
       title: 'Kitchen Preparing Your Meal',
-      sub: 'Our chef is preparing your dishes fresh & hot',
+      sub: 'Chef is preparing your dishes fresh & hot',
     },
     {
       r: 3,
-      title: isInTable ? 'Food Ready & Being Served' : 'Out for Doorstep Delivery',
+      title: isInTable ? 'Food Ready & Being Served' : 'Parcel Ready at Billing Counter',
       sub: isInTable
-        ? `Server is bringing food to ${currentOrder.tableNo || 'your table'}`
-        : `Rider is on the way to your delivery address`,
+        ? `Server is bringing food to ${order.tableNo || 'your table'}`
+        : 'Order packed in sealed container, ready at counter',
     },
     {
       r: 4,
-      title: isInTable ? 'Served at Table' : 'Order Delivered',
+      title: isInTable ? 'Served at Table' : 'Order Picked Up / Completed',
       sub: 'Order completed. Enjoy your delicious food!',
     },
   ];
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchTrackData(searchInput);
+  };
+
+  const whatsappUrl = order?.customerPhone
+    ? `https://api.whatsapp.com/send?phone=91${(order.customerPhone || '').replace(/\D/g, '').slice(-10)}&text=${encodeURIComponent(
+        `नमस्ते! राघव रसोई में मेरा ऑर्डर #${order.id} है। लाइव स्टेटस: http://localhost:3000/track?id=${order.id}`
+      )}`
+    : '';
+
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-xs flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 max-h-[92vh] flex flex-col">
         
-        {/* Modal Header */}
+        {/* Modal Top Bar */}
         <div className="px-5 py-3.5 bg-slate-900 text-white flex items-center justify-between shrink-0">
-          <span className="text-xs font-extrabold uppercase tracking-wider flex items-center gap-2">
+          <span className="text-xs font-black uppercase tracking-wider flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
             Live Kitchen Order Tracker
           </span>
@@ -101,80 +164,93 @@ export default function LiveTokenTrackerModal() {
         </div>
 
         {/* Modal Body */}
-        <div className="p-5 overflow-y-auto space-y-4">
+        <div className="p-4 sm:p-5 overflow-y-auto space-y-4">
           
-          {/* Order ID Selector Tabs (if multiple orders exist) */}
-          {orders.length > 0 && (
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
-              {orders.slice(0, 5).map((o) => (
-                <button
-                  key={o.id}
-                  onClick={() => setActiveTrackingToken(o.id)}
-                  className={`px-3 py-1 rounded-xl font-mono text-xs font-extrabold transition-all shrink-0 ${
-                    o.id === currentOrder.id
-                      ? 'bg-[#E5203A] text-white shadow-xs'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                >
-                  #{o.id} {o.tableNo ? `(${o.tableNo})` : ''}
-                </button>
-              ))}
+          {/* Quick Search Input */}
+          <form onSubmit={handleSearchSubmit} className="flex gap-1.5">
+            <div className="relative flex-1">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="Order ID (e.g. ORD-1234) or Mobile"
+                className="w-full pl-8 pr-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs font-mono font-bold focus:outline-none focus:border-[#B45309] focus:bg-white transition-all"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading || !searchInput.trim()}
+              className="px-3.5 py-2 rounded-xl bg-[#B45309] hover:bg-[#92400E] text-white font-black text-xs transition-colors shrink-0 disabled:opacity-50"
+            >
+              {loading ? '...' : 'Track'}
+            </button>
+          </form>
+
+          {errorMsg && (
+            <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold flex items-center gap-1.5">
+              <AlertCircle size={14} className="shrink-0" />
+              <span>{errorMsg}</span>
             </div>
           )}
 
-          {/* Hero Order Display Card */}
-          <div className="bg-slate-900 text-white rounded-3xl p-5 text-center space-y-2 shadow-md">
+          {/* Hero Order Card */}
+          <div className="bg-slate-900 text-white rounded-3xl p-5 text-center space-y-3 shadow-md">
             <div className="flex items-center justify-center gap-2">
               {isInTable ? (
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-extrabold text-[11px] uppercase tracking-wider border border-amber-500/30">
-                  <UtensilsCrossed size={12} /> {currentOrder.tableNo || 'Table Service'}
+                  <UtensilsCrossed size={12} /> {order.tableNo || 'Table Service'}
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 font-extrabold text-[11px] uppercase tracking-wider border border-blue-500/30">
-                  <Bike size={12} /> Doorstep Delivery
+                  <Package size={12} /> Parcel Takeaway
                 </span>
               )}
 
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/10 text-slate-200 font-bold text-[11px]">
-                {currentOrder.paymentMethod === 'CASH_ON_DELIVERY'
-                  ? 'Cash on Delivery'
-                  : currentOrder.paymentMethod === 'CASH_IN_COUNTER'
-                  ? 'Cash in Counter'
-                  : 'Online Paid'}
+                {order.paymentMethod === 'ONLINE' ? 'Online Paid' : 'Pay at Counter'}
               </span>
             </div>
 
             <div>
-              <p className="text-[10px] font-extrabold uppercase tracking-widest text-teal-300">
+              <p className="text-[10px] font-extrabold uppercase tracking-widest text-amber-300">
                 Unique Order Number
               </p>
-              <h2 className="font-mono font-black text-4xl text-amber-400 mt-0.5">
-                #{currentOrder.id}
+              <h2 className="font-mono font-black text-3xl text-amber-400 mt-0.5">
+                #{order.id}
               </h2>
             </div>
 
-            <p className="text-xs text-slate-300">
-              Customer: <strong className="text-white">{currentOrder.customerName}</strong>
-            </p>
+            {/* Kitchen Queue Status */}
+            <div className="bg-white/10 p-2.5 rounded-2xl flex items-center justify-between text-xs px-3">
+              <span className="text-slate-300 text-[11px]">Kitchen Queue:</span>
+              <span className="font-bold text-amber-300">
+                {order.status === 'COMPLETED'
+                  ? 'Completed'
+                  : order.status === 'READY'
+                  ? 'Food Ready!'
+                  : queuePosition === 0
+                  ? '🍳 Cooking Now'
+                  : `🍳 ${queuePosition} orders ahead`}
+              </span>
+            </div>
 
-            {currentOrder.deliveryAddress && (
-              <p className="text-[11px] text-slate-300 bg-white/5 p-2 rounded-xl flex items-center justify-center gap-1.5">
-                <MapPin size={12} className="text-[#E5203A] shrink-0" />
-                <span className="truncate">{currentOrder.deliveryAddress}</span>
-              </p>
-            )}
+            <p className="text-xs text-slate-300">
+              Customer: <strong className="text-white">{order.customerName}</strong>
+              {order.customerPhone ? ` • +91 ${order.customerPhone}` : ''}
+            </p>
           </div>
 
-          {/* 4-Step Live Progress Timeline */}
-          {currentOrder.status === 'REJECTED' ? (
-            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-center text-xs font-bold text-[#E5203A]">
+          {/* 4-Step Timeline */}
+          {order.status === 'REJECTED' ? (
+            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-center text-xs font-bold text-rose-700">
               Order Cancelled or Rejected by Store
             </div>
           ) : (
-            <div className="space-y-4 px-2 pt-2">
+            <div className="space-y-3 px-1 pt-1">
               {steps.map((st, idx) => {
-                const done = curRank > st.r || (currentOrder.status === 'COMPLETED' && st.r === 4);
-                const active = curRank === st.r && currentOrder.status !== 'COMPLETED';
+                const done = curRank > st.r || (order.status === 'COMPLETED' && st.r === 4);
+                const active = curRank === st.r && order.status !== 'COMPLETED';
 
                 return (
                   <div key={st.r} className="flex items-start gap-3 relative">
@@ -187,30 +263,30 @@ export default function LiveTokenTrackerModal() {
                     )}
 
                     <div
-                      className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold shrink-0 relative transition-all ${
+                      className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 relative transition-all ${
                         done
-                          ? 'bg-emerald-500 text-white'
+                          ? 'bg-emerald-600 text-white'
                           : active
-                          ? 'bg-[#E5203A] text-white ring-4 ring-[#E5203A]/20'
+                          ? 'bg-[#B45309] text-white ring-4 ring-[#B45309]/20'
                           : 'bg-slate-100 text-slate-400 border border-slate-200'
                       }`}
                     >
                       {done ? <Check size={14} /> : st.r}
                     </div>
 
-                    <div className="min-w-0">
+                    <div className="flex-1 pb-2">
                       <p
-                        className={`text-xs font-extrabold ${
-                          active
-                            ? 'text-[#E5203A]'
-                            : done
-                            ? 'text-emerald-700'
+                        className={`text-xs font-black ${
+                          done
+                            ? 'text-emerald-800'
+                            : active
+                            ? 'text-slate-900 font-extrabold'
                             : 'text-slate-400'
                         }`}
                       >
-                        {st.title} {active && '• In Progress'}
+                        {st.title}
                       </p>
-                      <p className="text-[11px] text-slate-500 mt-0.5">{st.sub}</p>
+                      <p className="text-[10px] text-slate-500 mt-0.5">{st.sub}</p>
                     </div>
                   </div>
                 );
@@ -218,27 +294,29 @@ export default function LiveTokenTrackerModal() {
             </div>
           )}
 
-          {/* Real-time sync note */}
-          <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-center gap-2 text-[11px] text-slate-600">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-            <span>
-              Real-time Kitchen Sync: As soon as the kitchen staff changes order status in Admin, this screen updates instantly!
-            </span>
+          {/* Quick Action Footer */}
+          <div className="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            {whatsappUrl && (
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-extrabold text-xs shadow-xs"
+              >
+                <span>📲 Open in WhatsApp</span>
+              </a>
+            )}
+
+            <Link
+              href={`/track?id=${order.id}`}
+              onClick={() => setIsTrackingOpen(false)}
+              className="inline-flex items-center gap-1 text-xs font-bold text-[#B45309] hover:underline"
+            >
+              <span>Full Screen View</span>
+              <ExternalLink size={12} />
+            </Link>
           </div>
 
-        </div>
-
-        {/* Modal Footer */}
-        <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between shrink-0">
-          <span className="text-xs font-mono font-bold text-slate-700">
-            Total: ₹{currentOrder.grandTotal}
-          </span>
-          <button
-            onClick={() => setIsTrackingOpen(false)}
-            className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs transition-colors"
-          >
-            Close Tracker
-          </button>
         </div>
 
       </div>

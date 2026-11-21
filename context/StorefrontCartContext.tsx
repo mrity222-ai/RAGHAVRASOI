@@ -60,8 +60,8 @@ interface StorefrontCartContextType {
   loggedInMember: { name: string; phone: string } | null;
   setLoggedInMember: (member: { name: string; phone: string } | null) => void;
   // Fulfillment & Payment
-  orderType: 'IN_TABLE' | 'DELIVER';
-  setOrderType: (t: 'IN_TABLE' | 'DELIVER') => void;
+  orderType: 'IN_TABLE' | 'DELIVER' | 'TAKEAWAY';
+  setOrderType: (t: 'IN_TABLE' | 'DELIVER' | 'TAKEAWAY') => void;
   tableNo: string;
   setTableNo: (n: string) => void;
   deliveryAddress: string;
@@ -83,7 +83,7 @@ export const StorefrontCartProvider: React.FC<{ children: React.ReactNode }> = (
   const [customizeDish, setCustomizeDish] = useState<any>(null);
   const [activeTrackingToken, setActiveTrackingToken] = useState('ORD-105');
   const [loggedInMember, setLoggedInMember] = useState<{ name: string; phone: string } | null>(null);
-  const [orderType, setOrderType] = useState<'IN_TABLE' | 'DELIVER'>('IN_TABLE');
+  const [orderType, setOrderType] = useState<'IN_TABLE' | 'DELIVER' | 'TAKEAWAY'>('IN_TABLE');
   const [tableNo, setTableNo] = useState<string>('Table 4');
   const [deliveryAddress, setDeliveryAddress] = useState<string>('');
   const [paymentMethod, setPaymentMethod] = useState<'CASH_IN_COUNTER' | 'CASH_ON_DELIVERY' | 'ONLINE'>('CASH_IN_COUNTER');

@@ -86,6 +86,12 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
           >
             Contact
           </Link>
+          <Link
+            href="/track"
+            className="text-[#B45309] font-bold hover:text-[#92400E] transition-colors"
+          >
+            Track Order
+          </Link>
         </nav>
 
         {/* Right: Controls matching Screenshot (Search, User, Cart, Order Now) */}
@@ -258,6 +264,14 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
             className="py-2 border-b border-slate-100 text-slate-800 hover:text-black"
           >
             Contact
+          </Link>
+          <Link
+            href="/track"
+            onClick={() => setMobileMenuOpen(false)}
+            className="py-2 border-b border-slate-100 text-[#B45309] font-black hover:text-[#92400E] flex items-center justify-between"
+          >
+            <span>Track Order Status</span>
+            <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-bold">Live</span>
           </Link>
           {isLoggedIn && user ? (
             <div className="py-2 border-b border-slate-100 flex items-center justify-between">

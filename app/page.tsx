@@ -3,9 +3,10 @@
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
-import BetterFoodSection from '@/components/BetterFoodSection';
 import CategoryGrid from '@/components/CategoryGrid';
-import BestSeller from '@/components/BestSeller';
+import PopularFoodsSection from '@/components/PopularFoodsSection';
+import DrinksSection from '@/components/DrinksSection';
+import BetterFoodSection from '@/components/BetterFoodSection';
 import CountdownDeal from '@/components/CountdownDeal';
 import PromoStory from '@/components/PromoStory';
 import Footer from '@/components/Footer';
@@ -25,25 +26,28 @@ export default function HomePage() {
       {/* Universal Raghav Rasoi Header Navigation */}
       <Header />
 
-      {/* Section 1: Top Hero Banner (Authentic Indian Kitchen · Gaur City 1) */}
+      {/* Section 1: Hero Section */}
       <HeroSection />
 
-      {/* Section 2: Heritage & Pure Quality Highlight (Pure Desi Ghee, Clay Tandoor, Hand-Ground Spices) */}
-      <BetterFoodSection />
-
-      {/* Section 3: Our Categories (हमारी कैटेगरी - Live Dynamic Grid) */}
+      {/* Section 2: Our Food Categories (Horizontal Category Carousel with Arrows) */}
       <CategoryGrid />
 
-      {/* Section 4: Our Products / Best Sellers (हमारे जो प्रोडक्ट हैं - with Admin Controlled SALE Badge & INR ₹) */}
-      <BestSeller onQuickView={(prod) => setQuickViewProduct(prod)} />
+      {/* Section 3: Popular Foods (4-Column Grid with Image, Heart, Price & Add to cart) */}
+      <PopularFoodsSection />
 
-      {/* Section 5: Promotional Shahi Thali Feast Banner (बैनर वाला रहेगा - Live Countdown Deal) */}
+      {/* Section 4: Drinks (4-Column Grid with Image, Heart, Price & Add to cart) */}
+      <DrinksSection />
+
+      {/* Section 5: Heritage & Pure Quality Highlight (Pure Desi Ghee, Clay Tandoor, Hand-Ground Spices) */}
+      <BetterFoodSection />
+
+      {/* Section 6: Promotional Shahi Thali Feast Banner (Live Countdown Deal) */}
       <CountdownDeal />
 
-      {/* Section 6: Order Now & Traditional Taste Showcase (नॉर्मल ऑर्डर नाउ) */}
+      {/* Section 7: Order Now & Traditional Taste Showcase */}
       <PromoStory />
 
-      {/* Footer */}
+      {/* Section 8: Footer */}
       <Footer />
 
       {/* Interactive Overlays & Order Flow */}

@@ -296,7 +296,7 @@ export default function StoreCartDrawer() {
                           <p className="font-black text-xs text-slate-900 leading-snug">{item.name}</p>
                           <p className="text-[11px] text-slate-500">
                             <span className="font-bold text-slate-700">{item.size || 'Regular'}</span>
-                            {item.addons?.length ? ' • ' + item.addons.join(', ') : ''}
+                            {Array.isArray(item.addons) && item.addons.length > 0 ? ' • ' + item.addons.join(', ') : ''}
                           </p>
                           <p className="font-mono font-extrabold text-xs text-slate-900 mt-1">
                             Rs. {item.unitPrice * item.qty}

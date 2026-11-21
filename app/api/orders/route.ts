@@ -158,13 +158,29 @@ export async function POST(request: Request) {
       });
     }
 
+    const safeOrder = {
+      ...order,
+      items: order.items.map((i) => {
+        let parsedAddons: string[] = [];
+        if (i.addons) {
+          try {
+            parsedAddons = typeof i.addons === 'string' ? JSON.parse(i.addons) : i.addons;
+          } catch {
+            parsedAddons = [];
+          }
+        }
+        return {
+          ...i,
+          addons: Array.isArray(parsedAddons) ? parsedAddons : [],
+        };
+      }),
+      whatsappUrl,
+    };
+
     return NextResponse.json({
       success: true,
       message: 'Order placed successfully',
-      data: {
-        ...order,
-        whatsappUrl,
-      },
+      data: safeOrder,
     });
   } catch (error) {
     console.error('Error placing order:', error);

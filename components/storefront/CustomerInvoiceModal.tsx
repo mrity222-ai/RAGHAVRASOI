@@ -5,6 +5,20 @@ import Image from 'next/image';
 import { X, Printer, Clock, UtensilsCrossed, Bike, CheckCircle2, MapPin, Receipt, Share2 } from 'lucide-react';
 import { useStorefrontCart } from '@/context/StorefrontCartContext';
 
+function parseAddons(addons: any): string[] {
+  if (!addons) return [];
+  if (Array.isArray(addons)) return addons;
+  if (typeof addons === 'string') {
+    try {
+      const parsed = JSON.parse(addons);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
 export default function CustomerInvoiceModal() {
   const {
     isInvoiceOpen,
@@ -173,11 +187,14 @@ export default function CustomerInvoiceModal() {
                     <tr key={idx} className="hover:bg-slate-50/50">
                       <td className="py-2.5 px-3">
                         <p className="font-extrabold text-slate-900">{it.name || it.title}</p>
-                        {it.size && (
-                          <p className="text-[10px] text-slate-500">
-                            Portion: {it.size} {it.addons?.length ? `• ${it.addons.join(', ')}` : ''}
-                          </p>
-                        )}
+                        {it.size && (() => {
+                          const addonList = parseAddons(it.addons);
+                          return (
+                            <p className="text-[10px] text-slate-500">
+                              Portion: {it.size} {addonList.length ? `• ${addonList.join(', ')}` : ''}
+                            </p>
+                          );
+                        })()}
                       </td>
                       <td className="py-2.5 px-2 text-center font-mono font-bold text-slate-700">
                         {qty}

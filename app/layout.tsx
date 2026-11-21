@@ -3,6 +3,7 @@ import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import { StorefrontCartProvider } from '@/context/StorefrontCartContext';
 import { CustomerAuthProvider } from '@/context/CustomerAuthContext';
+import MobileBottomNavBar from '@/components/storefront/MobileBottomNavBar';
 
 export const metadata: Metadata = {
   title: 'राघव रसोई (Raghav Rasoi) - Taste of Tradition',
@@ -25,6 +26,7 @@ export default function RootLayout({
           <CartProvider>
             <StorefrontCartProvider>
               {children}
+              <MobileBottomNavBar />
             </StorefrontCartProvider>
           </CartProvider>
         </CustomerAuthProvider>

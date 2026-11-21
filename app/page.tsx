@@ -22,7 +22,7 @@ export default function HomePage() {
   const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
 
   return (
-    <main className="min-h-screen flex flex-col bg-white">
+    <main className="min-h-screen flex flex-col bg-white pb-20 lg:pb-0">
       {/* Universal Raghav Rasoi Header Navigation */}
       <Header />
 

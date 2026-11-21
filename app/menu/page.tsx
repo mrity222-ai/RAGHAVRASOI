@@ -59,7 +59,7 @@ function MenuStorefrontContent() {
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-800">
+    <div className="min-h-screen flex flex-col bg-white text-slate-800 pb-20 lg:pb-0">
       
       {/* 1. Universal Ranel Header (100% same-to-same with homepage) */}
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -86,9 +86,9 @@ function MenuStorefrontContent() {
         <ProductCatalogGrid products={filteredProducts} />
       </main>
 
-      {/* Floating Bottom Cart Bar for Mobile */}
+      {/* Floating Bottom Cart Bar for Mobile (positioned above floating nav bar) */}
       {totalQty > 0 && (
-        <div className="sm:hidden fixed bottom-4 left-4 right-4 z-30">
+        <div className="sm:hidden fixed bottom-20 left-4 right-4 z-30">
           <button
             onClick={() => setIsCartOpen(true)}
             className="w-full bg-[#E5203A] text-white rounded-2xl px-4 py-3.5 shadow-xl flex items-center justify-between font-extrabold text-xs active:scale-98"

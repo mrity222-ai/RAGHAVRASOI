@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Search, User, ShoppingBag, Menu, X, Receipt, LogOut } from 'lucide-react';
+import { User, ShoppingBag, Menu, X, Receipt, LogOut } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useOptionalStorefrontCart } from '@/context/StorefrontCartContext';
 import { useCustomerAuth } from '@/context/CustomerAuthContext';
@@ -19,18 +19,7 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
   const { user, isLoggedIn, logout } = useCustomerAuth();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const [internalSearchQuery, setInternalSearchQuery] = useState('');
-
-  const currentSearch = searchQuery !== undefined ? searchQuery : internalSearchQuery;
-  const handleSearchChange = (val: string) => {
-    if (setSearchQuery) {
-      setSearchQuery(val);
-    } else {
-      setInternalSearchQuery(val);
-    }
-  };
 
   // Live item count: comes from StorefrontCart if on /menu or product page, else defaultCart
   const totalCount = storefrontCart
@@ -96,30 +85,6 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
 
         {/* Right: Controls matching Screenshot (Search, User, Cart, Order Now) */}
         <div className="flex items-center space-x-2 sm:space-x-3 text-slate-800">
-          
-          {/* Live Order Token Tracker Chip (if active order token exists) */}
-          {storefrontCart && storefrontCart.activeTrackingToken && (
-            <button
-              onClick={() => storefrontCart.setIsTrackingOpen(true)}
-              className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-teal-50 hover:bg-teal-100 border border-teal-200 text-[#0F766E] font-bold text-xs transition-all shadow-xs mr-1"
-              title="Track live kitchen order"
-            >
-              <span className="w-2 h-2 rounded-full bg-[#0F766E] animate-ping" />
-              <Receipt size={13} />
-              <span>Track #{storefrontCart.activeTrackingToken}</span>
-            </button>
-          )}
-
-          {/* Search Button (Soft Circular Gray) */}
-          <button
-            onClick={() => setSearchOpen(!searchOpen)}
-            className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200/80 flex items-center justify-center text-slate-700 hover:text-black transition-colors"
-            aria-label="Search"
-            title="Search dishes"
-          >
-            <Search size={18} strokeWidth={2.2} />
-          </button>
-
           {/* Customer Profile / Sign In */}
           {isLoggedIn && user ? (
             <div className="relative">
@@ -199,29 +164,6 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
         </div>
 
       </div>
-
-      {/* Expandable Search Input Bar */}
-      {searchOpen && (
-        <div className="bg-[#FAF9F5] px-4 py-3 border-t border-slate-200/80 flex justify-center items-center animate-in fade-in slide-in-from-top-2 duration-150">
-          <div className="max-w-lg w-full relative">
-            <input
-              type="text"
-              placeholder="Search delicious burgers, pizzas, combos, sides..."
-              value={currentSearch}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              autoFocus
-              className="w-full pl-4 pr-10 py-2.5 border border-slate-300 rounded-full text-xs sm:text-sm focus:outline-none focus:border-[#EA580C] bg-white shadow-xs"
-            />
-            <button
-              onClick={() => setSearchOpen(false)}
-              className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 p-0.5"
-              aria-label="Close search"
-            >
-              <X size={16} />
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (

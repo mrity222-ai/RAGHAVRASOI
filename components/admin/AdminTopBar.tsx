@@ -5,14 +5,12 @@ import { Bell, BellOff, Plus, Shield, LogOut, Power } from 'lucide-react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 
 interface AdminTopBarProps {
-  onSimulateOrder: () => void;
   isOpen: boolean;
   onToggleStoreOpen: () => void;
   onToggleMobileSidebar: () => void;
 }
 
 export default function AdminTopBar({
-  onSimulateOrder,
   isOpen,
   onToggleStoreOpen,
   onToggleMobileSidebar,
@@ -78,15 +76,6 @@ export default function AdminTopBar({
               <span>Muted</span>
             </>
           )}
-        </button>
-
-        {/* Simulate New Order Button */}
-        <button
-          onClick={onSimulateOrder}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-xs transition-all"
-        >
-          <Plus size={14} className="text-amber-400" />
-          <span>Simulate New Order</span>
         </button>
 
         {/* Master Store OPEN / CLOSED Switch */}

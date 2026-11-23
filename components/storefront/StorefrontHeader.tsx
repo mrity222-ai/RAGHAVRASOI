@@ -90,9 +90,18 @@ export default function StorefrontHeader({ searchQuery, setSearchQuery }: Storef
             onClick={() => setIsTrackingOpen(true)}
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-teal-50 hover:bg-teal-100 border border-teal-200 text-[#0F766E] font-extrabold text-xs transition-all"
           >
-            <span className="w-2 h-2 rounded-full bg-[#0F766E] animate-ping" />
-            <Receipt size={14} />
-            <span>Track #{activeTrackingToken}</span>
+            {activeTrackingToken ? (
+              <>
+                <span className="w-2 h-2 rounded-full bg-[#0F766E] animate-ping" />
+                <Receipt size={14} />
+                <span>Track #{activeTrackingToken}</span>
+              </>
+            ) : (
+              <>
+                <Receipt size={14} />
+                <span>Track Order</span>
+              </>
+            )}
           </button>
 
           {/* Member Login / Account */}

@@ -141,51 +141,6 @@ function AdminConsoleContent() {
     }
   };
 
-  // Simulate test customer order
-  const handleSimulateOrder = async () => {
-    const names = ['Kabir Malhotra', 'Divya Nair', 'Rohan Kapoor', 'Neha Joshi', 'Ankit Gupta'];
-    const name = names[Math.floor(Math.random() * names.length)];
-
-    try {
-      const res = await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          customerName: name,
-          customerPhone: '9811223344',
-          isGuest: true,
-          pickupTime: `Pick Up Now (${storeSettings?.prepTimeMins || 15}m)`,
-          paymentStatus: Math.random() > 0.4 ? 'PAID' : 'PAY_AT_SHOP',
-          couponCode: null,
-          discountAmount: 0,
-          itemTotal: 298,
-          gstAmount: 15,
-          packagingCharge: 10,
-          grandTotal: 323,
-          items: [
-            {
-              id: 'dish-1',
-              title: 'Maharaja Paneer Tikka Burger',
-              quantity: 2,
-              price: 149,
-              size: 'Regular',
-              addons: [],
-              note: 'Extra tissues',
-            },
-          ],
-        }),
-      });
-
-      const data = await res.json();
-      if (data.success) {
-        playAlertChime();
-        await fetchOrders();
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   // Toggle master store open/closed
   const handleToggleStoreOpen = async () => {
     if (!hasPerm('store_settings')) return;
@@ -234,7 +189,6 @@ function AdminConsoleContent() {
         
         {/* Top Header Bar */}
         <AdminTopBar
-          onSimulateOrder={handleSimulateOrder}
           isOpen={storeSettings?.isOpen ?? true}
           onToggleStoreOpen={handleToggleStoreOpen}
           onToggleMobileSidebar={() => setMobileSidebarOpen(!mobileSidebarOpen)}

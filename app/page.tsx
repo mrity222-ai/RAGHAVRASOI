@@ -7,10 +7,8 @@ import CategoryGrid from '@/components/CategoryGrid';
 import PopularFoodsSection from '@/components/PopularFoodsSection';
 import DrinksSection from '@/components/DrinksSection';
 import BetterFoodSection from '@/components/BetterFoodSection';
-import CountdownDeal from '@/components/CountdownDeal';
 import PromoStory from '@/components/PromoStory';
 import Footer from '@/components/Footer';
-import LivePurchaseToast from '@/components/LivePurchaseToast';
 import ScrollToTop from '@/components/ScrollToTop';
 import QuickViewModal from '@/components/QuickViewModal';
 import ItemCustomizeModal from '@/components/storefront/ItemCustomizeModal';
@@ -41,17 +39,13 @@ export default function HomePage() {
       {/* Section 5: Heritage & Pure Quality Highlight (Pure Desi Ghee, Clay Tandoor, Hand-Ground Spices) */}
       <BetterFoodSection />
 
-      {/* Section 6: Promotional Shahi Thali Feast Banner (Live Countdown Deal) */}
-      <CountdownDeal />
-
-      {/* Section 7: Order Now & Traditional Taste Showcase */}
+      {/* Section 6: Order Now & Traditional Taste Showcase */}
       <PromoStory />
 
-      {/* Section 8: Footer */}
+      {/* Section 7: Footer */}
       <Footer />
 
       {/* Interactive Overlays & Order Flow */}
-      <LivePurchaseToast />
       <ScrollToTop />
       <ItemCustomizeModal />
       <StoreCartDrawer />

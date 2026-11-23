@@ -81,10 +81,10 @@ export const StorefrontCartProvider: React.FC<{ children: React.ReactNode }> = (
   const [completedOrder, setCompletedOrder] = useState<any | null>(null);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [customizeDish, setCustomizeDish] = useState<any>(null);
-  const [activeTrackingToken, setActiveTrackingToken] = useState('ORD-105');
+  const [activeTrackingToken, setActiveTrackingToken] = useState('');
   const [loggedInMember, setLoggedInMember] = useState<{ name: string; phone: string } | null>(null);
   const [orderType, setOrderType] = useState<'IN_TABLE' | 'DELIVER' | 'TAKEAWAY'>('IN_TABLE');
-  const [tableNo, setTableNo] = useState<string>('Table 4');
+  const [tableNo, setTableNo] = useState<string>('');
   const [deliveryAddress, setDeliveryAddress] = useState<string>('');
   const [paymentMethod, setPaymentMethod] = useState<'CASH_IN_COUNTER' | 'CASH_ON_DELIVERY' | 'ONLINE'>('CASH_IN_COUNTER');
 

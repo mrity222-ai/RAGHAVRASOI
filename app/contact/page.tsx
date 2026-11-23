@@ -75,7 +75,8 @@ export default function ContactPage() {
   });
   const [inqSubmitted, setInqSubmitted] = useState(false);
 
-  const googleMapsUrl = 'https://maps.app.goo.gl/9sfkM5RPRyqjpSAz6?g_st=aw';
+  const googleMapsUrl =
+    'https://www.google.com/maps/place/RAGHAV+RASOI/@20.9420465,81.2918886,17z/data=!3m1!4b1!4m6!3m5!1s0x3a293303aafe49a9:0x1958b7becc202cbc!8m2!3d20.9420465!4d81.2944635!16s%2Fg%2F11w2_x2_5x';
 
   const handleReservationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -143,7 +144,7 @@ export default function ContactPage() {
 
             {/* Subtitle */}
             <p className="text-white/90 text-xs sm:text-sm lg:text-base font-normal max-w-lg mx-auto mt-4 sm:mt-6 leading-relaxed drop-shadow">
-              We look forward to welcoming you. Reserve a table, ask a question, or order catering for your special celebration in Gaur City 1, Greater Noida West.
+              We look forward to welcoming you. Reserve a table, ask a question, or order catering for your special celebration in Gundardehi, Chainganj, Chhattisgarh 491223.
             </p>
 
             {/* 3 Circular Action Buttons */}
@@ -230,7 +231,7 @@ export default function ContactPage() {
                         Restaurant Address
                       </h4>
                       <p className="text-xs text-slate-700 font-medium mt-1 leading-snug">
-                        7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009
+                        Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223
                       </p>
                       <a
                         href={googleMapsUrl}
@@ -730,17 +731,17 @@ export default function ContactPage() {
                 </div>
 
                 <p className="text-[#FDE68A] font-extrabold text-sm sm:text-base tracking-widest uppercase">
-                  GAUR CITY 1 • GREATER NOIDA WEST
+                  GUNDARDEHI • CHAINGANJ • CHHATTISGARH
                 </p>
 
                 <p className="text-white text-xs sm:text-sm font-medium leading-relaxed max-w-md">
-                  Raghav Rasoi is centrally located at 7th Avenue near Aarza Square - 2, Gaur City 1, Greater Noida West, offering convenient parking and easy access. We welcome you to experience authentic homestyle cooking!
+                  Raghav Rasoi is centrally located at Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223, offering delicious homestyle vegetarian dining, takeaway, and warm hospitality. We welcome you to experience our authentic taste of tradition!
                 </p>
 
                 <div className="space-y-2 pt-2 text-xs sm:text-sm text-white/90">
                   <div className="flex items-center gap-2.5">
                     <MapPin size={16} className="text-[#FDE68A] shrink-0" />
-                    <span>7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009</span>
+                    <span>Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223</span>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <Phone size={16} className="text-[#FDE68A] shrink-0" />
@@ -772,24 +773,24 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Right Column: Embedded Stylized Map Card for Gaur City 1 */}
+              {/* Right Column: Embedded Stylized Map Card for Gundardehi, Chhattisgarh */}
               <div className="lg:col-span-7">
                 <div className="relative w-full h-[320px] sm:h-[400px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 bg-slate-900">
                   <iframe
-                    title="Raghav Rasoi Google Map Location - Gaur City 1"
-                    src="https://maps.google.com/maps?q=Gaur+City+1+Greater+Noida+West+Uttar+Pradesh&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                    title="Raghav Rasoi Google Map Location - Gundardehi, Chhattisgarh"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3726.2606202275188!2d81.29188857379434!3d20.942046490754038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a293303aafe49a9%3A0x1958b7becc202cbc!2sRAGHAV%20RASOI!5e0!3m2!1sen!2sin!4v1795450102348!5m2!1sen!2sin"
                     width="100%"
                     height="100%"
                     style={{ border: 0, filter: 'contrast(1.05) saturate(1.1)' }}
                     allowFullScreen={false}
                     loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
+                    referrerPolicy="strict-origin-when-cross-origin"
                   />
                   {/* Floating Action Pill over map */}
                   <div className="absolute bottom-4 left-4 right-4 sm:right-auto bg-black/85 backdrop-blur-md rounded-2xl p-3 border border-white/20 flex items-center justify-between sm:justify-start gap-3">
                     <div className="text-left">
                       <p className="text-[11px] font-bold text-[#FDE68A] uppercase tracking-wide">Raghav Rasoi</p>
-                      <p className="text-[10px] text-white/80">Gaur City 1, Greater Noida West</p>
+                      <p className="text-[10px] text-white/80">Gundardehi, Chhattisgarh 491223</p>
                     </div>
                     <a
                       href={googleMapsUrl}

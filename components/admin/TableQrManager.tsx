@@ -535,7 +535,7 @@ export default function TableQrManager({ orders }: TableQrManagerProps) {
                 {/* Standee Footer Note */}
                 <div className="pt-2 border-t border-slate-200 text-[10px] text-slate-500">
                   <p className="font-bold">Fresh Food • Served Hot at Your Table</p>
-                  <p>Helpline: +91 88396-75538 • Greater Noida West</p>
+                  <p>Helpline: +91 88396-75538 • Gundardehi, Chhattisgarh 491223</p>
                 </div>
 
               </div>

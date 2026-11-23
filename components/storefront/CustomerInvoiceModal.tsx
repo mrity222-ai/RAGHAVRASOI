@@ -94,7 +94,7 @@ export default function CustomerInvoiceModal() {
                   Pure Veg • Breakfast &amp; Thali Junction
                 </p>
                 <p className="text-[10px] text-slate-400 mt-0.5">
-                  7th Avenue, Near Aarza Square - 2, Greater Noida West
+                  Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223
                 </p>
                 <p className="text-[10px] text-slate-400">
                   Tel: +91 88396-75538 • GSTIN: 09AABCR1234F1Z5

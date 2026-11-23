@@ -70,7 +70,7 @@ export default function Footer() {
                 <span>📞 +91 88396-75538</span>
               </p>
               <p className="text-[11px] text-slate-500 leading-tight">
-                7th Avenue, Gaur City 1, Greater Noida West
+                Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223
               </p>
             </div>
           </div>

@@ -24,7 +24,7 @@ model StaffUser {
 model StoreSetting {
   id              Int      @id @default(1)
   name            String   @default("Raghav Rasoi")
-  address         String   @default("7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009")
+  address         String   @default("Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223")
   isOpen          Boolean  @default(true)
   prepTimeMins    Int      @default(15)
   gstPercent      Float    @default(5.0)

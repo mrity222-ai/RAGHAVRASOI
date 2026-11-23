@@ -90,7 +90,7 @@ export const StorefrontCartProvider: React.FC<{ children: React.ReactNode }> = (
 
   const [settings, setSettings] = useState<StoreSettingsType>({
     name: 'Raghav Rasoi',
-    address: '7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009',
+    address: 'Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223',
     isOpen: true,
     prepTimeMins: 15,
     gstPercent: 5.0,

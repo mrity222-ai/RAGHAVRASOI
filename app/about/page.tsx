@@ -100,7 +100,7 @@ export default function AboutPage() {
 
             {/* Subtitle */}
             <p className="text-white/90 text-xs sm:text-sm lg:text-base font-normal max-w-lg mx-auto mt-4 sm:mt-6 leading-relaxed drop-shadow">
-              Pure flavors, authentic spices, thoughtful homestyle cooking, and warm hospitality. Located in Gaur City 1, Greater Noida West.
+              Pure flavors, authentic spices, thoughtful homestyle cooking, and warm hospitality. Located in Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223.
             </p>
 
             {/* 3 Circular Action Buttons */}

@@ -1,90 +1,89 @@
-# 🍕 Ranel — Restaurant & Fast Food Web Application
+# RAGHAVRASOI
 
-एक आधुनिक, 100% हूबहू (Pixel-Perfect) **React & Next.js Full-Stack Web Application** जो आपके द्वारा दिए गए सभी 8 स्क्रीनशॉट्स (Shopify Ranel Theme) के आधार पर तैयार की गई है।
+# 🍲 राघव रसोई (Raghav Rasoi) — Taste of Tradition
+### Modern Restaurant Digital Menu, Dine-In QR Ordering & Kitchen Management System
 
----
-
-## ✨ विशेषताएँ (Key Features)
-
-1. **Top Header & Navigation Bar (Screenshot 1):**
-   - बाएं: `HOME`, `SHOPS`, `PRODUCTS`, `BLOG`, `PAGES`
-   - मध्य: बोल्ड `RANEL` लोगो
-   - दाएं: Language selector (`English ⌵`), Currency selector (`USD ⌵`), Search Bar, User Profile, Wishlist, और रियल-टाइम कार्ट काउंटर बैज।
-
-2. **Hero Section (Screenshot 1):**
-   - वॉर्म क्रीम बैकग्राउंड (`#FAF3E8`), फ्लेम और तुलसी की पत्तियों के साथ फ्रेश सीफूड पिज्जा।
-   - बोल्ड टाइपोग्राफी: `FRESH SEAFOOD PIZZA` + सबटेक्स्ट + `SHOP NOW` बटन और स्लाइडर इंडिकेटर।
-
-3. **6-Category Showcase Cards (Screenshot 2):**
-   - क्लीन बॉर्डर्ड कार्ड्स: `FAST FOOD`, `COMBO`, `SANDWICH`, `BURRITO`, `SNACKS`, `CHICKEN`।
-
-4. **Split Promo Story + Live Toast (Screenshot 3):**
-   - डार्क चॉकलेट बर्गर कार्ड विथ 50% OFF गोल्डन बैज।
-   - `WE MAKE THE BEST BURGER IN YOUR TOWN` + `EXPLORE ALL`।
-   - बॉटम-लेफ्ट सोशल प्रूफ पॉपअप: *"Someone in Kyoto, Japan just bought Quick Wrap"*।
-   - बॉटम-राइट फ्लोटिंग स्क्रॉल-टू-टॉप बटन (`⌃`)।
-
-5. **3-Column Promo Banner Trio (Screenshot 4):**
-   - 3 डाइनैमिक कार्ड्स: `FAST FOOD MEALS` (ऑरेंज), `CHEESE PIZZA` (ब्लैक चीज़ पुल), `FRIED CHICKEN` (डीप रेड)।
-
-6. **"BEST SELLER" Product Grid (Screenshot 5):**
-   - कोरल एक्सेंट लाइन, 4 प्रोडक्ट्स: `Flame Box`, `Urban Bite` (कलर स्वॉचेस और क्विक एक्शन पिल्स सहित), `Spice Zone` (बर्गर), `Spice Zone` (हॉट डॉग)।
-   - रेड "Sale" कॉर्नर रिबन और डिस्काउंट प्राइसिंग।
-
-7. **Special Deal / Countdown Banner (Screenshot 6):**
-   - स्प्लिट बर्गर बॉर्डर्स, `QUESADILLA WITH TOMATOES`।
-   - 4 रेड सर्कल्स में लाइव टिकिंग काउंटडाउन टाइमर: `DAYS`, `HOURS`, `MINS`, `SECS`।
-
-8. **Tri-Grid Featured Banners (Screenshot 8):**
-   - 3-टाइल असिमेट्रिक ग्रिड: `SUPER DELICIOUS`, `DELICIOUS CHEESE PIZZA`, और `TODAY'S SPECIAL DISH`।
-
-9. **Complete 5-Column Footer (Screenshot 7):**
-   - ब्रांड इंफॉर्मेशन, About Us, Categories, Information, Newsletter सब्सक्रिप्शन + सोशल आइकन्स और ओरिजिनल पेमेंट बैज (MasterCard, Amex, Visa, PayPal)।
-
-10. **इंटरएक्टिव फुल-स्टैक फीचर्स:**
-    - Slide-out Cart Drawer (क्वांटिटी इनक्रीज/डिक्रीज, रिमूव, सबटोटल और चेकआउट)।
-    - Quick View Modal (जूम, इंग्रीडिएंट्स, स्वॉच सेलेक्शन)।
-    - SQL डेटाबेस (Prisma ORM के साथ PostgreSQL / MySQL / SQLite सपोर्ट)।
+> **Official Domain**: [https://raghavrasoi.com](https://raghavrasoi.com)  
+> **Official Address**: Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223  
+> **Helpline / Phone**: +91 88396-75538  
+> **Official Email**: info@raghavrasoi.com • catering@raghavrasoi.com  
 
 ---
 
-## 🚀 कैसे चलाएं (How to Run)
+## ✨ मुख्य विशेषताएँ (Key Features)
 
-### 1. डेवलपमेंट सर्वर शुरू करें:
+### 1. 🍽️ टेबल क्यूआर कोड व डिजिटल मेनू (Table QR Dine-In Ordering)
+- रेस्टोरेंट की प्रत्येक टेबल के लिए डायनामिक QR कोड और 1-क्लिक प्रिंटेबल स्टैंडी कार्ड।
+- टेबल अवेलेबिलिटी स्टेटस (🟢 **Available** / 🟡 **Occupied**)।
+- ग्राहक द्वारा QR स्कैन करते ही उसी टेबल के लिए लाइव डिजिटल मेनू खुलता है।
+- डाइन-इन ऑर्डर होते ही टेबल स्वतः **Occupied** हो जाती है और ऑर्डर पूरा होते ही तुरंत **Available** (फ्री) हो जाती है।
+
+### 2. 📱 आधुनिक स्टोरफ्रंट मेनू (Storefront Digital Menu)
+- **12 श्रेणियां (Categories)** और **80 प्रामाणिक व्यंजन (Products)**।
+- विज़ुअल कैटेगरी कैरोसेल (Category Carousel) और त्वरित खोज (Live Dish Search)।
+- शुद्ध शाकाहारी / जैन / वेज फ़िल्टर्स और प्राइस सॉर्टिंग।
+- कस्टमाइज़र मोडल (हाफ/फुल पोर्शन, एक्स्ट्रा मक्खन, चटनी आदि)।
+- स्लाइड-आउट कार्ट ड्रॉवर (Slide-out Cart Drawer) और कूपन डिस्काउंट सपोर्ट।
+
+### 3. 👨‍🍳 एडमिन व लाइव किचन कानबन कंसोल (Kitchen Kanban & KOT)
+- रियल-टाइम 3-कॉलम कानबन बोर्ड (**Pending** ➔ **Preparing** ➔ **Ready** ➔ **Completed**)।
+- नए ऑर्डर पर ऑटोमैटिक साउंड अलर्ट (Audio Alert Chime)।
+- 1-क्लिक किचन ऑर्डर टिकट (**KOT**) और ग्राहक बिल थर्मल रिसिप्ट प्रिंटिंग।
+- लाइव टेबल मैनेजर: टेबल जोड़ना/हटाना, खाली करना, और स्टैंडी कार्ड प्रिंटिंग।
+- सेल्स व रेवेन्यू डैशबोर्ड (Gross Sales, Daily Orders, Top Dishes CSV Export)।
+
+### 4. 🔐 बहुस्तरीय लॉगिन व परमिशन्स (Staff & Customer Auth)
+- **स्टाफ व एडमिन पोर्टल** (`/admin/login`):
+  - **Super Admin (Owner)**: `admin@raghavrasoi.com` (फुल कंट्रोल)।
+  - **Staff RBAC**: मैनेजर, शेफ, कैशियर को उनकी निर्धारित परमिशन (केवल KOT, केवल मेनू या सेटिंग्स)।
+- **ग्राहक पोर्टल** (`/login` व `/register`):
+  - ईमेल/मोबाइल + पासवर्ड लॉगिन।
+  - 1-क्लिक मोबाइल OTP लॉगिन।
+  - गेस्ट ऑर्डरिंग (बिना लॉगिन के केवल नाम व मोबाइल से तुरंत ऑर्डर)।
+
+### 5. 📍 गूगल मैप्स व लोकेशन इंटीग्रेशन (Live Google Maps)
+- कॉन्टैक्ट पेज (`/contact`) पर गुंडरदेही (छत्तीसगढ़) का आधिकारिक लाइव Google Maps Iframe Embed।
+- 1-क्लिक "Directions" बटन जो सीधे मोबाइल पर गूगल मैप्स नेविगेशन शुरू करता है।
+
+---
+
+## 🛠️ तकनीकी स्टैक (Tech Stack)
+
+- **Frontend & Fullstack**: Next.js 16 (App Router), React 19, TypeScript
+- **Styling**: Tailwind CSS, Lucide React Icons
+- **Database & ORM**: Prisma ORM with SQLite (`dev.db`), PostgreSQL/MySQL Ready
+- **QR Engine**: node-qrcode with High-Res Printable Standee Framing
+- **SEO & Search**: Dynamic Sitemap (`/sitemap.xml`) & Robots (`/robots.txt`) for `raghavrasoi.com`
+
+---
+
+## 🚀 लोकल डेवलपमेंट सेटअप (Getting Started)
+
 ```bash
+# 1. रिपॉजिटरी क्लोन करें
+git clone https://github.com/mrity222-ai/RAGHAVRASOI.git
+cd RAGHAVRASOI
+
+# 2. डिपेंडेंसीज इंस्टॉल करें
+npm install
+
+# 3. डेटाबेस सिंक करें
+npx prisma db push
+npx prisma generate
+
+# 4. डेवलपमेंट सर्वर शुरू करें
 npm run dev
 ```
-ब्राउज़र में खोलें: [http://localhost:3000](http://localhost:3000)
 
-### 2. प्रोडक्शन बिल्ड:
-```bash
-npm run build
-npm run start
-```
+ब्राउज़र में खोलें:
+- **होमपेज**: `http://localhost:3000/`
+- **डिजिटल मेनू**: `http://localhost:3000/menu`
+- **टेबल 1 डिजिटल मेनू**: `http://localhost:3000/table/Table-1`
+- **एडमिन कंसोल**: `http://localhost:3000/admin`
+- **एडमिन लॉगिन**: `http://localhost:3000/admin/login`
 
 ---
 
-## 🗄️ SQL डेटाबेस कन्फिगरेशन (PostgreSQL / MySQL)
+## 📄 लाइसेंस (License)
 
-डिफ़ॉल्ट रूप से यह बिना किसी बाहरी सर्वर के तुरंत चलने के लिए SQLite (`dev.db`) पर सेट है।
-यदि आप **PostgreSQL** या **MySQL** पर स्विच करना चाहते हैं:
-
-1. `prisma/schema.prisma` खोलें और `provider` बदलें:
-   - PostgreSQL के लिए: `provider = "postgresql"`
-   - MySQL के लिए: `provider = "mysql"`
-
-2. `.env` फ़ाइल में अपनी कनेक्शन स्ट्रिंग दर्ज करें:
-   ```env
-   # PostgreSQL:
-   DATABASE_URL="postgresql://postgres:password@localhost:5432/ranel_restaurant?schema=public"
-
-   # MySQL:
-   # DATABASE_URL="mysql://root:password@localhost:3306/ranel_restaurant"
-   ```
-
-3. स्कीमा और डेटा को सिंक करें:
-   ```bash
-   npx prisma db push
-   node prisma/seed.js
-   ```
-# Raghav-Rasoi
+© 2026 राघव रसोई (Raghav Rasoi). All rights reserved.

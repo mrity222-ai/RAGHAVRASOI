@@ -6,8 +6,22 @@ import { CustomerAuthProvider } from '@/context/CustomerAuthContext';
 import MobileBottomNavBar from '@/components/storefront/MobileBottomNavBar';
 
 export const metadata: Metadata = {
-  title: 'राघव रसोई (Raghav Rasoi) - Taste of Tradition',
-  description: 'Authentic Indian restaurant, traditional recipes, freshly prepared dishes and genuine hospitality.',
+  metadataBase: new URL('https://raghavrasoi.com'),
+  title: 'राघव रसोई (Raghav Rasoi) - Taste of Tradition | Gundardehi, Chhattisgarh',
+  description:
+    'Authentic Pure Vegetarian restaurant in Gundardehi, Chhattisgarh. Homestyle recipes, traditional breakfast, thali junction, and fast online ordering.',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'राघव रसोई (Raghav Rasoi) - Taste of Tradition',
+    description:
+      'Pure Vegetarian Restaurant in Gundardehi, Chhattisgarh. Fresh breakfast, rich gravies, and delicious thalis.',
+    url: 'https://raghavrasoi.com',
+    siteName: 'Raghav Rasoi',
+    locale: 'en_IN',
+    type: 'website',
+  },
   icons: {
     icon: '/icon.png',
     apple: '/icon.png',

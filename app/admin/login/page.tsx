@@ -8,7 +8,7 @@ import { User, Lock, ArrowRight, ShieldCheck, ChevronDown, Check } from 'lucide-
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [login, setLogin] = useState('admin@raghavrasoi.in');
+  const [login, setLogin] = useState('admin@raghavrasoi.com');
   const [password, setPassword] = useState('admin123');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -193,24 +193,24 @@ export default function AdminLoginPage() {
                 <div className="mt-2.5 space-y-1.5 p-3 rounded-2xl bg-slate-50 border border-slate-200 animate-in fade-in text-xs">
                   <button
                     type="button"
-                    onClick={() => fillDemo('admin@raghavrasoi.in', 'admin123')}
+                    onClick={() => fillDemo('admin@raghavrasoi.com', 'admin123')}
                     className="w-full p-2 rounded-xl hover:bg-white text-left transition-colors flex items-center justify-between"
                   >
                     <div>
                       <p className="font-black text-slate-900">👑 Super Admin (Owner)</p>
-                      <p className="text-[10px] text-slate-500">admin@raghavrasoi.in</p>
+                      <p className="text-[10px] text-slate-500">admin@raghavrasoi.com</p>
                     </div>
                     <span className="font-mono text-[10px] font-bold text-[#EA580C]">admin123</span>
                   </button>
 
                   <button
                     type="button"
-                    onClick={() => fillDemo('rahul.kitchen@raghavrasoi.in', 'staff123')}
+                    onClick={() => fillDemo('rahul.kitchen@raghavrasoi.com', 'staff123')}
                     className="w-full p-2 rounded-xl hover:bg-white text-left transition-colors flex items-center justify-between"
                   >
                     <div>
                       <p className="font-black text-slate-900">🍳 Rahul (Kitchen Staff)</p>
-                      <p className="text-[10px] text-slate-500">rahul.kitchen@raghavrasoi.in</p>
+                      <p className="text-[10px] text-slate-500">rahul.kitchen@raghavrasoi.com</p>
                     </div>
                     <span className="font-mono text-[10px] font-bold text-[#EA580C]">staff123</span>
                   </button>

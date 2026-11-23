@@ -19,12 +19,14 @@ export interface OrderNotificationData {
   }>;
 }
 
+const DEFAULT_APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://raghavrasoi.com';
+
 /**
  * Generate formatted WhatsApp message text
  */
 export function generateWhatsAppMessage(
   order: OrderNotificationData,
-  baseUrl: string = 'http://localhost:3000'
+  baseUrl: string = DEFAULT_APP_URL
 ): string {
   const itemsText = order.items
     .map((item) => `• ${item.name} (${item.size || 'Regular'}) x${item.qty} = ₹${item.unitPrice * item.qty}`)
@@ -67,7 +69,7 @@ ${trackingLink}
  */
 export function generateWhatsAppUrl(
   order: OrderNotificationData,
-  baseUrl: string = 'http://localhost:3000'
+  baseUrl: string = DEFAULT_APP_URL
 ): string {
   const cleanPhone = (order.customerPhone || '').replace(/\D/g, '').slice(-10);
   const text = generateWhatsAppMessage(order, baseUrl);
@@ -85,7 +87,7 @@ export function generateWhatsAppUrl(
  */
 export async function sendOrderEmailConfirmation(
   order: OrderNotificationData,
-  baseUrl: string = 'http://localhost:3000'
+  baseUrl: string = DEFAULT_APP_URL
 ): Promise<{ success: boolean; sent: boolean; message: string }> {
   if (!order.customerEmail || !order.customerEmail.includes('@')) {
     return {

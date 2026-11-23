@@ -277,10 +277,10 @@ export default function ContactPage() {
                         Email Address
                       </h4>
                       <p className="text-xs text-slate-700 font-medium mt-1 leading-snug">
-                        info@raghavrasoi.in
+                        info@raghavrasoi.com
                       </p>
                       <a
-                        href="mailto:info@raghavrasoi.in"
+                        href="mailto:info@raghavrasoi.com"
                         className="text-[11px] text-[#A24A32] font-bold hover:underline inline-flex items-center gap-1 mt-1.5"
                       >
                         <span>Send Email</span>
@@ -299,7 +299,7 @@ export default function ContactPage() {
                         Catering & Events
                       </h4>
                       <p className="text-xs text-slate-700 font-medium mt-1 leading-snug">
-                        catering@raghavrasoi.in
+                        catering@raghavrasoi.com
                       </p>
                       <button
                         onClick={() => {

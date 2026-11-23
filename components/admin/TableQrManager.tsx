@@ -47,7 +47,7 @@ export default function TableQrManager({ orders }: TableQrManagerProps) {
   const [newTableName, setNewTableName] = useState('');
   const [newTableSeats, setNewTableSeats] = useState(4);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [origin, setOrigin] = useState('http://localhost:3000');
+  const [origin, setOrigin] = useState(process.env.NEXT_PUBLIC_APP_URL || 'https://raghavrasoi.com');
 
   // Printable Standee Modal State
   const [selectedTableForPrint, setSelectedTableForPrint] = useState<TableItem | null>(null);

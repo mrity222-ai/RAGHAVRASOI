@@ -12,9 +12,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const staff = await prisma.staffUser.findUnique({
-      where: { login: login.trim() },
+    const cleanLogin = login.trim();
+    let staff = await prisma.staffUser.findUnique({
+      where: { login: cleanLogin },
     });
+
+    // Alias fallback between .com and .in
+    if (!staff) {
+      if (cleanLogin === 'admin@raghavrasoi.in') {
+        staff = await prisma.staffUser.findUnique({ where: { login: 'admin@raghavrasoi.com' } });
+      } else if (cleanLogin === 'admin@raghavrasoi.com') {
+        staff = await prisma.staffUser.findUnique({ where: { login: 'admin@raghavrasoi.in' } });
+      }
+    }
 
     if (!staff || staff.password !== password) {
       return NextResponse.json(

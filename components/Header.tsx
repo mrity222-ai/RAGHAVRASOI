@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { User, ShoppingBag, Menu, X, Receipt, LogOut } from 'lucide-react';
+import { User, ShoppingBag, Menu, X, Receipt, LogOut, ShieldCheck, UserPlus } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useOptionalStorefrontCart } from '@/context/StorefrontCartContext';
 import { useCustomerAuth } from '@/context/CustomerAuthContext';
@@ -81,6 +81,14 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
           >
             Track Order
           </Link>
+          <Link
+            href="/admin/login"
+            className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-amber-950 bg-amber-100 hover:bg-amber-200 border border-amber-300 transition-all shadow-2xs"
+            title="Restaurant Staff & Kitchen Console"
+          >
+            <ShieldCheck size={13} className="text-[#B45309]" />
+            <span>रेस्टोरेंट लॉगिन</span>
+          </Link>
         </nav>
 
         {/* Right: Controls matching Screenshot (Search, User, Cart, Order Now) */}
@@ -122,14 +130,33 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
               )}
             </div>
           ) : (
-            <Link
-              href="/login"
-              className="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-800 hover:text-black transition-colors"
-              aria-label="Customer Login"
-              title="Customer Login / Register"
-            >
-              <User size={21} strokeWidth={2.1} />
-            </Link>
+            <div className="flex items-center gap-1.5">
+              {/* Desktop Direct Login & Register Options */}
+              <div className="hidden md:flex items-center gap-1.5 mr-1">
+                <Link
+                  href="/login"
+                  className="px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-700 hover:text-black hover:bg-slate-100 transition-colors"
+                >
+                  लॉगिन
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-3.5 py-1.5 rounded-full text-xs font-extrabold text-[#92400E] bg-amber-100 hover:bg-amber-200 border border-amber-300 transition-colors shadow-2xs"
+                >
+                  खाता बनाएं
+                </Link>
+              </div>
+
+              {/* Mobile User Icon */}
+              <Link
+                href="/login"
+                className="md:hidden w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-800 hover:text-black transition-colors"
+                aria-label="Customer Login"
+                title="Customer Login / Register"
+              >
+                <User size={21} strokeWidth={2.1} />
+              </Link>
+            </div>
           )}
 
           {/* Shopping Bag Button with Yellow/Gold Badge */}
@@ -215,6 +242,20 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
             <span>Track Order Status</span>
             <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-bold">Live</span>
           </Link>
+
+          {/* Restaurant Login Link for Staff in Mobile Drawer */}
+          <Link
+            href="/admin/login"
+            onClick={() => setMobileMenuOpen(false)}
+            className="py-2.5 px-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 font-bold text-xs flex items-center justify-between"
+          >
+            <span className="flex items-center gap-2">
+              <ShieldCheck size={16} className="text-[#B45309]" />
+              <span>रेस्टोरेंट लॉगिन (Staff & Admin)</span>
+            </span>
+            <span className="text-[10px] bg-amber-200 px-2 py-0.5 rounded-full font-black text-amber-900">Portal</span>
+          </Link>
+
           {isLoggedIn && user ? (
             <div className="py-2 border-b border-slate-100 flex items-center justify-between">
               <div>
@@ -232,14 +273,24 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
               </button>
             </div>
           ) : (
-            <Link
-              href="/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2 border-b border-slate-100 text-slate-900 flex items-center gap-2 font-bold"
-            >
-              <User size={16} className="text-[#A81B1B]" />
-              <span>Customer Login / Register</span>
-            </Link>
+            <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100">
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-center font-bold text-xs flex items-center justify-center gap-1.5"
+              >
+                <User size={14} />
+                <span>लॉगिन</span>
+              </Link>
+              <Link
+                href="/register"
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-2.5 px-3 rounded-xl bg-[#FBBF24] hover:bg-[#F59E0B] text-slate-950 text-center font-black text-xs shadow-xs flex items-center justify-center gap-1.5"
+              >
+                <UserPlus size={14} />
+                <span>खाता बनाएं</span>
+              </Link>
+            </div>
           )}
 
           {storefrontCart && storefrontCart.activeTrackingToken && (

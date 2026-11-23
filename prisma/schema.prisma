@@ -162,3 +162,17 @@ model NewsletterSubscriber {
   email        String   @unique
   subscribedAt DateTime @default(now())
 }
+
+// 9. Restaurant Table Management
+model RestaurantTable {
+  id           String   @id @default(cuid())
+  tableNo      String   @unique // e.g. "Table-1", "Table-2", "VIP-1"
+  name         String   // e.g. "Table 1", "Table 2"
+  seats        Int      @default(4)
+  status       String   @default("AVAILABLE") // "AVAILABLE" | "OCCUPIED" | "RESERVED" | "DISABLED"
+  activeOrder  String?  // Active Order Token ID e.g. "ORD-105"
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+

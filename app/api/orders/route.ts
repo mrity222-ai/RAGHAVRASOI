@@ -148,6 +148,33 @@ export async function POST(request: Request) {
       },
     });
 
+    // If this is an IN_TABLE order, automatically mark the table as OCCUPIED
+    if (order.orderType === 'IN_TABLE' && order.tableNo) {
+      const candidateTableNo = order.tableNo.replace(/\s+/g, '-');
+      try {
+        const targetTable = await prisma.restaurantTable.findFirst({
+          where: {
+            OR: [
+              { tableNo: order.tableNo },
+              { tableNo: candidateTableNo },
+              { name: order.tableNo },
+            ],
+          },
+        });
+        if (targetTable) {
+          await prisma.restaurantTable.update({
+            where: { id: targetTable.id },
+            data: {
+              status: 'OCCUPIED',
+              activeOrder: token,
+            },
+          });
+        }
+      } catch (tableErr) {
+        console.error('Non-blocking table status update error:', tableErr);
+      }
+    }
+
     // 1. Generate direct WhatsApp message link for customer
     const whatsappUrl = generateWhatsAppUrl(order);
 

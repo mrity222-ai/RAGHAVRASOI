@@ -56,6 +56,21 @@ export async function PATCH(request: Request) {
       include: { items: true },
     });
 
+    // If order is completed or rejected, automatically free any occupied table
+    if (status === 'COMPLETED' || status === 'REJECTED') {
+      try {
+        await prisma.restaurantTable.updateMany({
+          where: { activeOrder: id },
+          data: {
+            status: 'AVAILABLE',
+            activeOrder: null,
+          },
+        });
+      } catch (tableErr) {
+        console.error('Non-blocking table release error:', tableErr);
+      }
+    }
+
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {
     console.error('Error updating order status:', error);

@@ -26,11 +26,6 @@ export default function HeroSection() {
           {/* ======================================================== */}
           <div className="lg:col-span-4 flex flex-col justify-center z-10">
             
-            {/* Tagline */}
-            <p className="text-xs sm:text-[13px] text-stone-500 font-mono tracking-wide mb-3 sm:mb-4">
-              [[ Authentic Indian Kitchen · Gundardehi, Chhattisgarh ]]
-            </p>
-
             {/* Main Headline */}
             <h1 className="normal-case font-playfair font-normal text-stone-900 tracking-tight leading-[1.08] text-4xl sm:text-5xl lg:text-[54px] xl:text-[62px] mb-6 sm:mb-8">
               Good food.<br />
@@ -44,8 +39,8 @@ export default function HeroSection() {
               className="relative w-full max-w-[280px] sm:max-w-[310px] aspect-[16/10] rounded-2xl overflow-hidden shadow-md border border-stone-200/80 bg-stone-100 group cursor-pointer"
             >
               <Image
-                src="/assets/seasonal-hero/side-dish-video.png"
-                alt="Chef specialty dish with crispy fries and fresh salad"
+                src="/assets/seasonal-hero/raghav-kitchen-specials.png"
+                alt="Raghav Rasoi Indo-Chinese and snack specialties"
                 fill
                 sizes="(max-width: 640px) 280px, 310px"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -70,16 +65,16 @@ export default function HeroSection() {
           </div>
 
           {/* ======================================================== */}
-          {/* 2. CENTER COLUMN: Giant Overhead Burrata Salad & Badge   */}
+          {/* 2. CENTER COLUMN: Rotating Authentic Indian Thali & Badge */}
           {/* ======================================================== */}
           <div className="lg:col-span-5 flex items-center justify-center relative py-3 sm:py-6 lg:py-0">
             <div className="relative w-[240px] h-[240px] sm:w-[340px] sm:h-[340px] lg:w-[420px] lg:h-[420px] xl:w-[470px] xl:h-[470px] flex items-center justify-center">
               
-              {/* Overhead Plate with Peach Slices, Burrata & Tomatoes */}
-              <div className="relative w-full h-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+              {/* Continuous 360 Rotating Indian Thali */}
+              <div className="relative w-full h-full drop-shadow-[0_20px_45px_rgba(0,0,0,0.18)] animate-[spin_50s_linear_infinite] will-change-transform">
                 <Image
-                  src="/assets/seasonal-hero/burrata-salad-plate.png"
-                  alt="Fresh Burrata and Heirloom Peach Salad"
+                  src="/assets/seasonal-hero/raghav-rotating-thali.png"
+                  alt="राघव रसोई प्रामाणिक भारतीय थाली"
                   fill
                   sizes="(max-width: 640px) 240px, (max-width: 1024px) 340px, 470px"
                   className="object-contain"
@@ -104,17 +99,17 @@ export default function HeroSection() {
           </div>
 
           {/* ======================================================== */}
-          {/* 3. RIGHT COLUMN: Beyti Kebab Card, Rating, Explore Menu  */}
+          {/* 3. RIGHT COLUMN: Raghav Deluxe Thali Card, Rating, CTA    */}
           {/* ======================================================== */}
           <div className="lg:col-span-3 flex flex-col items-center lg:items-end justify-between h-full z-10 pt-4 lg:pt-0">
             
-            {/* Beyti Kebab Floating Dish Card */}
+            {/* Raghav Deluxe Thali Floating Dish Card */}
             <div className="bg-white rounded-2xl p-3 sm:p-3.5 shadow-xl border border-stone-100 max-w-[240px] sm:max-w-[260px] w-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
               {/* Food Photo */}
               <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-stone-100 mb-3">
                 <Image
-                  src="/assets/seasonal-hero/beyti-kebab-dish.png"
-                  alt="Beyti Kebab with savory sides"
+                  src="/assets/seasonal-hero/raghav-deluxe-thali.png"
+                  alt="Raghav Deluxe Thali Meal Box"
                   fill
                   sizes="260px"
                   className="object-cover"
@@ -122,14 +117,14 @@ export default function HeroSection() {
               </div>
 
               {/* Dish Meta */}
-              <h3 className="normal-case font-sans text-sm sm:text-[15px] font-semibold text-stone-900 tracking-normal">
-                Beyti Kebab
+              <h3 className="normal-case font-sans text-sm sm:text-[15px] font-bold text-stone-900 tracking-normal">
+                Raghav Deluxe Thali
               </h3>
-              <p className="text-xs text-stone-500 font-normal mt-0.5">
-                Fresh Spring Flavors
+              <p className="text-xs text-amber-700 font-semibold mt-0.5">
+                Traditional Indian Feast
               </p>
-              <p className="text-[11px] text-stone-400 mt-1 leading-snug font-normal">
-                Peas, asparagus, and pecorino cheese
+              <p className="text-[11px] text-stone-500 mt-1 leading-snug font-normal">
+                Paneer, Dal Makhani, Pulao, Butter Roti &amp; Sweet
               </p>
             </div>
 

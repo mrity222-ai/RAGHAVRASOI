@@ -39,7 +39,7 @@ export default function PromoStory() {
             </h2>
 
             <p className="mt-5 text-xs sm:text-sm text-[#666666] leading-relaxed max-w-lg font-normal">
-              At Raghav Rasoi in Gaur City 1, every recipe honors timeless Indian heritage. We slow-simmer our dal on gentle flames, bake tandoori breads in red-hot clay ovens, and use pure ingredients for flavours you will cherish with family and friends.
+              At Raghav Rasoi in Gundardehi, Chhattisgarh, every recipe honors timeless Indian heritage. We slow-simmer our dal on gentle flames, bake tandoori breads in red-hot clay ovens, and use pure ingredients for flavours you will cherish with family and friends.
             </p>
 
             <div className="mt-8">

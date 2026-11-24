@@ -28,7 +28,7 @@ export default function HeroSection() {
             
             {/* Tagline */}
             <p className="text-xs sm:text-[13px] text-stone-500 font-mono tracking-wide mb-3 sm:mb-4">
-              [[ Authentic Indian Kitchen · Gaur City 1, Greater Noida West ]]
+              [[ Authentic Indian Kitchen · Gundardehi, Chhattisgarh ]]
             </p>
 
             {/* Main Headline */}
@@ -72,8 +72,8 @@ export default function HeroSection() {
           {/* ======================================================== */}
           {/* 2. CENTER COLUMN: Giant Overhead Burrata Salad & Badge   */}
           {/* ======================================================== */}
-          <div className="lg:col-span-5 flex items-center justify-center relative py-4 sm:py-6 lg:py-0">
-            <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[420px] lg:h-[420px] xl:w-[470px] xl:h-[470px] flex items-center justify-center">
+          <div className="lg:col-span-5 flex items-center justify-center relative py-3 sm:py-6 lg:py-0">
+            <div className="relative w-[240px] h-[240px] sm:w-[340px] sm:h-[340px] lg:w-[420px] lg:h-[420px] xl:w-[470px] xl:h-[470px] flex items-center justify-center">
               
               {/* Overhead Plate with Peach Slices, Burrata & Tomatoes */}
               <div className="relative w-full h-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
@@ -81,21 +81,21 @@ export default function HeroSection() {
                   src="/assets/seasonal-hero/burrata-salad-plate.png"
                   alt="Fresh Burrata and Heirloom Peach Salad"
                   fill
-                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 380px, 470px"
+                  sizes="(max-width: 640px) 240px, (max-width: 1024px) 340px, 470px"
                   className="object-contain"
                   priority
                 />
               </div>
 
               {/* Floating Dark Green Season Seal Badge (Overlapping Bottom-Left of Plate) */}
-              <div className="absolute bottom-1 left-1 sm:bottom-4 sm:left-4 lg:bottom-6 lg:left-4 z-20 w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-full bg-[#18392B] text-white flex flex-col items-center justify-center shadow-xl border-2 sm:border-[3px] border-[#FAF9F5] select-none pointer-events-none">
+              <div className="absolute -bottom-1 -left-1 sm:bottom-4 sm:left-4 lg:bottom-6 lg:left-4 z-20 w-18 h-18 sm:w-22 sm:h-22 lg:w-28 lg:h-28 rounded-full bg-[#18392B] text-white flex flex-col items-center justify-center shadow-xl border-2 sm:border-[3px] border-[#FAF9F5] select-none pointer-events-none">
                 {/* 8-ray sun icon */}
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-200/90 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-emerald-200/90 mb-0.5 sm:mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <circle cx="12" cy="12" r="3" />
                   <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" strokeDasharray="1.5 1.5" />
                 </svg>
                 {/* Text: FRESH FROM THE SEASON */}
-                <span className="text-[8px] sm:text-[9.5px] font-medium tracking-[0.16em] text-[#E5F0E8] uppercase text-center leading-tight">
+                <span className="text-[7.5px] sm:text-[9.5px] font-medium tracking-[0.14em] text-[#E5F0E8] uppercase text-center leading-tight">
                   FRESH FROM<br />THE SEASON
                 </span>
               </div>
@@ -106,7 +106,7 @@ export default function HeroSection() {
           {/* ======================================================== */}
           {/* 3. RIGHT COLUMN: Beyti Kebab Card, Rating, Explore Menu  */}
           {/* ======================================================== */}
-          <div className="lg:col-span-3 flex flex-col items-start lg:items-end justify-between h-full z-10 pt-2 lg:pt-0">
+          <div className="lg:col-span-3 flex flex-col items-center lg:items-end justify-between h-full z-10 pt-4 lg:pt-0">
             
             {/* Beyti Kebab Floating Dish Card */}
             <div className="bg-white rounded-2xl p-3 sm:p-3.5 shadow-xl border border-stone-100 max-w-[240px] sm:max-w-[260px] w-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">

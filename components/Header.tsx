@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { User, ShoppingBag, Menu, X, Receipt, LogOut, ShieldCheck, UserPlus } from 'lucide-react';
+import { User, ShoppingBag, Menu, X, Receipt, LogOut, UserPlus } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useOptionalStorefrontCart } from '@/context/StorefrontCartContext';
 import { useCustomerAuth } from '@/context/CustomerAuthContext';
@@ -81,14 +81,6 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
           >
             Track Order
           </Link>
-          <Link
-            href="/admin/login"
-            className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-amber-950 bg-amber-100 hover:bg-amber-200 border border-amber-300 transition-all shadow-2xs"
-            title="Restaurant Staff & Kitchen Console"
-          >
-            <ShieldCheck size={13} className="text-[#B45309]" />
-            <span>रेस्टोरेंट लॉगिन</span>
-          </Link>
         </nav>
 
         {/* Right: Controls matching Screenshot (Search, User, Cart, Order Now) */}
@@ -130,33 +122,15 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
               )}
             </div>
           ) : (
-            <div className="flex items-center gap-1.5">
-              {/* Desktop Direct Login & Register Options */}
-              <div className="hidden md:flex items-center gap-1.5 mr-1">
-                <Link
-                  href="/login"
-                  className="px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-700 hover:text-black hover:bg-slate-100 transition-colors"
-                >
-                  लॉगिन
-                </Link>
-                <Link
-                  href="/register"
-                  className="px-3.5 py-1.5 rounded-full text-xs font-extrabold text-[#92400E] bg-amber-100 hover:bg-amber-200 border border-amber-300 transition-colors shadow-2xs"
-                >
-                  खाता बनाएं
-                </Link>
-              </div>
-
-              {/* Mobile User Icon */}
-              <Link
-                href="/login"
-                className="md:hidden w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-800 hover:text-black transition-colors"
-                aria-label="Customer Login"
-                title="Customer Login / Register"
-              >
-                <User size={21} strokeWidth={2.1} />
-              </Link>
-            </div>
+            /* Human / User SVG Icon for Customer Account / Login / Register */
+            <Link
+              href="/login"
+              className="w-10 h-10 rounded-full hover:bg-amber-50 border border-slate-200/90 hover:border-amber-400 flex items-center justify-center text-slate-700 hover:text-slate-950 transition-all shadow-2xs hover:scale-105"
+              aria-label="Customer Account"
+              title="Customer Login / Register"
+            >
+              <User size={20} strokeWidth={2.2} className="text-slate-800" />
+            </Link>
           )}
 
           {/* Shopping Bag Button with Yellow/Gold Badge */}
@@ -243,18 +217,6 @@ export default function Header({ searchQuery, setSearchQuery }: HeaderProps) {
             <span className="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-bold">Live</span>
           </Link>
 
-          {/* Restaurant Login Link for Staff in Mobile Drawer */}
-          <Link
-            href="/admin/login"
-            onClick={() => setMobileMenuOpen(false)}
-            className="py-2.5 px-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 font-bold text-xs flex items-center justify-between"
-          >
-            <span className="flex items-center gap-2">
-              <ShieldCheck size={16} className="text-[#B45309]" />
-              <span>रेस्टोरेंट लॉगिन (Staff & Admin)</span>
-            </span>
-            <span className="text-[10px] bg-amber-200 px-2 py-0.5 rounded-full font-black text-amber-900">Portal</span>
-          </Link>
 
           {isLoggedIn && user ? (
             <div className="py-2 border-b border-slate-100 flex items-center justify-between">

@@ -37,6 +37,7 @@ export default function FoodlyLogo({
           src="/assets/logo/raghav-rasoi-logo-transparent.png"
           alt="राघव रसोई - Taste of Tradition"
           fill
+          unoptimized
           sizes="(max-width: 640px) 44px, 56px"
           className="object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.06)]"
           priority

@@ -1403,7 +1403,7 @@ async function seed() {
     where: { id: 1 },
     update: {
       name: 'राघव रसोई (Raghav Rasoi) - नास्ता एवं थाली जंक्शन',
-      address: '7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009',
+      address: 'Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223',
       isOpen: true,
       prepTimeMins: 15,
       gstPercent: 5.0,
@@ -1413,7 +1413,7 @@ async function seed() {
     create: {
       id: 1,
       name: 'राघव रसोई (Raghav Rasoi) - नास्ता एवं थाली जंक्शन',
-      address: '7th Avenue, Near Aarza Square - 2, Gaur City 1, Greater Noida West, UP 201009',
+      address: 'Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223',
       isOpen: true,
       prepTimeMins: 15,
       gstPercent: 5.0,
@@ -1520,6 +1520,87 @@ async function seed() {
     },
   });
   console.log(`✓ Cleaned up ${deletedCats.count} obsolete categories.`);
+
+  // 5. Upsert 12 Restaurant Tables
+  console.log('--- Seeding 12 Restaurant Tables ---');
+  for (let i = 1; i <= 12; i++) {
+    const tableId = `tbl-${i}`;
+    const tableNo = `Table-${i}`;
+    const name = `Table ${i}`;
+    await prisma.restaurantTable.upsert({
+      where: { tableNo },
+      update: {
+        name,
+        seats: i % 4 === 0 ? 6 : 4,
+        displayOrder: i,
+      },
+      create: {
+        id: tableId,
+        tableNo,
+        name,
+        seats: i % 4 === 0 ? 6 : 4,
+        status: 'AVAILABLE',
+        displayOrder: i,
+      },
+    });
+  }
+  console.log('✓ 12 Restaurant Dining Tables verified & available.');
+
+  // 6. Upsert Staff / Admin Accounts
+  console.log('--- Seeding Staff & Admin Logins ---');
+  const allPermissions = [
+    'kanban',
+    'print_kot',
+    'toggle_stock',
+    'manage_menu',
+    'manage_categories',
+    'manage_coupons',
+    'view_dashboard',
+    'store_settings',
+  ];
+
+  // Super Admin (Owner)
+  await prisma.staffUser.upsert({
+    where: { login: 'admin@raghavrasoi.com' },
+    update: {
+      name: 'Raghav Rasoi Admin (Owner)',
+      roleTitle: 'Store Owner',
+      password: 'admin123',
+      isOwner: true,
+      permissions: JSON.stringify(allPermissions),
+    },
+    create: {
+      id: 'staff-owner',
+      name: 'Raghav Rasoi Admin (Owner)',
+      roleTitle: 'Store Owner',
+      login: 'admin@raghavrasoi.com',
+      password: 'admin123',
+      isOwner: true,
+      permissions: JSON.stringify(allPermissions),
+    },
+  });
+
+  // Kitchen Staff
+  await prisma.staffUser.upsert({
+    where: { login: 'rahul.kitchen@raghavrasoi.com' },
+    update: {
+      name: 'Rahul (Kitchen Staff)',
+      roleTitle: 'Kitchen Manager',
+      password: 'staff123',
+      isOwner: false,
+      permissions: JSON.stringify(['kanban', 'print_kot', 'toggle_stock']),
+    },
+    create: {
+      id: 'staff-rahul',
+      name: 'Rahul (Kitchen Staff)',
+      roleTitle: 'Kitchen Manager',
+      login: 'rahul.kitchen@raghavrasoi.com',
+      password: 'staff123',
+      isOwner: false,
+      permissions: JSON.stringify(['kanban', 'print_kot', 'toggle_stock']),
+    },
+  });
+  console.log('✓ Super Admin and Kitchen Staff accounts verified.');
 
   console.log('--- Raghav Rasoi Authentic Menu Seeding Complete! ---');
 }

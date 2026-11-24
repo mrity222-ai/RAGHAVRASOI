@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "prisma generate && next build --webpack",
+    "build": "prisma generate && npm run db:sync && next build --webpack",
+    "build:clean": "prisma generate && next build --webpack",
+    "db:push": "prisma db push --accept-data-loss",
+    "db:seed": "node scripts/seed-raghav-menu.js",
+    "db:sync": "node scripts/db-sync.js",
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "next lint"

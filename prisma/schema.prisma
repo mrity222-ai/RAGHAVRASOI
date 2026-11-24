@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,7 +16,7 @@ model StaffUser {
   login       String   @unique
   password    String   @default("staff@123")
   isOwner     Boolean  @default(false)
-  permissions String   // JSON array of strings e.g. ["kanban", "print_kot", "toggle_stock", ...]
+  permissions String   @db.Text // JSON array of strings e.g. ["kanban", "print_kot", "toggle_stock", ...]
   createdAt   DateTime @default(now())
 }
 
@@ -24,7 +24,7 @@ model StaffUser {
 model StoreSetting {
   id              Int      @id @default(1)
   name            String   @default("Raghav Rasoi")
-  address         String   @default("Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223")
+  address         String   @db.Text @default("Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223")
   isOpen          Boolean  @default(true)
   prepTimeMins    Int      @default(15)
   gstPercent      Float    @default(5.0)
@@ -66,14 +66,14 @@ model Product {
   compareAtPrice Float?
   image          String
   imageUrl       String?     // Backward compatibility
-  gallery        String?     // JSON array of 2-3 extra image URLs
-  story          String?     // "About this Recipe" / Chef story
-  ingredients    String?     // Comma separated ingredients or notes
+  gallery        String?     @db.Text // JSON array of extra image URLs
+  story          String?     @db.Text // "About this Recipe" / Chef story
+  ingredients    String?     @db.Text // Comma separated ingredients or notes
   calories       Int?        @default(380)
   prepTime       String?     @default("15-20 mins")
-  desc           String      @default("")
-  description    String?     // Backward compatibility
-  colors         String?     // JSON array of hex colors
+  desc           String      @db.Text @default("")
+  description    String?     @db.Text // Backward compatibility
+  colors         String?     @db.Text // JSON array of hex colors
   createdAt      DateTime    @default(now())
   orderItems     OrderItem[]
 }
@@ -86,7 +86,7 @@ model Coupon {
   value       Float
   minOrder    Float    @default(0)
   maxDiscount Float?
-  desc        String
+  desc        String   @db.Text
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
 }
@@ -106,28 +106,28 @@ model CustomerUser {
 
 // 7. Orders
 model Order {
-  id              String      @id // e.g. "ORD-105"
-  status          String      @default("PENDING") // PENDING, PREPARING, READY, COMPLETED, REJECTED
+  id              String        @id // e.g. "ORD-105"
+  status          String        @default("PENDING") // PENDING, PREPARING, READY, COMPLETED, REJECTED
   customerId      String?
   customer        CustomerUser? @relation(fields: [customerId], references: [id])
   customerName    String
   customerPhone   String
   customerEmail   String?
-  isGuest         Boolean     @default(true)
-  orderType       String      @default("IN_TABLE") // "IN_TABLE" | "DELIVER"
-  tableNo         String?     // e.g. "Table 4"
-  deliveryAddress String?     // e.g. "Flat 204, Green Heights"
-  paymentMethod   String      @default("CASH_IN_COUNTER") // "CASH_IN_COUNTER" | "CASH_ON_DELIVERY" | "ONLINE"
-  pickupTime      String      @default("Pick Up Now (15m)")
-  paymentStatus   String      @default("PENDING") // PAID, PENDING, CASH_IN_COUNTER, CASH_ON_DELIVERY
+  isGuest         Boolean       @default(true)
+  orderType       String        @default("IN_TABLE") // "IN_TABLE" | "DELIVER"
+  tableNo         String?       // e.g. "Table 4"
+  deliveryAddress String?       @db.Text // e.g. "Flat 204, Green Heights"
+  paymentMethod   String        @default("CASH_IN_COUNTER") // "CASH_IN_COUNTER" | "CASH_ON_DELIVERY" | "ONLINE"
+  pickupTime      String        @default("Pick Up Now (15m)")
+  paymentStatus   String        @default("PENDING") // PAID, PENDING, CASH_IN_COUNTER, CASH_ON_DELIVERY
   couponCode      String?
-  discountAmount  Float       @default(0)
+  discountAmount  Float         @default(0)
   itemTotal       Float
-  gstAmount       Float       @default(0)
-  packagingCharge Float       @default(10)
+  gstAmount       Float         @default(0)
+  packagingCharge Float         @default(10)
   grandTotal      Float
-  currency        String      @default("INR")
-  createdAt       DateTime    @default(now())
+  currency        String        @default("INR")
+  createdAt       DateTime      @default(now())
   items           OrderItem[]
 }
 
@@ -140,8 +140,8 @@ model OrderItem {
   name      String
   qty       Int      @default(1)
   size      String   @default("Regular")
-  addons    String?  // JSON array
-  note      String?
+  addons    String?  @db.Text // JSON array
+  note      String?  @db.Text
   unitPrice Float
   lineTotal Float
 }
@@ -175,4 +175,3 @@ model RestaurantTable {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
-

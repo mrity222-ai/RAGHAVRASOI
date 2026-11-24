@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { Heart, ShoppingBag, Check, Clock, Star, Plus } from 'lucide-react';
 import { useOptionalStorefrontCart } from '@/context/StorefrontCartContext';
 import { useCart } from '@/context/CartContext';
@@ -108,7 +109,13 @@ export default function DrinksSection() {
       <div className="max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-12">
         
         {/* Section Header */}
-        <div className="flex items-end justify-between mb-5 sm:mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6 }}
+          className="flex items-end justify-between mb-5 sm:mb-8"
+        >
           <div>
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight">
               Drinks
@@ -125,19 +132,24 @@ export default function DrinksSection() {
             <span>See all</span>
             <span className="transform group-hover:translate-x-1 transition-transform">→</span>
           </Link>
-        </div>
+        </motion.div>
 
         {/* 2-Column on Mobile, 4-Column on Desktop matching Screen 1 */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-          {drinks.map((drink) => {
+          {drinks.map((drink, index) => {
             const isFav = !!favorites[drink.id];
             const isJustAdded = addedItem === drink.id;
 
             return (
-              <div
+              <motion.div
                 key={drink.id}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 onClick={() => setSelectedDrink(drink)}
-                className="bg-white rounded-3xl p-3 sm:p-4 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer"
+                className="bg-white rounded-3xl p-3 sm:p-4 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-xl transition-all duration-300 flex flex-col justify-between group cursor-pointer"
               >
                 <div>
                   {/* Drink Image with Time Badge & Heart Button matching Screen 1 */}
@@ -194,10 +206,11 @@ export default function DrinksSection() {
                     Rs. {drink.price}
                   </span>
 
-                  <button
+                  <motion.button
                     type="button"
+                    whileTap={{ scale: 0.92 }}
                     onClick={(e) => handleAddToCart(drink, e)}
-                    className={`font-black text-[11px] sm:text-xs px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-xs transition-all flex items-center gap-1 active:scale-95 ${
+                    className={`font-black text-[11px] sm:text-xs px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-xs transition-all flex items-center gap-1 ${
                       isJustAdded
                         ? 'bg-emerald-600 text-white'
                         : 'bg-[#FBBF24] hover:bg-[#F59E0B] text-slate-950 hover:shadow-xs'
@@ -214,10 +227,10 @@ export default function DrinksSection() {
                         <span>Add</span>
                       </>
                     )}
-                  </button>
+                  </motion.button>
                 </div>
 
-              </div>
+              </motion.div>
             );
           })}
         </div>

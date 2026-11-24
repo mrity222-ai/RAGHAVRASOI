@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Heart, ShoppingBag, Check, Clock, Star, Plus } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useOptionalStorefrontCart } from '@/context/StorefrontCartContext';
 import { useCart } from '@/context/CartContext';
 import MobileProductDetailsSheet from '@/components/storefront/MobileProductDetailsSheet';
@@ -99,7 +100,13 @@ export default function PopularFoodsSection() {
       <div className="max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-12">
         
         {/* Section Header */}
-        <div className="flex items-end justify-between mb-5 sm:mb-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="flex items-end justify-between mb-5 sm:mb-8"
+        >
           <div>
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight">
               Popular Dishes
@@ -116,19 +123,25 @@ export default function PopularFoodsSection() {
             <span>See all</span>
             <span className="transform group-hover:translate-x-1 transition-transform">→</span>
           </Link>
-        </div>
+        </motion.div>
 
         {/* 2-Column on Mobile, 4-Column on Desktop matching Screen 1 */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-          {products.map((dish) => {
+          {products.map((dish, idx) => {
             const isFav = !!favorites[dish.id];
             const isJustAdded = addedItem === dish.id;
 
             return (
-              <div
+              <motion.div
                 key={dish.id}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, delay: (idx % 4) * 0.08, ease: "easeOut" }}
+                whileHover={{ y: -6 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => setSelectedDish(dish)}
-                className="bg-white rounded-3xl p-3 sm:p-4 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer"
+                className="bg-white rounded-3xl p-3 sm:p-4 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-xl transition-all duration-300 flex flex-col justify-between group cursor-pointer"
               >
                 <div>
                   {/* Image with Time Badge & Heart Button matching Screen 1 */}
@@ -208,7 +221,7 @@ export default function PopularFoodsSection() {
                   </button>
                 </div>
 
-              </div>
+              </motion.div>
             );
           })}
         </div>

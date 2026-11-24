@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Play, ArrowUpRight, X } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function HeroSection() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
@@ -24,7 +25,12 @@ export default function HeroSection() {
           {/* ======================================================== */}
           {/* 1. LEFT COLUMN: Tagline, Headline, Video Dish, Narrative */}
           {/* ======================================================== */}
-          <div className="lg:col-span-4 flex flex-col justify-center z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="lg:col-span-4 flex flex-col justify-center z-10"
+          >
             
             {/* Main Headline */}
             <h1 className="normal-case font-playfair font-normal text-stone-900 tracking-tight leading-[1.08] text-4xl sm:text-5xl lg:text-[54px] xl:text-[62px] mb-6 sm:mb-8">
@@ -34,7 +40,9 @@ export default function HeroSection() {
             </h1>
 
             {/* Video Dish Card with Play Button */}
-            <div 
+            <motion.div 
+              whileHover={{ y: -4, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setIsVideoModalOpen(true)}
               className="relative w-full max-w-[280px] sm:max-w-[310px] aspect-[16/10] rounded-2xl overflow-hidden shadow-md border border-stone-200/80 bg-stone-100 group cursor-pointer"
             >
@@ -56,13 +64,13 @@ export default function HeroSection() {
                   <Play className="w-4 h-4 fill-stone-800 text-stone-800 ml-0.5" />
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Indian Kitchen Narrative */}
             <p className="text-xs sm:text-[13px] text-stone-600 font-sans leading-relaxed max-w-[280px] sm:max-w-[310px] mt-4 font-normal">
               A celebration of authentic recipes, heirloom spices, and genuine Indian hospitality from our family to yours.
             </p>
-          </div>
+          </motion.div>
 
           {/* ======================================================== */}
           {/* 2. CENTER COLUMN: Rotating Authentic Indian Thali & Badge */}
@@ -70,8 +78,12 @@ export default function HeroSection() {
           <div className="lg:col-span-5 flex items-center justify-center relative py-3 sm:py-6 lg:py-0">
             <div className="relative w-[240px] h-[240px] sm:w-[340px] sm:h-[340px] lg:w-[420px] lg:h-[420px] xl:w-[470px] xl:h-[470px] flex items-center justify-center">
               
-              {/* Continuous 360 Rotating Indian Thali */}
-              <div className="relative w-full h-full drop-shadow-[0_20px_45px_rgba(0,0,0,0.18)] animate-[spin_50s_linear_infinite] will-change-transform">
+              {/* Continuous 360 Rotating Indian Thali with Floating Levitation */}
+              <motion.div 
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-full h-full drop-shadow-[0_20px_45px_rgba(0,0,0,0.18)] animate-[spin_50s_linear_infinite] will-change-transform"
+              >
                 <Image
                   src="/assets/seasonal-hero/raghav-rotating-thali.png"
                   alt="राघव रसोई प्रामाणिक भारतीय थाली"
@@ -80,10 +92,14 @@ export default function HeroSection() {
                   className="object-contain"
                   priority
                 />
-              </div>
+              </motion.div>
 
               {/* Floating Dark Green Season Seal Badge (Overlapping Bottom-Left of Plate) */}
-              <div className="absolute -bottom-1 -left-1 sm:bottom-4 sm:left-4 lg:bottom-6 lg:left-4 z-20 w-18 h-18 sm:w-22 sm:h-22 lg:w-28 lg:h-28 rounded-full bg-[#18392B] text-white flex flex-col items-center justify-center shadow-xl border-2 sm:border-[3px] border-[#FAF9F5] select-none pointer-events-none">
+              <motion.div 
+                animate={{ scale: [1, 1.04, 1] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-1 -left-1 sm:bottom-4 sm:left-4 lg:bottom-6 lg:left-4 z-20 w-18 h-18 sm:w-22 sm:h-22 lg:w-28 lg:h-28 rounded-full bg-[#18392B] text-white flex flex-col items-center justify-center shadow-xl border-2 sm:border-[3px] border-[#FAF9F5] select-none pointer-events-none"
+              >
                 {/* 8-ray sun icon */}
                 <svg className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-emerald-200/90 mb-0.5 sm:mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <circle cx="12" cy="12" r="3" />
@@ -93,7 +109,7 @@ export default function HeroSection() {
                 <span className="text-[7.5px] sm:text-[9.5px] font-medium tracking-[0.14em] text-[#E5F0E8] uppercase text-center leading-tight">
                   FRESH FROM<br />THE SEASON
                 </span>
-              </div>
+              </motion.div>
 
             </div>
           </div>
@@ -104,7 +120,13 @@ export default function HeroSection() {
           <div className="lg:col-span-3 flex flex-col items-center lg:items-end justify-between h-full z-10 pt-4 lg:pt-0">
             
             {/* Raghav Deluxe Thali Floating Dish Card */}
-            <div className="bg-white rounded-2xl p-3 sm:p-3.5 shadow-xl border border-stone-100 max-w-[240px] sm:max-w-[260px] w-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            <motion.div 
+              initial={{ opacity: 0, x: 25 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="bg-white rounded-2xl p-3 sm:p-3.5 shadow-xl border border-stone-100 max-w-[240px] sm:max-w-[260px] w-full transition-all duration-300 hover:shadow-2xl"
+            >
               {/* Food Photo */}
               <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-stone-100 mb-3">
                 <Image
@@ -126,7 +148,7 @@ export default function HeroSection() {
               <p className="text-[11px] text-stone-500 mt-1 leading-snug font-normal">
                 Paneer, Dal Makhani, Pulao, Butter Roti &amp; Sweet
               </p>
-            </div>
+            </motion.div>
 
             {/* Rating Section */}
             <div className="mt-8 sm:mt-10 max-w-[240px] sm:max-w-[260px] w-full text-left">
@@ -144,7 +166,11 @@ export default function HeroSection() {
             </div>
 
             {/* CTA Button: Explore the menu */}
-            <div className="mt-5 max-w-[240px] sm:max-w-[260px] w-full">
+            <motion.div 
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="mt-5 max-w-[240px] sm:max-w-[260px] w-full"
+            >
               <Link
                 href="/menu"
                 className="inline-flex items-center justify-between w-full bg-white hover:bg-stone-50 border border-stone-300 rounded-full py-2.5 px-5 shadow-sm transition-all group"
@@ -156,7 +182,7 @@ export default function HeroSection() {
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </Link>
-            </div>
+            </motion.div>
 
           </div>
 

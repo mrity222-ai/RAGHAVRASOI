@@ -4,6 +4,7 @@ import { CartProvider } from '@/context/CartContext';
 import { StorefrontCartProvider } from '@/context/StorefrontCartContext';
 import { CustomerAuthProvider } from '@/context/CustomerAuthContext';
 import MobileBottomNavBar from '@/components/storefront/MobileBottomNavBar';
+import SmoothScroll from '@/components/SmoothScroll';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://raghavrasoi.com'),
@@ -39,8 +40,10 @@ export default function RootLayout({
         <CustomerAuthProvider>
           <CartProvider>
             <StorefrontCartProvider>
-              {children}
-              <MobileBottomNavBar />
+              <SmoothScroll>
+                {children}
+                <MobileBottomNavBar />
+              </SmoothScroll>
             </StorefrontCartProvider>
           </CartProvider>
         </CustomerAuthProvider>

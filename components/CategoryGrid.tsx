@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface CategoryItem {
   id: string;
@@ -57,7 +58,13 @@ export default function CategoryGrid() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
         
         {/* Section Header matching Screenshot */}
-        <div className="flex items-center justify-between mb-6 sm:mb-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="flex items-center justify-between mb-6 sm:mb-8"
+        >
           <div>
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight">
               Our Food Categories
@@ -94,7 +101,7 @@ export default function CategoryGrid() {
               <ChevronRight size={18} />
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Categories Horizontal Carousel matching Screenshot */}
         <div
@@ -109,27 +116,34 @@ export default function CategoryGrid() {
               'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=400&q=80';
 
             return (
-              <Link
-                href={`/menu?category=${cat.id}`}
+              <motion.div
                 key={cat.id}
-                className="group shrink-0 w-32 sm:w-40 bg-white rounded-3xl p-3.5 sm:p-5 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer select-none"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="shrink-0"
               >
-                {/* Round Category Dish Image */}
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden relative mb-3 shadow-xs border-2 border-amber-100/60 group-hover:border-amber-300 transition-colors">
-                  <Image
-                    src={imageSrc}
-                    alt={cat.name}
-                    fill
-                    sizes="(max-width: 640px) 80px, 96px"
-                    className="object-cover transform group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
+                <Link
+                  href={`/menu?category=${cat.id}`}
+                  className="group block w-32 sm:w-40 bg-white rounded-3xl p-3.5 sm:p-5 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer select-none"
+                >
+                  {/* Round Category Dish Image */}
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden relative mb-3 shadow-xs border-2 border-amber-100/60 group-hover:border-amber-300 transition-colors">
+                    <Image
+                      src={imageSrc}
+                      alt={cat.name}
+                      fill
+                      sizes="(max-width: 640px) 80px, 96px"
+                      className="object-cover transform group-hover:scale-110 transition-transform duration-300"
+                    />
+                  </div>
 
-                {/* Category Name */}
-                <h3 className="font-bold text-xs sm:text-[13px] text-slate-800 group-hover:text-[#B45309] transition-colors leading-snug line-clamp-1">
-                  {cat.name}
-                </h3>
-              </Link>
+                  {/* Category Name */}
+                  <h3 className="font-bold text-xs sm:text-[13px] text-slate-800 group-hover:text-[#B45309] transition-colors leading-snug line-clamp-1">
+                    {cat.name}
+                  </h3>
+                </Link>
+              </motion.div>
             );
           })}
         </div>

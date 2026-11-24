@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 export default function BetterFoodSection() {
   return (
@@ -36,7 +37,11 @@ export default function BetterFoodSection() {
       {/* ============================================================ */}
 
       {/* 1. Gourmet Burger (Desktop Left Flank) */}
-      <div className="hidden md:block absolute md:left-4 lg:left-12 xl:left-20 top-1/2 -translate-y-1/2 z-10 md:w-44 lg:w-56 xl:w-64 transition-transform duration-500 hover:scale-105 pointer-events-none">
+      <motion.div
+        animate={{ y: [0, -10, 0], rotate: [-6, -4, -6] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+        className="hidden md:block absolute md:left-4 lg:left-12 xl:left-20 top-1/2 -translate-y-1/2 z-10 md:w-44 lg:w-56 xl:w-64 transition-transform duration-500 hover:scale-105 pointer-events-none"
+      >
         <Image
           src="/assets/better-food/burger.png"
           alt="Gourmet Smash Burger"
@@ -45,10 +50,14 @@ export default function BetterFoodSection() {
           className="w-full h-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.12)] -rotate-6"
           priority
         />
-      </div>
+      </motion.div>
 
       {/* 2. Small Tomato Slice (Desktop Lower Left) */}
-      <div className="hidden md:block absolute md:left-20 lg:left-28 bottom-8 lg:bottom-12 z-10 w-7 lg:w-9 pointer-events-none">
+      <motion.div
+        animate={{ y: [0, 6, 0], rotate: [-12, -8, -12] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+        className="hidden md:block absolute md:left-20 lg:left-28 bottom-8 lg:bottom-12 z-10 w-7 lg:w-9 pointer-events-none"
+      >
         <Image
           src="/assets/better-food/tomato.png"
           alt="Fresh Tomato Slice"
@@ -56,10 +65,14 @@ export default function BetterFoodSection() {
           height={40}
           className="w-full h-auto drop-shadow-md -rotate-12"
         />
-      </div>
+      </motion.div>
 
       {/* 3. Fresh Basil Leaf (Desktop Upper Left) */}
-      <div className="hidden md:block absolute md:left-36 lg:left-48 top-8 lg:top-12 z-10 w-6 lg:w-8 pointer-events-none">
+      <motion.div
+        animate={{ y: [0, -8, 0], rotate: [12, 16, 12] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        className="hidden md:block absolute md:left-36 lg:left-48 top-8 lg:top-12 z-10 w-6 lg:w-8 pointer-events-none"
+      >
         <Image
           src="/assets/better-food/leaf.png"
           alt="Fresh Basil Leaf"
@@ -67,10 +80,14 @@ export default function BetterFoodSection() {
           height={35}
           className="w-full h-auto drop-shadow-sm rotate-12"
         />
-      </div>
+      </motion.div>
 
       {/* 4. Steamed Momos Basket (Desktop Top Right) */}
-      <div className="hidden md:block absolute md:right-6 lg:right-12 xl:right-20 top-4 sm:top-6 lg:top-8 z-10 md:w-36 lg:w-48 xl:w-52 transition-transform duration-500 hover:scale-105 pointer-events-none">
+      <motion.div
+        animate={{ y: [0, 8, 0], rotate: [-12, -10, -12] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        className="hidden md:block absolute md:right-6 lg:right-12 xl:right-20 top-4 sm:top-6 lg:top-8 z-10 md:w-36 lg:w-48 xl:w-52 transition-transform duration-500 hover:scale-105 pointer-events-none"
+      >
         <Image
           src="/assets/better-food/momos.png"
           alt="Steamed Momos in Bamboo Basket"
@@ -79,10 +96,14 @@ export default function BetterFoodSection() {
           className="w-full h-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.12)] -rotate-12"
           priority
         />
-      </div>
+      </motion.div>
 
       {/* 5. Small Tomato Slice (Desktop Center Right) */}
-      <div className="hidden md:block absolute md:right-20 lg:right-28 top-1/2 -translate-y-1/2 z-10 w-7 lg:w-8 pointer-events-none">
+      <motion.div
+        animate={{ y: [0, -6, 0], rotate: [45, 48, 45] }}
+        transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
+        className="hidden md:block absolute md:right-20 lg:right-28 top-1/2 -translate-y-1/2 z-10 w-7 lg:w-8 pointer-events-none"
+      >
         <Image
           src="/assets/better-food/tomato.png"
           alt="Fresh Tomato Slice"
@@ -90,10 +111,14 @@ export default function BetterFoodSection() {
           height={35}
           className="w-full h-auto drop-shadow-md rotate-45"
         />
-      </div>
+      </motion.div>
 
       {/* 6. Crispy Pizza Slice (Desktop Bottom Right) */}
-      <div className="hidden md:block absolute md:right-6 lg:right-10 xl:right-16 bottom-4 sm:bottom-6 lg:bottom-8 z-10 md:w-36 lg:w-48 xl:w-52 transition-transform duration-500 hover:scale-105 pointer-events-none">
+      <motion.div
+        animate={{ y: [0, -8, 0], rotate: [-12, -15, -12] }}
+        transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
+        className="hidden md:block absolute md:right-6 lg:right-10 xl:right-16 bottom-4 sm:bottom-6 lg:bottom-8 z-10 md:w-36 lg:w-48 xl:w-52 transition-transform duration-500 hover:scale-105 pointer-events-none"
+      >
         <Image
           src="/assets/better-food/pizza.png"
           alt="Crispy Pizza Slice with Olives"
@@ -102,12 +127,18 @@ export default function BetterFoodSection() {
           className="w-full h-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.12)] -rotate-12"
           priority
         />
-      </div>
+      </motion.div>
 
       {/* ============================================================ */}
       {/* CENTER CONTENT: 100% Clear, Clean & Legible on All Screens */}
       {/* ============================================================ */}
-      <div className="relative z-20 w-full max-w-xl mx-auto px-4 sm:px-6 text-center flex flex-col items-center justify-center my-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+        className="relative z-20 w-full max-w-xl mx-auto px-4 sm:px-6 text-center flex flex-col items-center justify-center my-auto"
+      >
         
         {/* Main Headline in Bold Coral Red */}
         <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-[46px] font-black text-[#E53935] leading-tight tracking-tight">
@@ -126,7 +157,11 @@ export default function BetterFoodSection() {
         <div className="md:hidden mt-6 flex items-center justify-center gap-3 sm:gap-4 w-full px-2">
           
           {/* Mobile Item 1: Burger */}
-          <div className="flex flex-col items-center">
+          <motion.div
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+            className="flex flex-col items-center"
+          >
             <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl bg-amber-50/80 border border-amber-200/80 p-2 flex items-center justify-center shadow-xs">
               <Image
                 src="/assets/better-food/burger.png"
@@ -137,10 +172,14 @@ export default function BetterFoodSection() {
               />
             </div>
             <span className="text-[10px] font-bold text-slate-700 mt-1.5">Fresh Bites</span>
-          </div>
+          </motion.div>
 
           {/* Mobile Item 2: Momos */}
-          <div className="flex flex-col items-center">
+          <motion.div
+            animate={{ y: [0, 4, 0] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+            className="flex flex-col items-center"
+          >
             <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl bg-orange-50/80 border border-orange-200/80 p-2 flex items-center justify-center shadow-xs">
               <Image
                 src="/assets/better-food/momos.png"
@@ -151,10 +190,14 @@ export default function BetterFoodSection() {
               />
             </div>
             <span className="text-[10px] font-bold text-slate-700 mt-1.5">Hot Momos</span>
-          </div>
+          </motion.div>
 
           {/* Mobile Item 3: Pizza */}
-          <div className="flex flex-col items-center">
+          <motion.div
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+            className="flex flex-col items-center"
+          >
             <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl bg-rose-50/80 border border-rose-200/80 p-2 flex items-center justify-center shadow-xs">
               <Image
                 src="/assets/better-food/pizza.png"
@@ -165,11 +208,11 @@ export default function BetterFoodSection() {
               />
             </div>
             <span className="text-[10px] font-bold text-slate-700 mt-1.5">Crisp Crust</span>
-          </div>
+          </motion.div>
 
         </div>
 
-      </div>
+      </motion.div>
 
     </section>
   );

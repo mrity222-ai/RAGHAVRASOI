@@ -12,7 +12,7 @@
     "db:sync": "node scripts/db-sync.js",
     "postinstall": "prisma generate",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",

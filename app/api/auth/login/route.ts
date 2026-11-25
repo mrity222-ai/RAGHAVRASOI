@@ -1,10 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import crypto from 'crypto';
-
-function hashPassword(password: string): string {
-  return crypto.createHash('sha256').update(password.trim()).digest('hex');
-}
+import { verifyPassword } from '@/lib/password';
 
 export async function POST(request: Request) {
   try {
@@ -19,7 +15,6 @@ export async function POST(request: Request) {
 
     const cleanLogin = login.trim().toLowerCase();
     const cleanPass = password.trim();
-    const hashed = hashPassword(cleanPass);
 
     // Find customer by email or phone
     const user = await prisma.customerUser.findFirst({
@@ -38,8 +33,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify password (check hashed or plain text)
-    if (user.password !== hashed && user.password !== cleanPass) {
+    // Verify password (scrypt, legacy sha256, or legacy plain text)
+    if (!verifyPassword(cleanPass, user.password)) {
       return NextResponse.json(
         { success: false, error: 'Incorrect password. Please try again.' },
         { status: 401 }

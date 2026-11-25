@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { requireAdminAuth } from '@/lib/admin-auth';
 
 export async function GET() {
+  const { errorResponse } = await requireAdminAuth();
+  if (errorResponse) return errorResponse;
+
   try {
     const customers = await prisma.customerUser.findMany({
       orderBy: { createdAt: 'desc' },

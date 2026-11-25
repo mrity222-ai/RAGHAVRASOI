@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import crypto from 'crypto';
+import { sendOtpSms } from '@/lib/sms';
 
 export async function POST(request: Request) {
   try {
@@ -42,12 +43,17 @@ export async function POST(request: Request) {
       },
     });
 
-    // In a production server, here we would call an Email service (e.g. Resend, Sendgrid, SES).
-    // We provide devOtp in the response so the user can easily see and verify it immediately.
+    // Send SMS OTP if user has a phone number and FAST2SMS_API_KEY is configured
+    if (user.phone && process.env.FAST2SMS_API_KEY) {
+      await sendOtpSms(user.phone, otp);
+    }
+
+    const isDev = process.env.NODE_ENV !== 'production';
+
     return NextResponse.json({
       success: true,
       message: `OTP sent successfully to ${cleanEmail}`,
-      devOtp: otp, // surfaced for immediate testing and verification
+      ...(isDev ? { devOtp: otp } : {}),
       expiresInMins: 10,
     });
   } catch (error) {

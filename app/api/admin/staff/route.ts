@@ -1,18 +1,38 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { requireAdminAuth } from '@/lib/admin-auth';
+import { hashPassword } from '@/lib/password';
+
+function sanitizeStaff(s: {
+  id: string;
+  name: string;
+  roleTitle: string;
+  login: string;
+  isOwner: boolean;
+  permissions: string;
+  createdAt: Date;
+}) {
+  return {
+    id: s.id,
+    name: s.name,
+    roleTitle: s.roleTitle,
+    login: s.login,
+    isOwner: s.isOwner,
+    permissions: JSON.parse(s.permissions),
+    createdAt: s.createdAt,
+  };
+}
 
 export async function GET() {
+  const { errorResponse } = await requireAdminAuth();
+  if (errorResponse) return errorResponse;
+
   try {
     const staff = await prisma.staffUser.findMany({
       orderBy: { createdAt: 'asc' },
     });
 
-    const parsed = staff.map((s) => ({
-      ...s,
-      permissions: JSON.parse(s.permissions),
-    }));
-
-    return NextResponse.json({ success: true, data: parsed });
+    return NextResponse.json({ success: true, data: staff.map(sanitizeStaff) });
   } catch (error) {
     console.error('Error fetching staff list:', error);
     return NextResponse.json({ success: false, error: 'Failed to fetch staff' }, { status: 500 });
@@ -20,6 +40,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const { errorResponse } = await requireAdminAuth();
+  if (errorResponse) return errorResponse;
+
   try {
     const body = await request.json();
     const { name, roleTitle, login, password, permissions } = body;
@@ -33,7 +56,7 @@ export async function POST(request: Request) {
         name,
         roleTitle,
         login: login.trim(),
-        password: password || 'staff@123',
+        password: hashPassword(password || 'staff@123'),
         isOwner: false,
         permissions: JSON.stringify(permissions),
       },
@@ -41,7 +64,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      data: { ...newStaff, permissions: JSON.parse(newStaff.permissions) },
+      data: sanitizeStaff(newStaff),
     });
   } catch (error: any) {
     console.error('Error creating staff:', error);
@@ -53,6 +76,9 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
+  const { errorResponse } = await requireAdminAuth();
+  if (errorResponse) return errorResponse;
+
   try {
     const body = await request.json();
     const { id, name, roleTitle, login, password, permissions } = body;
@@ -68,7 +94,7 @@ export async function PUT(request: Request) {
       permissions: JSON.stringify(permissions),
     };
     if (password) {
-      updateData.password = password;
+      updateData.password = hashPassword(password);
     }
 
     const updated = await prisma.staffUser.update({
@@ -78,7 +104,7 @@ export async function PUT(request: Request) {
 
     return NextResponse.json({
       success: true,
-      data: { ...updated, permissions: JSON.parse(updated.permissions) },
+      data: sanitizeStaff(updated),
     });
   } catch (error) {
     console.error('Error updating staff:', error);
@@ -87,6 +113,9 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const { errorResponse } = await requireAdminAuth();
+  if (errorResponse) return errorResponse;
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

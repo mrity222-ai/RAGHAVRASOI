@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { requireAdminAuth } from '@/lib/admin-auth';
 
 // Helper to normalize table identifier (e.g., "15" -> "Table-15", "Table 15" -> "Table-15")
 function normalizeTableNo(input: string): { tableNo: string; name: string } {
@@ -17,6 +18,9 @@ function normalizeTableNo(input: string): { tableNo: string; name: string } {
 
 // 1. GET: Fetch all tables with current status and active orders
 export async function GET() {
+  const { errorResponse } = await requireAdminAuth();
+  if (errorResponse) return errorResponse;
+
   try {
     const tables = await prisma.restaurantTable.findMany({
       orderBy: [{ displayOrder: 'asc' }, { createdAt: 'asc' }],
@@ -62,6 +66,9 @@ export async function GET() {
 
 // 2. POST: Add new table
 export async function POST(request: Request) {
+  const { errorResponse } = await requireAdminAuth();
+  if (errorResponse) return errorResponse;
+
   try {
     const body = await request.json();
     const { rawName, seats } = body;
@@ -113,6 +120,9 @@ export async function POST(request: Request) {
 
 // 3. DELETE: Remove table permanently
 export async function DELETE(request: Request) {
+  const { errorResponse } = await requireAdminAuth();
+  if (errorResponse) return errorResponse;
+
   try {
     const { searchParams } = new URL(request.url);
     let id = searchParams.get('id');
@@ -145,6 +155,9 @@ export async function DELETE(request: Request) {
 
 // 4. PATCH: Update table status or manual free/occupy
 export async function PATCH(request: Request) {
+  const { errorResponse } = await requireAdminAuth();
+  if (errorResponse) return errorResponse;
+
   try {
     const body = await request.json();
     const { id, status, seats, name } = body;

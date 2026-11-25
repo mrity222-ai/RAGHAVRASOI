@@ -48,6 +48,12 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const refreshStaff = async () => {
     try {
       const res = await fetch('/api/admin/staff');
+      if (res.status === 401) {
+        setAllStaff([]);
+        setCurrentStaff(null);
+        localStorage.removeItem('ranel_admin_staff_id');
+        return;
+      }
       const data = await res.json();
       if (data.success && data.data.length > 0) {
         setAllStaff(data.data);
@@ -82,7 +88,12 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } catch {
+      // Ignore network errors on logout
+    }
     setCurrentStaff(null);
     localStorage.removeItem('ranel_admin_staff_id');
     window.location.href = '/admin/login';

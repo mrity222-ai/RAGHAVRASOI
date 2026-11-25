@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { requireAdminAuth } from '@/lib/admin-auth';
 
 export async function GET() {
   try {
@@ -21,6 +22,9 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
+  const { errorResponse } = await requireAdminAuth();
+  if (errorResponse) return errorResponse;
+
   try {
     const body = await request.json();
     const { name, address, isOpen, prepTimeMins, gstPercent, packagingCharge, allowPayAtShop } = body;
@@ -38,8 +42,8 @@ export async function PUT(request: Request) {
       },
       create: {
         id: 1,
-        name: name || 'Spice & Grill Express',
-        address: address || 'MG Road, Hazratganj, Lucknow',
+        name: name || 'Raghav Rasoi',
+        address: address || 'Gunderdehi Town Rd, Gundardehi, Chainganj, Chhattisgarh 491223',
         isOpen: isOpen !== undefined ? isOpen : true,
         prepTimeMins: Number(prepTimeMins) || 15,
         gstPercent: Number(gstPercent) || 5.0,

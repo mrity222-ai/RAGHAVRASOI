@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { verifyPassword } from '@/lib/password';
+import { ADMIN_COOKIE_NAME, createAdminSessionToken } from '@/lib/admin-auth';
 
 export async function POST(request: Request) {
   try {
@@ -26,14 +28,22 @@ export async function POST(request: Request) {
       }
     }
 
-    if (!staff || staff.password !== password) {
+    if (!staff || !verifyPassword(password, staff.password)) {
       return NextResponse.json(
         { success: false, error: 'Invalid login credentials' },
         { status: 401 }
       );
     }
 
-    return NextResponse.json({
+    const permissions: string[] = JSON.parse(staff.permissions);
+    const token = createAdminSessionToken({
+      staffId: staff.id,
+      login: staff.login,
+      isOwner: staff.isOwner,
+      permissions,
+    });
+
+    const response = NextResponse.json({
       success: true,
       data: {
         id: staff.id,
@@ -41,9 +51,19 @@ export async function POST(request: Request) {
         roleTitle: staff.roleTitle,
         login: staff.login,
         isOwner: staff.isOwner,
-        permissions: JSON.parse(staff.permissions),
+        permissions,
       },
     });
+
+    response.cookies.set(ADMIN_COOKIE_NAME, token, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
+
+    return response;
   } catch (error) {
     console.error('Error in staff login:', error);
     return NextResponse.json(
